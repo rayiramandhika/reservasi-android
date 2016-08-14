@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/navigation1"
+            android:checked="false"
+            android:icon="@drawable/ic_apps_black_24dp"
+            android:title="Beranda" />
+
+        <item
+            android:id="@+id/navigation2"
+            android:checked="false"
+            android:icon="@drawable/ic_today_black_24dp"
+            android:title="Pesanan" />
+
+        <item
+            android:id="@+id/navigation3"
+            android:checked="false"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Pasien" />
+
+    </group>
+
+    <item
+        android:id="@+id/navigasi_kategori_2"
+        android:title="Pengaturan">
+
+        <menu>
+
+            <item
+                android:id="@+id/navigation4"
+                android:checked="false"
+                android:icon="@drawable/ic_apps_black_24dp"
+                android:title="Akun Saya" />
+
+            <item
+
+                android:id="@+id/navigation5"
+                android:checked="false"
+                android:icon="@drawable/ic_apps_black_24dp"
+                android:title="Tentang Kami" />
+
+        </menu>
+    </item>
+</menu>

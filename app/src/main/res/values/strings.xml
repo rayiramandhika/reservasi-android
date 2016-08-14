@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">RS PMI Bogor</string>
+    <string name="app_name">Reservasi</string>
+
+    <string name="HomeFragment">HomeFragment</string>
+    <string name="OrderFragmen">OrderFragment</string>
+    <string name="InboxFragment">InboxFragment</string>
+
+    <string name="menu_item_order">Pesanan</string>
+    <string name="menu_item_home">Beranda</string>
+    <string name="menu_item_pasien">Pasien</string>
+    <string name="menu_item_inbox">Kotak Masuk</string>
+    <string name="menu_item_account">Akun Saya</string>
+    <string name="menu_item_logout">Keluar</string>
+
+
+    <string name="openDrawer">Drawer dibuka</string>
+    <string name="closeDrawer">Drawer ditutup</string>
+    <string name="navigation_view_item_1">Beranda</string>
+    <string name="navigation_view_item_2">Profil</string>
+    <string name="navigation_view_item_3">Daftar</string>
+    <string name="navigasi_kategori_2">Sub Item Navigasi</string>
+    <string name="navigation_view_item_4">Settings</string>
+    <string name="navigation_view_item_5">About</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
