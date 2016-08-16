@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "108491702384",
+    "firebase_url": "https://reservasi-rs-pmi-bogor.firebaseio.com",
+    "project_id": "reservasi-rs-pmi-bogor",
+    "storage_bucket": "reservasi-rs-pmi-bogor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108491702384:android:213f07a961a7c98f",
+        "android_client_info": {
+          "package_name": "id.or.rspmibogor.rspmibogor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108491702384-jev002otm0r0382rg1ajf8ag6t7b5djb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1CUKrPkYi3dONbsmSaUho5SaExHw5YVE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

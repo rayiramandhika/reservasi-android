@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/dashboard"
+            android:icon="@drawable/ic_view_module_black_24dp"
+            android:title="Beranda" />
+        <item
+            android:id="@+id/pasien"
+            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:title="Pasien" />
+        <item
+            android:id="@+id/order"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Pesanan Saya" />
+        <item
+            android:id="@+id/jadwaldokter"
+            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:title="Jadwal Dokter" />
+        <item
+            android:id="@+id/inbox"
+            android:icon="@drawable/ic_inbox_black_24dp"
+            android:title="Kotak Masuk"
+            app:actionLayout="@layout/menu_counter"/>
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/myacccount"
+                android:icon="@drawable/ic_face_black_24dp"
+                android:title="Akun Saya" />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
