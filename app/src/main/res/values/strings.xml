@@ -9,4 +9,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_pasien_add">PasienAdd</string>
+
+    <string name="ms_prev">PREV</string>
+    <string name="ms_next">NEXT</string>
+    <string name="ms_end">COMPLETE</string>
+    <string name="ms_continue">CONTINUE</string>
+    <string name="ms_optional">Optional</string>
+    <string name="ms_text_step">Step $current of $total</string>
 </resources>

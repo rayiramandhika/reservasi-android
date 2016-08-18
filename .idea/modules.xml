@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RSPMIBogor.iml" filepath="$PROJECT_DIR$/RSPMIBogor.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pmi-androidstudio.iml" filepath="$PROJECT_DIR$/pmi-androidstudio.iml" />
     </modules>
   </component>
 </project>

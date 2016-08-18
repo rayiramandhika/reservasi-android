@@ -1,7 +1,6 @@
 package id.or.rspmibogor.rspmibogor.Fragment;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,10 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import id.or.rspmibogor.rspmibogor.Adapter.OrderAdapter;
 import id.or.rspmibogor.rspmibogor.R;
@@ -62,7 +57,6 @@ public class OrderFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
-
 
         return rootView;
     }

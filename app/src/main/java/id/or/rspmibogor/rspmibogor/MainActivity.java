@@ -1,11 +1,14 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.DownloadManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,12 +21,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.InboxFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
+import id.or.rspmibogor.rspmibogor.Models.User;
+import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null && !HomeFrag.isAdded()){
+        if (savedInstanceState == null && !HomeFrag.isAdded()) {
 
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
@@ -127,6 +139,14 @@ public class MainActivity extends AppCompatActivity
         TextView view = (TextView) navigationView.getMenu().getItem(4).getActionView();
         view.setText("2");
 
+        FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
+        String token;
+        token = firebase.getToken();
+
+        User user = new User();
+        user.updateFCMToken(token, this.getBaseContext());
+
+        Log.d("Firebase", "token: " + token);
     }
 
     @Override
@@ -150,7 +170,7 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if(id == MenuIdActive){
+        if (id == MenuIdActive) {
             drawer.closeDrawer(GravityCompat.START);
             return true;
         }
@@ -185,6 +205,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.jadwaldokter) {
 
+            Intent intent = new Intent(this, JadwalDokterActivity.class);
+            startActivity(intent);
+
+
         } else if (id == R.id.myacccount) {
 
         } else if (id == R.id.logout) {
@@ -195,6 +219,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 }
