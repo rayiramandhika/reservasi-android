@@ -1,5 +1,6 @@
 package id.or.rspmibogor.rspmibogor.Fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,9 +51,10 @@ public class OldOrderFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         listOldOlder = new ArrayList<>();
-        initDataset();
-        mAdapter = new OldOrderAdapter(listOldOlder, this.getContext());
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,11 +63,15 @@ public class OldOrderFragment extends Fragment {
         View viewRoot =  inflater.inflate(R.layout.fragment_old_order, container, false);
 
         mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recycleOldOrder);
-        mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getContext());
+
+        initDataset();
+
+
+        mAdapter = new OldOrderAdapter(listOldOlder, this.getContext());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
 
         return viewRoot;
     }
@@ -73,14 +79,14 @@ public class OldOrderFragment extends Fragment {
     private void initDataset() {
 
         String url = "http://103.43.44.211:1337/v1/getorder/old";
-        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
+        final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
         Log.d(TAG, "init Data set loaded" );
         //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
+                        loading.dismiss();
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -131,7 +137,8 @@ public class OldOrderFragment extends Fragment {
                 oldOrder.setUser_id(user.getInt("id"));
                 oldOrder.setUser_name(user.getString("nama"));
                 oldOrder.setOrder_id(json.getInt("id"));
-                oldOrder.setOrder_noUrut(json.getString("noUtur"));
+                oldOrder.setOrder_noUrut(json.getString("noUrut"));
+                //oldOrder.setOrder_tanggal(json.getString("tanggal"));
 
 
             } catch (JSONException e) {
@@ -139,7 +146,7 @@ public class OldOrderFragment extends Fragment {
             }
             listOldOlder.add(oldOrder);
         }
-
+        mAdapter.notifyDataSetChanged();
     }
 
 }

@@ -63,16 +63,12 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.old_order_cardview, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
-    // END_INCLUDE(recyclerViewOnCreateViewHolder)
 
-    // BEGIN_INCLUDE(recyclerViewOnBindViewHolder)
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         OldOrder oldOrder =  OldOrder.get(position);
@@ -82,10 +78,9 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
         viewHolder.hari.setText(oldOrder.getDetailjadwal_hari());
         viewHolder.jadwal.setText(oldOrder.getDetailjadwal_jammulai() + " . " + oldOrder.getDetailjadwal_jamtutup());
         viewHolder.no_antrian.setText(oldOrder.getOrder_noUrut());
+        //viewHolder.tanggal.setText((CharSequence) oldOrder.getOrder_tanggal());
     }
-    // END_INCLUDE(recyclerViewOnBindViewHolder)
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return OldOrder.size();

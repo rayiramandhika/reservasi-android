@@ -1,5 +1,6 @@
 package id.or.rspmibogor.rspmibogor.Adapter;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,22 +9,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
+import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
+import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
  * Created by iqbalprabu on 18/08/16.
  */
 public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHolder> {
-    private static final String TAG = "NewOrderAdapter";
+    private static final String TAG = "NewOrderAdpater";
 
-    private String[] mDataSet;
+    private Context context;
 
-    // BEGIN_INCLUDE(recyclerViewSampleViewHolder)
-    /**
-     * Provide a reference to the type of views that you are using (custom ViewHolder)
-     */
+
+    List<NewOrder> NewOrder;
+
+    public NewOrderAdapter(List<NewOrder> newOrder, Context context)
+    {
+        super();
+        this.NewOrder = newOrder;
+        this.context = context;
+    }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        //private final TextView textView;
+
+        private final TextView pasien_name;
+        private final TextView dokter_name;
+        private final TextView hari;
+        private final TextView jadwal;
+        private final TextView no_antrian;
+        private final TextView tanggal;
 
         public ViewHolder(View v) {
             super(v);
@@ -34,50 +52,40 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
                     Log.d(TAG, "Element " + getPosition() + " clicked.");
                 }
             });
-            //textView = (TextView) v.findViewById(R.id.textView);
+            pasien_name = (TextView) v.findViewById(R.id.name_pasien);
+            dokter_name = (TextView) v.findViewById(R.id.name_dokter);
+            hari = (TextView) v.findViewById(R.id.hari);
+            jadwal = (TextView) v.findViewById(R.id.jam);
+            no_antrian = (TextView) v.findViewById(R.id.no_antrian);
+            tanggal = (TextView) v.findViewById(R.id.tanggal);
         }
 
 
     }
-    // END_INCLUDE(recyclerViewSampleViewHolder)
 
-    /**
-     * Initialize the dataset of the Adapter.
-     *
-     * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
-     */
-    public NewOrderAdapter(String[] dataSet) {
-        mDataSet = dataSet;
-    }
-
-    // BEGIN_INCLUDE(recyclerViewOnCreateViewHolder)
-    // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.new_order_cardview, viewGroup, false);
-
-        return new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
     }
-    // END_INCLUDE(recyclerViewOnCreateViewHolder)
 
-    // BEGIN_INCLUDE(recyclerViewOnBindViewHolder)
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        //Log.d(TAG, "Element " + position + " set.");
+        NewOrder newOrder =  NewOrder.get(position);
 
-        // Get element from your dataset at this position and replace the contents of the view
-        // with that element
-        //viewHolder.getTextView().setText(mDataSet[position]);
+        viewHolder.pasien_name.setText(newOrder.getPasien_name());
+        //viewHolder.dokter_name.setText(oldOrder.getDokter_name());
+        viewHolder.hari.setText(newOrder.getDetailjadwal_hari());
+        viewHolder.jadwal.setText(newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
+        viewHolder.no_antrian.setText(newOrder.getOrder_noUrut());
+        viewHolder.tanggal.setText((CharSequence) newOrder.getOrder_tanggal());
     }
-    // END_INCLUDE(recyclerViewOnBindViewHolder)
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataSet.length;
+        return NewOrder.size();
     }
 
 }

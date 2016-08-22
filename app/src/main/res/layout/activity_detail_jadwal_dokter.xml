@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="id.or.rspmibogor.rspmibogor.JadwalDokterActivity">
+    tools:context="id.or.rspmibogor.rspmibogor.DetailJadwalDokter">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include layout="@layout/toolbar"
-
-            />
+        <include layout="@layout/toolbar"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -23,19 +22,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_pasien"
-        android:orientation="vertical">
+        tools:context="id.or.rspmibogor.rspmibogor.DetailJadwalDokter"
+        tools:showIn="@layout/activity_detail_jadwal_dokter">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleDokter"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="200dp"
+            android:id="@+id/dokter_detail_foto"
+            android:src="@drawable/header"
+            android:scaleType="fitXY" />
+
+
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_reservasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_assignment_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

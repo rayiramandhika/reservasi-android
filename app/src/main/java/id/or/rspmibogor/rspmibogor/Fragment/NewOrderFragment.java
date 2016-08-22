@@ -1,5 +1,6 @@
 package id.or.rspmibogor.rspmibogor.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,78 +26,137 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
+import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.R;
 
 
 public class NewOrderFragment extends Fragment {
 
     private static final String TAG = "RecyclerViewFragment";
-    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 60;
-
-
-    private enum LayoutManagerType {
-        LINEAR_LAYOUT_MANAGER
-    }
-
-    protected LayoutManagerType mCurrentLayoutManagerType;
 
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected NewOrderAdapter mAdapter;
-    protected String[] mDataset;
+
+    private List<NewOrder> listNewOrder;
+
+    private ProgressBar spinner;
+
+
 
     public NewOrderFragment() {
         // Required empty public constructor
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize dataset, this data would usually come from a local content provider or
-        // remote server.
-        initDataset();
+        listNewOrder = new ArrayList<>();
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View viewRoot = inflater.inflate(R.layout.fragment_new_order, container, false);
+        View viewRoot =  inflater.inflate(R.layout.fragment_old_order, container, false);
+        //spinner = (ProgressBar) viewRoot.findViewById(R.id.progressBar_NewOrder);
 
-        mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recylceNewOrder);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recycleOldOrder);
+        mLayoutManager = new LinearLayoutManager(this.getContext());
 
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
+        initDataset();
 
+        mAdapter = new NewOrderAdapter(listNewOrder, this.getContext());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new NewOrderAdapter(mDataset);
-        // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        // END_INCLUDE(initializeRecyclerView)
-
 
         return viewRoot;
-
     }
 
     private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
+
+        String url = "http://103.43.44.211:1337/v1/getorder/new";
+        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
+        //spinner.setVisibility(View.VISIBLE);
+        Log.d(TAG, "init Data set loaded" );
+        //Creating a json array request
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //loading.dismiss();
+                        //spinner.setVisibility(View.GONE);
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseData(data);
+
+                            Log.d(TAG, "onResponse - data" + data.toString());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //Creating request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+
+        //Adding request to the queue
+        requestQueue.add(req);
+
+    }
+
+    //This method will parse json data
+    private void parseData(JSONArray array){
+        for(int i = 0; i < array.length(); i++) {
+
+            NewOrder newOrder = new NewOrder();
+            JSONObject json = null;
+            try {
+
+                json = array.getJSONObject(i);
+
+                //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
+                JSONObject pasien = json.getJSONObject("pasien");
+                JSONObject detailjadwal = json.getJSONObject("detailjadwal");
+                JSONObject user = json.getJSONObject("user");
+
+                newOrder.setPasien_name(pasien.getString("nama"));
+                newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
+                newOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
+                newOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
+                newOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
+                newOrder.setUser_id(user.getInt("id"));
+                newOrder.setUser_name(user.getString("nama"));
+                newOrder.setOrder_id(json.getInt("id"));
+                newOrder.setOrder_noUrut(json.getInt("noUrut"));
+                //newOrder.setOrder_tanggal(json.getString("tanggal"));
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            listNewOrder.add(newOrder);
         }
+        mAdapter.notifyDataSetChanged();
     }
 
 }

@@ -27,7 +27,7 @@ import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
 /**
  * Created by iqbalprabu on 17/08/16.
  */
-public class OldOrder {
+public class NewOrder {
     //Data Variables
     private String pasien_name;
     private String pasien_norekammedik;
@@ -36,7 +36,7 @@ public class OldOrder {
     private String detailjadwal_hari;
     private String detailjadwal_jammulai;
     private String detailjadwal_jamtutup;
-    private String order_noUrut;
+    private Integer order_noUrut;
     private Integer order_id;
     private String order_tanggal;
     private DateFormat mFormatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -101,12 +101,12 @@ public class OldOrder {
         this.detailjadwal_jamtutup = detailjadwal_jamtutup;
     }
 
-    public String getOrder_noUrut()
+    public Integer getOrder_noUrut()
     {
         return order_noUrut;
     }
 
-    public void setOrder_noUrut(String order_noUrut){
+    public void setOrder_noUrut(Integer order_noUrut){
         this.order_noUrut = order_noUrut;
     }
 
