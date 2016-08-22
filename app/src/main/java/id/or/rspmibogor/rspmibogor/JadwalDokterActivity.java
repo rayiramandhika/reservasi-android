@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,6 +35,8 @@ public class JadwalDokterActivity extends AppCompatActivity {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected DokterAdapter mAdapter;
 
+    ProgressBar spinner;
+
     private List<Dokter> listDokter;
 
 
@@ -51,6 +54,8 @@ public class JadwalDokterActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleDokter);
         mLayoutManager = new LinearLayoutManager(this);
+
+        spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
         initDataset();
 
@@ -70,14 +75,15 @@ public class JadwalDokterActivity extends AppCompatActivity {
     private void initDataset() {
 
         String url = "http://103.43.44.211:1337/v1/dokter?populate=layanan";
-        final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
-        Log.d(TAG, "init Data set loaded" );
+        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        spinner.setVisibility(View.VISIBLE);
         //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        loading.dismiss();
+                        //loading.dismiss();
+                        spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);

@@ -19,6 +19,13 @@ public class DetailJadwalDokter extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_reservasi);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,5 +35,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

@@ -68,7 +68,7 @@ public class NewOrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View viewRoot =  inflater.inflate(R.layout.fragment_old_order, container, false);
-        //spinner = (ProgressBar) viewRoot.findViewById(R.id.progressBar_NewOrder);
+        spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
 
 
         mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recycleOldOrder);
@@ -87,8 +87,8 @@ public class NewOrderFragment extends Fragment {
     private void initDataset() {
 
         String url = "http://103.43.44.211:1337/v1/getorder/new";
-        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
-        //spinner.setVisibility(View.VISIBLE);
+        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -96,7 +96,7 @@ public class NewOrderFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         //loading.dismiss();
-                        //spinner.setVisibility(View.GONE);
+                        spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -138,6 +138,8 @@ public class NewOrderFragment extends Fragment {
                 JSONObject pasien = json.getJSONObject("pasien");
                 JSONObject detailjadwal = json.getJSONObject("detailjadwal");
                 JSONObject user = json.getJSONObject("user");
+                JSONObject dokter = json.getJSONObject("dokter");
+                JSONObject layanan = json.getJSONObject("layanan");
 
                 newOrder.setPasien_name(pasien.getString("nama"));
                 newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
@@ -148,7 +150,11 @@ public class NewOrderFragment extends Fragment {
                 newOrder.setUser_name(user.getString("nama"));
                 newOrder.setOrder_id(json.getInt("id"));
                 newOrder.setOrder_noUrut(json.getInt("noUrut"));
-                //newOrder.setOrder_tanggal(json.getString("tanggal"));
+                newOrder.setDokter_id(dokter.getInt("id"));
+                newOrder.setDokter_name(dokter.getString("nama"));
+                newOrder.setLayanan_id(layanan.getInt("id"));
+                newOrder.setLayanan_name(layanan.getString("nama"));
+                newOrder.setOrder_tanggal(json.getString("tanggal"));
 
 
             } catch (JSONException e) {

@@ -33,13 +33,16 @@ public class NewOrder {
     private String pasien_norekammedik;
     private String user_name;
     private Integer user_id;
+    private String layanan_name;
+    private Integer layanan_id;
+    private String dokter_name;
+    private Integer dokter_id;
     private String detailjadwal_hari;
     private String detailjadwal_jammulai;
     private String detailjadwal_jamtutup;
     private Integer order_noUrut;
     private Integer order_id;
     private String order_tanggal;
-    private DateFormat mFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
     public String getPasien_name(){
         return pasien_name;
@@ -72,6 +75,19 @@ public class NewOrder {
     public void setUser_id(Integer user_id){
         this.user_id = user_id;
     }
+
+    public String getDokter_name(){ return dokter_name; }
+    public void setDokter_name(String dokter_name){this.dokter_name = dokter_name;}
+
+    public Integer getDokter_id(){return  dokter_id;}
+    public void setDokter_id(Integer dokter_id){this.dokter_id = dokter_id;}
+
+
+    public String getLayanan_name(){ return layanan_name; }
+    public void setLayanan_name(String layanan_name){this.layanan_name = layanan_name;}
+
+    public Integer getLayanan_id(){return  layanan_id;}
+    public void setLayanan_id(Integer layanan_id){this.layanan_id = layanan_id;}
 
     public String getDetailjadwal_hari()
     {

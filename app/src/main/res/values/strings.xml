@@ -18,4 +18,5 @@
     <string name="ms_optional">Optional</string>
     <string name="ms_text_step">Step $current of $total</string>
     <string name="title_activity_detail_jadwal_dokter">DetailJadwalDokter</string>
+    <string name="title_activity_detail_inbox">DetailInbox</string>
 </resources>

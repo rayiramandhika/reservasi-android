@@ -38,6 +38,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
 
         private final TextView pasien_name;
         private final TextView dokter_name;
+        private final TextView layanan_name;
         private final TextView hari;
         private final TextView jadwal;
         private final TextView no_antrian;
@@ -54,6 +55,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
             });
             pasien_name = (TextView) v.findViewById(R.id.name_pasien);
             dokter_name = (TextView) v.findViewById(R.id.name_dokter);
+            layanan_name = (TextView) v.findViewById(R.id.name_layanan);
             hari = (TextView) v.findViewById(R.id.hari);
             jadwal = (TextView) v.findViewById(R.id.jam);
             no_antrian = (TextView) v.findViewById(R.id.no_antrian);
@@ -76,11 +78,12 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         NewOrder newOrder =  NewOrder.get(position);
 
         viewHolder.pasien_name.setText(newOrder.getPasien_name());
-        //viewHolder.dokter_name.setText(oldOrder.getDokter_name());
         viewHolder.hari.setText(newOrder.getDetailjadwal_hari());
         viewHolder.jadwal.setText(newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
-        viewHolder.no_antrian.setText(newOrder.getOrder_noUrut());
-        viewHolder.tanggal.setText((CharSequence) newOrder.getOrder_tanggal());
+        viewHolder.no_antrian.setText(String.valueOf(newOrder.getOrder_noUrut()));
+        viewHolder.dokter_name.setText(newOrder.getDokter_name());
+        viewHolder.layanan_name.setText(newOrder.getLayanan_name());
+        viewHolder.tanggal.setText(newOrder.getOrder_tanggal());
     }
 
     @Override

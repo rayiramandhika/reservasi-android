@@ -53,6 +53,10 @@
         <activity
             android:name=".DetailJadwalDokter"
             android:label="@string/title_activity_detail_jadwal_dokter"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DetailInbox"
+            android:label="@string/title_activity_detail_inbox"
             android:theme="@style/AppTheme"></activity>
     </application>
 
