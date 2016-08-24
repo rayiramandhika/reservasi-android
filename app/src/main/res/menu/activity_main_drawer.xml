@@ -8,22 +8,23 @@
             android:icon="@drawable/ic_view_module_black_24dp"
             android:title="Beranda" />
         <item
-            android:id="@+id/pasien"
-            android:icon="@drawable/ic_supervisor_account_black_24dp"
-            android:title="Pasien" />
-        <item
             android:id="@+id/order"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="Pesanan Saya" />
-        <item
-            android:id="@+id/jadwaldokter"
-            android:icon="@drawable/ic_supervisor_account_black_24dp"
-            android:title="Jadwal Dokter" />
         <item
             android:id="@+id/inbox"
             android:icon="@drawable/ic_inbox_black_24dp"
             android:title="Kotak Masuk"
             app:actionLayout="@layout/menu_counter"/>
+        <item
+            android:id="@+id/pasien"
+            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:title="Pasien" />
+
+        <item
+            android:id="@+id/jadwaldokter"
+            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:title="Jadwal Dokter" />
     </group>
 
     <item android:title="Communicate">

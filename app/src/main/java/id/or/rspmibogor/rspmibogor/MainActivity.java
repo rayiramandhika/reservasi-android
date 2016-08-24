@@ -1,7 +1,9 @@
 package id.or.rspmibogor.rspmibogor;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
@@ -44,19 +47,53 @@ public class MainActivity extends AppCompatActivity
     InboxFragment InboxFrag = new InboxFragment();
     OrderFragment OrderFrag = new OrderFragment();
 
+    SharedPreferences sharedPreferences;
+
     BottomBar bottomBar;
     NavigationView navigationView;
     DrawerLayout drawer;
+    View header;
+
+    TextView emailText;
+    TextView namaText;
+
+    BottomBarBadge unreadMessages;
 
     int MenuIdActive;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("savedInstanceState", String.valueOf(savedInstanceState));
-
         setContentView(R.layout.activity_main);
 
+        /** Checking if user has login **/
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        Bundle b = getIntent().getExtras();
+        Boolean login = false;
+
+        if(b != null){
+            if (b.getBoolean("loginSuccess")) login = true;
+            else login = false;
+        }
+
+
+        Log.d("Checking login", "jwtToken: " + jwTokenSP);
+        Log.d("Checking login", "loginSuccess: " + login);
+
+        if(jwTokenSP == null && login != true){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        /** Checking if user has login **/
+
+
+        /** Checking if home fragment not added first **/
         if (savedInstanceState == null && !HomeFrag.isAdded()) {
 
             FragmentManager manager = getSupportFragmentManager();
@@ -65,6 +102,10 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.container, HomeFrag);
             transaction.commit();
         }
+        /** Checking if home fragment not added first **/
+
+
+        /** setting toolbar and navigation drawer **/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,7 +120,19 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Bottom NavBar
+        /** setting toolbar and navigation drawer **/
+
+
+        /** get data from shared preferences **/
+        String namaSP = sharedPreferences.getString("nama", null);
+        String emailSP = sharedPreferences.getString("email", null);
+        String profilePictureSP = sharedPreferences.getString("profilePicture", null);
+
+        //set header
+        setHeader(emailSP, namaSP, profilePictureSP);
+        /** get data from shared preferences **/
+
+        /** Bottom NavBar **/
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.setItemsFromMenu(R.menu.bottom_menu, new OnMenuTabSelectedListener() {
             @Override
@@ -110,7 +163,7 @@ public class MainActivity extends AppCompatActivity
                             drawer.closeDrawer(GravityCompat.START);
                         }
 
-                        navigationView.getMenu().getItem(2).setChecked(true);
+                        navigationView.getMenu().getItem(1).setChecked(true);
 
                         transaction.replace(R.id.container, OrderFrag);
                         transaction.commit();
@@ -123,7 +176,7 @@ public class MainActivity extends AppCompatActivity
                             drawer.closeDrawer(GravityCompat.START);
                         }
 
-                        navigationView.getMenu().getItem(4).setChecked(true);
+                        navigationView.getMenu().getItem(2).setChecked(true);
 
                         transaction.replace(R.id.container, InboxFrag);
                         transaction.commit();
@@ -135,18 +188,42 @@ public class MainActivity extends AppCompatActivity
 
         bottomBar.setActiveTabColor("#D32F2F");
 
-        //set Icon badge
-        TextView view = (TextView) navigationView.getMenu().getItem(4).getActionView();
+        /** Bottom NavBar **/
+
+        //TODO set icon badge inbox
+        TextView view = (TextView) navigationView.getMenu().getItem(2).getActionView();
         view.setText("2");
 
-        FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
-        String token;
-        token = firebase.getToken();
+        // Make a Badge for the first tab, with red background color and a value of "4".
+        unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", 4);
 
-        User user = new User();
-        user.updateFCMToken(token, this.getBaseContext());
+        // Control the badge's visibility
+        unreadMessages.show();
+        //unreadMessages.hide();
 
-        Log.d("Firebase", "token: " + token);
+        // Change the displayed count for this badge.
+        //unreadMessages.setCount(4);
+
+        // Change the show / hide animation duration.
+        unreadMessages.setAnimationDuration(200);
+        // TODO: 24/08/16
+
+
+        /** update FCM token to server **/
+        Integer idSP = sharedPreferences.getInt("id", 0);
+
+        if(idSP != 0){
+            FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
+            String token;
+            token = firebase.getToken();
+
+            User user = new User();
+            user.updateFCMToken(token, idSP, this.getBaseContext());
+
+            Log.d("Firebase", "token: " + token);
+        }
+        /** update FCM token to server **/
+
     }
 
     @Override
@@ -162,7 +239,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onResume() {
+
         super.onResume();  // Always call the superclass method first
+
+        Integer currentTab = bottomBar.getCurrentTabPosition();
+        navigationView.getMenu().getItem(currentTab).setChecked(true);
 
     }
 
@@ -219,11 +300,28 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.logout) {
 
+            sharedPreferences.edit().clear().commit();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
         }
 
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setHeader(String email, String nama, String profilePicture)
+    {
+        header = navigationView.getHeaderView(0);
+
+        emailText = (TextView) header.findViewById(R.id.header_email);
+        namaText = (TextView) header.findViewById(R.id.header_name);
+
+        emailText.setText(email);
+        namaText.setText(nama);
+
     }
 
 }

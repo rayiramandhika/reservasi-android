@@ -134,6 +134,8 @@ public class NewOrderFragment extends Fragment {
 
                 json = array.getJSONObject(i);
 
+                Log.d(TAG, "parseData - json" + json);
+
                 //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
                 JSONObject pasien = json.getJSONObject("pasien");
                 JSONObject detailjadwal = json.getJSONObject("detailjadwal");

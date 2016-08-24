@@ -1,5 +1,7 @@
 package id.or.rspmibogor.rspmibogor.Services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -30,8 +32,13 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
         //Displaying token on logcat 
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        User user = new User();
-        user.updateFCMToken(refreshedToken, this.getBaseContext());
+        SharedPreferences sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        Integer idSP = sharedPreferences.getInt("id", 0);
+
+        if(idSP != 0) {
+            User user = new User();
+            user.updateFCMToken(refreshedToken, idSP, this.getBaseContext());
+        }
 
     }
 
