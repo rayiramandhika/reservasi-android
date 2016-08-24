@@ -4,6 +4,10 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,12 +25,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,6 +40,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
+import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.InboxFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
@@ -56,6 +63,7 @@ public class MainActivity extends AppCompatActivity
 
     TextView emailText;
     TextView namaText;
+    ImageView imageHeader;
 
     BottomBarBadge unreadMessages;
 
@@ -318,10 +326,26 @@ public class MainActivity extends AppCompatActivity
 
         emailText = (TextView) header.findViewById(R.id.header_email);
         namaText = (TextView) header.findViewById(R.id.header_name);
+        imageHeader = (ImageView) header.findViewById(R.id.header_image);
 
         emailText.setText(email);
         namaText.setText(nama);
 
+        String url = "http://103.43.44.211:1337/v1/user/profilepicture/" + profilePicture;
+        ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                Log.d("Main Activity", "ImageRequest - response" + response);
+
+                ImageClass imageClass = new ImageClass();
+
+                Bitmap image = imageClass.getRoundedShape(response);
+                imageHeader.setImageBitmap(image);
+            }
+        }, 0, 0, null, null);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(ir);
     }
 
 }

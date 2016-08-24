@@ -56,7 +56,10 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
                     Bundle b = new Bundle();
                     b.putInt("id", dokter.getDokter_id());
 
+                    Log.d(TAG, "dokter_id: " + dokter.getDokter_id());
+
                     Intent intent = new Intent(activity, DetailJadwalDokter.class);
+                    intent.putExtras(b);
                     activity.startActivity(intent);
                     //Log.d(TAG, "Element " + getPosition() + " clicked.");
 
