@@ -1,6 +1,7 @@
 package id.or.rspmibogor.rspmibogor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -84,6 +85,11 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(jwTokenSP == null){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         initData();
 

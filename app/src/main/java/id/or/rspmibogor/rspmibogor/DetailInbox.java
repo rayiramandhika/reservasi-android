@@ -1,5 +1,8 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,6 +41,9 @@ public class DetailInbox extends AppCompatActivity {
     ProgressBar spinner;
     LinearLayout container;
 
+    SharedPreferences sharedPreferences;
+    String jwTokenSP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,13 @@ public class DetailInbox extends AppCompatActivity {
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
         container = (LinearLayout) findViewById(R.id.content);
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(jwTokenSP == null){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         initData();
         updateRead();
@@ -104,7 +118,15 @@ public class DetailInbox extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
 
         //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);

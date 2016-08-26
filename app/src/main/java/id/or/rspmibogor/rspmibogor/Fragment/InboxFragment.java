@@ -108,7 +108,7 @@ public class InboxFragment extends Fragment {
 
     private void initDataset() {
 
-        String url = "http://103.43.44.211:1337/v1/inbox";
+        String url = "http://103.43.44.211:1337/v1/inbox?sort=createdAt DESC";
         //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
