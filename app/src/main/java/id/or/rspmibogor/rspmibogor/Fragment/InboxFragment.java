@@ -2,6 +2,9 @@ package id.or.rspmibogor.rspmibogor.Fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,12 +28,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
+import id.or.rspmibogor.rspmibogor.LoginActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -46,6 +53,9 @@ public class InboxFragment extends Fragment {
 
     ProgressBar spinner;
 
+    SharedPreferences sharedPreferences;
+    String jwTokenSP;
+
     public InboxFragment() {
         // Required empty public constructor
     }
@@ -55,6 +65,14 @@ public class InboxFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         listInbox = new ArrayList<>();
+
+        sharedPreferences = this.getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(jwTokenSP == null){
+            Intent intent = new Intent(this.getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
 
     }
 
@@ -118,7 +136,15 @@ public class InboxFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
 
         //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());

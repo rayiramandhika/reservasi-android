@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.telecom.Call;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -39,6 +40,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
+
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
@@ -69,6 +74,8 @@ public class MainActivity extends AppCompatActivity
 
     int MenuIdActive;
 
+    String jwTokenSP;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         /** Checking if user has login **/
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         Bundle b = getIntent().getExtras();
         Boolean login = false;
@@ -100,7 +107,6 @@ public class MainActivity extends AppCompatActivity
 
         /** Checking if user has login **/
 
-
         /** Checking if home fragment not added first **/
         if (savedInstanceState == null && !HomeFrag.isAdded()) {
 
@@ -109,6 +115,9 @@ public class MainActivity extends AppCompatActivity
 
             transaction.replace(R.id.container, HomeFrag);
             transaction.commit();
+
+            updateFCMToken();
+            refreshingToken();
         }
         /** Checking if home fragment not added first **/
 
@@ -215,22 +224,6 @@ public class MainActivity extends AppCompatActivity
         // Change the show / hide animation duration.
         unreadMessages.setAnimationDuration(200);
         // TODO: 24/08/16
-
-
-        /** update FCM token to server **/
-        Integer idSP = sharedPreferences.getInt("id", 0);
-
-        if(idSP != 0){
-            FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
-            String token;
-            token = firebase.getToken();
-
-            User user = new User();
-            user.updateFCMToken(token, idSP, this.getBaseContext());
-
-            Log.d("Firebase", "token: " + token);
-        }
-        /** update FCM token to server **/
 
     }
 
@@ -346,6 +339,30 @@ public class MainActivity extends AppCompatActivity
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(ir);
+    }
+
+    private void updateFCMToken()
+    {
+        /** update FCM token to server **/
+        Integer idSP = sharedPreferences.getInt("id", 0);
+
+        if(idSP != 0){
+            FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
+            String token;
+            token = firebase.getToken();
+
+            User user = new User();
+            user.updateFCMToken(token, idSP, jwTokenSP, this.getBaseContext());
+
+           // Log.d("Firebase", "token: " + token);
+        }
+        /** update FCM token to server **/
+    }
+
+    private void refreshingToken()
+    {
+        User user = new User();
+        user.refreshToken(jwTokenSP, this.getBaseContext());
     }
 
 }

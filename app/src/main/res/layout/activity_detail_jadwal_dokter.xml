@@ -69,28 +69,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:elevation="6dp"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jadwal yang Tersedia"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|center|center_horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerDetailJadwal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
 
     </LinearLayout>
 
-
-
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_reservasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_assignment_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

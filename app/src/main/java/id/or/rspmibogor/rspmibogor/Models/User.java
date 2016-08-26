@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,7 +25,7 @@ import java.util.Map;
 public class User {
 
 
-    public void updateFCMToken(final String token, final Integer idUser, Context context) {
+    public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://103.43.44.211:1337/v1/user/" + idUser;
@@ -54,6 +55,14 @@ public class User {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("fcmToken", token);
 
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwtToken);
                 return params;
             }
 
@@ -112,9 +121,69 @@ public class User {
                         Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
 
         queue.add(putRequest);
 
+    }
+
+    public void refreshToken(final String token, final Context context)
+    {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = "http://103.43.44.211:1337/v1/refreshtoken";
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("token", token);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // response
+
+                        try {
+                            String newToken = response.getString("token");
+                            getDataFromToken(newToken, context);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.d("getDataFromToken - Response", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("getDataFromToken - Error.Response", String.valueOf(error));
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+
+        queue.add(putRequest);
     }
 }

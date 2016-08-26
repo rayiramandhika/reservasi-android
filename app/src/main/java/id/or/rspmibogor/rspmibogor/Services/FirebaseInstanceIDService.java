@@ -34,10 +34,11 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         Integer idSP = sharedPreferences.getInt("id", 0);
+        String jwtToken = sharedPreferences.getString("token", null);
 
         if(idSP != 0) {
             User user = new User();
-            user.updateFCMToken(refreshedToken, idSP, this.getBaseContext());
+            user.updateFCMToken(refreshedToken, idSP, jwtToken, this.getBaseContext());
         }
 
     }

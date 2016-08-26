@@ -1,7 +1,9 @@
 package id.or.rspmibogor.rspmibogor;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,7 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.PasienAdapter;
@@ -49,6 +54,9 @@ public class PasienActivity extends AppCompatActivity {
 
     private List<Pasien> listPasien;
 
+    SharedPreferences sharedPreferences;
+    String jwTokenSP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +73,9 @@ public class PasienActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         initData();
 
@@ -147,7 +158,15 @@ public class PasienActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
 
         //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -175,10 +194,6 @@ public class PasienActivity extends AppCompatActivity {
                 }else{
                     pasien.setPasien_noRekamMedik("Belum ada No. Rekam Medik");
                 }
-
-
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
