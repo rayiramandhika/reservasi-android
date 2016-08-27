@@ -33,4 +33,58 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string-array name="Agama">
+        <item>Islam</item>
+        <item>Kristen</item>
+        <item>Budha</item>
+        <item>Hindu</item>
+        <item>Lainnya</item>
+    </string-array>
+
+    <string-array name="StatusMarital">
+        <item>Belum Kawin</item>
+        <item>Sudah Kawin</item>
+        <item>Janda</item>
+        <item>Duda</item>
+        <item>Lainnya</item>
+    </string-array>
+
+    <string-array name="pendidikan">
+        <item>SD</item>
+        <item>SMP</item>
+        <item>SMA</item>
+        <item>D1</item>
+        <item>D2</item>
+        <item>D3</item>
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+        <item>Lainnya</item>
+    </string-array>
+
+    <string-array name="pekerjaan">
+        <item>Karyawan Swasta</item>
+        <item>PNS</item>
+        <item>Wirausaha</item>
+        <item>Buruh</item>
+        <item>Ibu Rumah Tangga</item>
+        <item>Pelajar/Mahasiswa</item>
+        <item>Lainnya</item>
+    </string-array>
+
+    <string-array name="golonganDarah">
+        <item>A</item>
+        <item>B</item>
+        <item>AB</item>
+        <item>O</item>
+    </string-array>
+
+    <string-array name="jenisPembayaran">
+        <item>Tunai</item>
+        <item>Asuransi</item>
+    </string-array>
+
+
 </resources>
+

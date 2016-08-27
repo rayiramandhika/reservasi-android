@@ -116,8 +116,10 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.container, HomeFrag);
             transaction.commit();
 
-            updateFCMToken();
-            refreshingToken();
+            if(jwTokenSP != null){
+                updateFCMToken();
+                refreshingToken();
+            }
         }
         /** Checking if home fragment not added first **/
 

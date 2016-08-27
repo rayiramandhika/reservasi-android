@@ -45,6 +45,7 @@
         <activity
             android:name=".PasienAddActivity"
             android:label="@string/title_activity_pasien_add"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".JadwalDokterActivity" />
         <!--

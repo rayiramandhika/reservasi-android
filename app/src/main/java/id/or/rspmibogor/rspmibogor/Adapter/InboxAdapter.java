@@ -46,6 +46,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
         private final TextView title;
         private final TextView desc;
         private final TextView tanggal;
+        private final TextView unread;
 
         public ViewHolder(View v) {
             super(v);
@@ -69,6 +70,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
             title = (TextView) v.findViewById(R.id.judul_inbox);
             desc = (TextView) v.findViewById(R.id.desc_inbox);
             tanggal = (TextView) v.findViewById(R.id.tanggalInbox);
+            unread = (TextView) v.findViewById(R.id.unread_message);
         }
     }
 
@@ -87,6 +89,9 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
         if(inbox.getRead() == false){
             viewHolder.title.setTypeface(null , Typeface.BOLD);
             viewHolder.desc.setTypeface(null , Typeface.BOLD);
+            viewHolder.unread.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.unread.setVisibility(View.GONE);
         }
 
         viewHolder.title.setText(inbox.getTitle());

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -103,7 +104,7 @@ public class OldOrderFragment extends Fragment {
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         //Creating a json array request
-        JsonObjectRequest req = new JsonObjectRequest(url,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -136,10 +137,7 @@ public class OldOrderFragment extends Fragment {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-
-        //Adding request to the queue
         requestQueue.add(req);
 
     }

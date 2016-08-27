@@ -58,6 +58,7 @@
                 android:textColorHighlight="#FFF"
                 android:textColorLink="#FFF"
                 android:shadowColor="#FFF" />
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

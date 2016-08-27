@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="#FFF">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Status Marital"
+                android:textColorHint="@color/colorAccent"
+                app:theme="@style/AppTheme.Spinner"
+                android:id="@+id/statusMarital"
+                app:met_floatingLabel="normal"
+                android:layout_margin="12dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/namaPasutri"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Nama Istri / Suami" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/namaAyah"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Nama Ayah" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/namaIbu"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Nama Ibu" />
+
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

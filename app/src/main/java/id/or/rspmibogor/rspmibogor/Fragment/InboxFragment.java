@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -108,16 +109,15 @@ public class InboxFragment extends Fragment {
 
     private void initDataset() {
 
-        String url = "http://103.43.44.211:1337/v1/inbox?sort=createdAt DESC";
-        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.43.44.211:1337/v1/inbox?sort=createdAt%20DESC";
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
-        JsonObjectRequest req = new JsonObjectRequest(url,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //loading.dismiss();
+                        Log.d(TAG, "onResponse - response" + response.toString());
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
@@ -146,11 +146,8 @@ public class InboxFragment extends Fragment {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-
-        //Adding request to the queue
-        requestQueue.add(req);
+        requestQueue.add(request);
 
     }
 
@@ -167,10 +164,16 @@ public class InboxFragment extends Fragment {
                 json = array.getJSONObject(i);
 
                 desc = json.getString("body");
-                desc2 = desc.substring(0,50);
+                if(desc.length() > 100)
+                {
+                    desc2 = desc.substring(0,100)  + " ......";
+                }else{
+                    desc2 = desc;
+                }
+
 
                 inbox.setTitle(json.getString("title"));
-                inbox.setDesc(desc2 + " ......");
+                inbox.setDesc(desc2);
                 inbox.setBody(json.getString("body"));
                 inbox.setTanggal(json.getString("tanggal"));
                 inbox.setRead(json.getBoolean("read"));

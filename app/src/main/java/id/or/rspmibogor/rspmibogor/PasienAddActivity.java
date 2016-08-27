@@ -1,44 +1,50 @@
 package id.or.rspmibogor.rspmibogor;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.util.Log;
+
+import com.github.fcannizzaro.materialstepper.AbstractStep;
+import com.github.fcannizzaro.materialstepper.style.TabStepper;
+
+import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasKeluarga;
+import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasPasien;
+import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.Pembayaran;
+import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.TempatTinggal;
 
 
-
-public class PasienAddActivity extends AppCompatActivity {
+public class PasienAddActivity extends TabStepper {
 
     private int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        setErrorTimeout(1500);
+        setLinear(false);
+        setTitle("Tambah Pasien");
+
+        setAlternativeTab(false);
+        setDisabledTouch();
+        setPreviousVisible();
+
+        addStep(createFragment(new IdentitasPasien()));
+        addStep(createFragment(new IdentitasKeluarga()));
+        addStep(createFragment(new TempatTinggal()));
+        addStep(createFragment(new Pembayaran()));
+
+        Toolbar toolbar = getToolbar();
+        if(toolbar == null) Log.d("toolbar","null");
+        //Log.d("PassienAddActivity", "toolbar: " + toolbar.toString());
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pasien_add);
+    }
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tambah Pasien");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
+    private AbstractStep createFragment(AbstractStep fragment) {
+        Bundle b = new Bundle();
+        b.putInt("position", i++);
+        fragment.setArguments(b);
+        return fragment;
     }
 
 }

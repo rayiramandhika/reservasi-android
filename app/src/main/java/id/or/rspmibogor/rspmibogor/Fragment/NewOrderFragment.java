@@ -105,7 +105,7 @@ public class NewOrderFragment extends Fragment {
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         //Creating a json array request
-        JsonObjectRequest req = new JsonObjectRequest(url,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
