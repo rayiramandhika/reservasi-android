@@ -8,12 +8,14 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +33,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +49,8 @@ import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
 
 public class PasienActivity extends AppCompatActivity {
 
-    private static final String TAG = "RecyclerViewFragment";
-
+    private static final String TAG = "PasienActivity";
+    private String last_updated;
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PasienAdapter mAdapter;
@@ -92,7 +97,7 @@ public class PasienActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -133,9 +138,68 @@ public class PasienActivity extends AppCompatActivity {
         }); //closing the setOnClickListener method**/
     }
 
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume loaded");
+        super.onResume();
+        //chekingNewData();
+    }
+
+    /**private void chekingNewData()
+    {
+        String url = "http://103.43.44.211:1337/v1/pasien?sort=createdAt%20DESC";
+        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        //spinner.setVisibility(View.VISIBLE);
+        Log.d(TAG, "chekingNewData loaded" );
+        //Creating a json array request
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String updatedAt = response.getString("last_updated");
+
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+
+                            Date newDate = df.parse(updatedAt);
+                            Date oldDate = df.parse(last_updated);
+
+                            Log.d(TAG, "newDate: " + newDate);
+                            Log.d(TAG, "oldDate: " + oldDate);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            Log.d(TAG, "Error parse date");
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        //Creating request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(req);
+    }**/
+
     private void initData()
     {
-        String url = "http://103.43.44.211:1337/v1/pasien";
+        String url = "http://103.43.44.211:1337/v1/pasien?sort=createdAt%20DESC";
         //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
@@ -145,6 +209,12 @@ public class PasienActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         //loading.dismiss();
+                        try {
+                            last_updated = response.getString("last_update");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");

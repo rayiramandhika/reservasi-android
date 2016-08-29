@@ -1,10 +1,12 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.github.fcannizzaro.materialstepper.AbstractStep;
+import com.github.fcannizzaro.materialstepper.style.DotStepper;
 import com.github.fcannizzaro.materialstepper.style.TabStepper;
 
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasKeluarga;
@@ -13,20 +15,16 @@ import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.Pembayaran;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.TempatTinggal;
 
 
-public class PasienAddActivity extends TabStepper {
+public class PasienAddActivity extends DotStepper {
 
-    private int i = 1;
+    int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         setErrorTimeout(1500);
-        setLinear(false);
         setTitle("Tambah Pasien");
-
-        setAlternativeTab(false);
-        setDisabledTouch();
-        setPreviousVisible();
+        setStateAdapter();
 
         addStep(createFragment(new IdentitasPasien()));
         addStep(createFragment(new IdentitasKeluarga()));
@@ -34,7 +32,8 @@ public class PasienAddActivity extends TabStepper {
         addStep(createFragment(new Pembayaran()));
 
         Toolbar toolbar = getToolbar();
-        if(toolbar == null) Log.d("toolbar","null");
+        //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        if(toolbar == null) Log.d("actionBar", String.valueOf(toolbar));
         //Log.d("PassienAddActivity", "toolbar: " + toolbar.toString());
 
         super.onCreate(savedInstanceState);

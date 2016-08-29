@@ -39,6 +39,11 @@ public class IdentitasPasien extends AbstractStep {
 
     private TextView nama;
     private TextView tempatLahir;
+    private TextView umur;
+    private TextView noID;
+    private TextView wargaNegara;
+    private TextView noRekamMedik;
+    private TextView noTelp;
     private MaterialBetterSpinner tanggalLahir;
     private MaterialBetterSpinner bulanLahir;
     private MaterialBetterSpinner tahunLahir;
@@ -57,6 +62,11 @@ public class IdentitasPasien extends AbstractStep {
         nama = (TextView) v.findViewById(R.id.nama);
         tempatLahir = (TextView) v.findViewById(R.id.tempatLahir);
         agama = (MaterialBetterSpinner) v.findViewById(R.id.agama);
+        umur = (TextView) v.findViewById(R.id.umur);
+        wargaNegara = (TextView) v.findViewById(R.id.wargaNegara);
+        noRekamMedik = (TextView) v.findViewById(R.id.noRekamMedik);
+        noID = (TextView) v.findViewById(R.id.noID);
+        noTelp = (TextView) v.findViewById(R.id.noTelp);
         pendidikan = (MaterialBetterSpinner) v.findViewById(R.id.pendidikan);
         pekerjaan = (MaterialBetterSpinner) v.findViewById(R.id.pekerjaan);
         golonganDarah = (MaterialBetterSpinner) v.findViewById(R.id.golonganDarah);
@@ -87,6 +97,43 @@ public class IdentitasPasien extends AbstractStep {
     @Override
     public void onNext() {
         Log.d(TAG, "onNext");
+
+        int poss = this.getArguments().getInt("position");
+        Bundle b = getStepDataFor(poss);
+
+        String namaTxt = nama.getText().toString();
+        String noIDTxt = noID.getText().toString();
+        String noRekamMdk = noRekamMedik.getText().toString();
+        String wnTxt = wargaNegara.getText().toString();
+        String umurTxt = umur.getText().toString();
+        String tmptLahirTxt = tempatLahir.getText().toString();
+        String tglLahirTxt = tanggalLahir.getText().toString();
+        String blnLahirTxt = bulanLahir.getText().toString();
+        String thnLahirTxt = tahunLahir.getText().toString();
+        String jlTxt = jenisKelaminRadio.getText().toString();
+        String noTelpTxt = noTelp.getText().toString();
+        String agamaTxt = agama.getText().toString();
+        String pendidikanTxt = agama.getText().toString();
+        String pekerjaanTxt = pekerjaan.getText().toString();
+        String gdTxt = golonganDarah.getText().toString();
+
+        String tanggalLahir =  thnLahirTxt + '-' + blnLahirTxt + '-' + tglLahirTxt;
+
+        b.putInt("position", poss);
+        b.putString("nama", namaTxt);
+        b.putString("noID", noIDTxt);
+        b.putString("umur", umurTxt);
+        b.putString("noTelp", noTelpTxt);
+        b.putString("noRekamMedik", noRekamMdk);
+        b.putString("wargaNegara", wnTxt);
+        b.putString("tempatLahir", tmptLahirTxt);
+        b.putString("tanggalLahir", tanggalLahir);
+        b.putString("jenisKelamin", jlTxt);
+        b.putString("agama", agamaTxt);
+        b.putString("pendidikan", pendidikanTxt);
+        b.putString("pekerjaan", pekerjaanTxt);
+        b.putString("golonganDarah", gdTxt);
+
     }
 
     @Override
@@ -107,6 +154,9 @@ public class IdentitasPasien extends AbstractStep {
         String blnLahirTxt = bulanLahir.getText().toString();
         String thnLahirTxt = tahunLahir.getText().toString();
         String jlTxt = jenisKelaminRadio.getText().toString();
+        String noIDTxt = noID.getText().toString();
+        String wnTxt = wargaNegara.getText().toString();
+        String umurTxt = umur.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = agama.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
@@ -118,6 +168,27 @@ public class IdentitasPasien extends AbstractStep {
             i++;
         } else {
             nama.setError(null);
+        }
+
+        if (noIDTxt.isEmpty()){
+            noID.setError("No. ID harus diisi");
+            i++;
+        } else {
+            noID.setError(null);
+        }
+
+        if (wnTxt.isEmpty()){
+            wargaNegara.setError("No. ID harus diisi");
+            i++;
+        } else {
+            wargaNegara.setError(null);
+        }
+
+        if (umurTxt.isEmpty()){
+            umur.setError("Umur harus diisi");
+            i++;
+        } else {
+            umur.setError(null);
         }
 
         if (tmptLahirTxt.isEmpty()){

@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,6 +29,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
     private static final String TAG = "PasienAdapter";
     private Activity activity;
+    private ImageView menuMore;
 
     List<Pasien> Pasien;
 
@@ -42,6 +47,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         private final TextView pasien_name;
         private final TextView pasien_noRekamMedik;
         private final TextView pasien_umur;
+        private final ImageView menuMore;
 
         public ViewHolder(View v) {
             super(v);
@@ -65,6 +71,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
             pasien_name = (TextView) v.findViewById(R.id.pasien_name);
             pasien_noRekamMedik = (TextView) v.findViewById(R.id.pasien_noRekamMedik);
             pasien_umur = (TextView) v.findViewById(R.id.pasien_umur);
+            menuMore = (ImageView) v.findViewById(R.id.menu_pasien);
         }
     }
 
@@ -77,13 +84,38 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         Pasien pasien =  Pasien.get(position);
+
+
 
         //viewHolder.title.setText(pasien.getTitle());
         viewHolder.pasien_name.setText(pasien.getPasien_name());
         viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
+        viewHolder.menuMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(activity, viewHolder.menuMore);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.menu_pasien, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(activity,
+                                "You Clicked : " + item.getTitle(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+            }
+        });
 
     }
 

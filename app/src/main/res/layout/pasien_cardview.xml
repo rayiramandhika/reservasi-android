@@ -47,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/pasien_noRekamMedik"
                     android:textSize="15dp"
-                    android:text="No Rekam Medik"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_vertical" />
 
@@ -64,7 +63,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/pasien_umur"
                     android:textSize="15dp"
-                    android:text="21 Tahun"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_vertical" />
 

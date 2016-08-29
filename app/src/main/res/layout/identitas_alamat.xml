@@ -18,15 +18,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Status Marital"
-                android:textColorHint="@color/colorAccent"
-                app:theme="@style/AppTheme.Spinner"
-                android:id="@+id/statusMarital"
-                app:met_floatingLabel="normal"
-                android:layout_margin="12dp"/>
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/alamat"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Alamat Lengkap" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -36,9 +40,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/namaPasutri"
+                    android:id="@+id/provinsi"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Nama Istri / Suami"
+                    android:hint="Provinsi"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -51,9 +55,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/namaAyah"
+                    android:id="@+id/kota"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Nama Ayah"
+                    android:hint="Kota / Kabupaten"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -66,12 +70,29 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/namaIbu"
+                    android:id="@+id/kecamatan"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Nama Ibu"
+                    android:hint="Kecamatan"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/desa"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Desa / Kelurahan"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
         </LinearLayout>
     </ScrollView>
 

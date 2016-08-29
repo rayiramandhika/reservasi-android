@@ -59,7 +59,23 @@ public class IdentitasKeluarga  extends AbstractStep {
 
     @Override
     public void onNext() {
-        System.out.println("onNext");
+
+        Log.d(TAG, "onNext");
+
+
+        String nmPasutri = namaPasutri.getText().toString();
+        String marital = statusMarital.getText().toString();
+        String nmAyah = namaAyah.getText().toString();
+        String nmIbu = namaIbu.getText().toString();
+
+        int poss = this.getArguments().getInt("position");
+        Bundle b = getStepDataFor(poss);
+
+        b.putString("namaPasutri", nmPasutri);
+        b.putString("statusMarital", marital);
+        b.putString("namaAyah", nmAyah);
+        b.putString("namaIbu", nmIbu);
+
     }
 
     @Override
@@ -75,26 +91,34 @@ public class IdentitasKeluarga  extends AbstractStep {
 
          Integer i = 0;
 
+         String nmPasutri = namaPasutri.getText().toString();
          String marital = statusMarital.getText().toString();
          String nmAyah = namaAyah.getText().toString();
          String nmIbu = namaIbu.getText().toString();
 
          if (marital.isEmpty()){
-             statusMarital.setError("Status Marital Harus dipilih");
+             statusMarital.setError("Status Marital harus dipilih");
              i++;
          } else {
              statusMarital.setError(null);
          }
 
+         if (nmPasutri.isEmpty() && marital == "Sudah Kawin"){
+             namaPasutri.setError("Nama Pasutri harus diisi");
+             i++;
+         } else {
+             namaPasutri.setError(null);
+         }
+
          if (nmAyah.isEmpty()){
-             namaAyah.setError("Nama Ayah Harus diisi");
+             namaAyah.setError("Nama Ayah harus diisi");
              i++;
          } else {
              namaAyah.setError(null);
          }
 
          if (nmIbu.isEmpty()){
-             namaIbu.setError("Nama Ibu Harus diisi");
+             namaIbu.setError("Nama Ibu harus diisi");
              i++;
          } else{
              namaIbu.setError(null);
@@ -103,12 +127,12 @@ public class IdentitasKeluarga  extends AbstractStep {
          if(i == 0) return true;
          return false;
 
-         
+
      }
 
     @Override
     public String error() {
-        return "<b>You must click!</b> <small>this is the condition!</small>";
+        return "Mohon lengkapi data";
     }
 
     public void initSpinner()
