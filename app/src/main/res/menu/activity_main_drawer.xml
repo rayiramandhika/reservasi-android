@@ -10,7 +10,7 @@
         <item
             android:id="@+id/order"
             android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="Pesanan Saya" />
+            android:title="Pesanan" />
         <item
             android:id="@+id/inbox"
             android:icon="@drawable/ic_inbox_black_24dp"
@@ -18,7 +18,7 @@
             app:actionLayout="@layout/menu_counter"/>
         <item
             android:id="@+id/pasien"
-            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:icon="@drawable/ic_accessible_black_24dp"
             android:title="Pasien" />
 
         <item
@@ -27,7 +27,7 @@
             android:title="Jadwal Dokter" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Pengaturan">
         <menu>
             <item
                 android:id="@+id/myacccount"

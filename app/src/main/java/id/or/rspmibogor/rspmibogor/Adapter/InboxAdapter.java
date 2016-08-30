@@ -55,6 +55,14 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 
+                    TextView judul = (TextView) v.findViewById(R.id.judul_inbox);
+                    TextView desk = (TextView) v.findViewById(R.id.desc_inbox);
+                    TextView read = (TextView) v.findViewById(R.id.unread_message);
+
+                    judul.setTypeface(null , Typeface.NORMAL);
+                    desk.setTypeface(null , Typeface.NORMAL);
+                    read.setVisibility(View.GONE);
+
                     Inbox inbox =  Inbox.get(getPosition());
 
                     Bundle b = new Bundle();

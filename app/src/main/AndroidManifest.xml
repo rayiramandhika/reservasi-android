@@ -67,7 +67,12 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".DetailOrder" />
+        <activity
+            android:name=".DetailOrderOld"
+            android:label="@string/title_activity_detail_order_old"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

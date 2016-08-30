@@ -1,6 +1,8 @@
 package id.or.rspmibogor.rspmibogor.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import id.or.rspmibogor.rspmibogor.DetailOrder;
+import id.or.rspmibogor.rspmibogor.DetailOrderOld;
+import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.R;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
 
@@ -32,7 +37,7 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
         this.context = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView pasien_name;
         private final TextView layanan_name;
@@ -48,7 +53,14 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Element " + getPosition() + " clicked.");
+                    OldOrder oldOrder = OldOrder.get(getPosition());
+
+                    Bundle b = new Bundle();
+                    b.putInt("id", oldOrder.getOrder_id());
+
+                    Intent intent = new Intent(context, DetailOrderOld.class);
+                    intent.putExtras(b);
+                    context.startActivity(intent);
                 }
             });
             pasien_name = (TextView) v.findViewById(R.id.name_pasien);

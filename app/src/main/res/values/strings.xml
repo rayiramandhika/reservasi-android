@@ -84,6 +84,7 @@
         <item>Tunai</item>
         <item>Asuransi</item>
     </string-array>
+    <string name="title_activity_detail_order_old">DetailOrderOld</string>
 
 
 </resources>

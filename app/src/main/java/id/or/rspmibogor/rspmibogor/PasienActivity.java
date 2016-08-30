@@ -110,32 +110,6 @@ public class PasienActivity extends AppCompatActivity {
             }
         });
 
-        /**Menu pasien in list
-        final ImageView menumore = (ImageView) findViewById(R.id.menu_pasien);
-        menumore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(PasienActivity.this, menumore);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                        .inflate(R.menu.menu_pasien, popup.getMenu());
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(
-                                PasienActivity.this,
-                                "You Clicked : " + item.getTitle(),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
-            }
-        }); //closing the setOnClickListener method**/
     }
 
     @Override

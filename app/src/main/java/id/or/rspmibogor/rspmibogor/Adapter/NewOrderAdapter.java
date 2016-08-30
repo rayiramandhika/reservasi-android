@@ -1,7 +1,8 @@
 package id.or.rspmibogor.rspmibogor.Adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
+import id.or.rspmibogor.rspmibogor.DetailInbox;
+import id.or.rspmibogor.rspmibogor.DetailOrder;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.R;
 
@@ -31,10 +33,11 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         super();
         this.NewOrder = newOrder;
         this.context = context;
+
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView pasien_name;
         private final TextView dokter_name;
@@ -44,13 +47,25 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         private final TextView no_antrian;
         private final TextView tanggal;
 
+
+
+
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Element " + getPosition() + " clicked.");
+
+                    NewOrder newOrder = NewOrder.get(getPosition());
+
+                    Bundle b = new Bundle();
+                    b.putInt("id", newOrder.getOrder_id());
+
+                    Intent intent = new Intent(context, DetailOrder.class);
+                    intent.putExtras(b);
+                    context.startActivity(intent);
+
                 }
             });
             pasien_name = (TextView) v.findViewById(R.id.name_pasien);

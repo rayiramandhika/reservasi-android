@@ -3,40 +3,45 @@ package id.or.rspmibogor.rspmibogor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailInbox extends AppCompatActivity {
+public class DetailOrder extends AppCompatActivity {
+
     private static final String TAG = "DetailInbox";
 
     Toolbar toolbar;
-    TextView title;
+    TextView no_antrian;
+    TextView dokter_name;
+    TextView layanan_name;
     TextView tanggal;
-    TextView body;
+    TextView jam;
+    TextView pasien_name;
+    Button buttonBatal;
+
+    String status;
+    Integer id;
+    Boolean checkIn;
 
     ProgressBar spinner;
     LinearLayout container;
@@ -44,18 +49,24 @@ public class DetailInbox extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_inbox);
+        setContentView(R.layout.activity_detail_order);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Detail Pesanan");
 
-        title = (TextView) findViewById(R.id.judul_inbox);
-        tanggal = (TextView) findViewById(R.id.tanggal_inbox);
-        body = (TextView) findViewById(R.id.body);
+        no_antrian = (TextView) findViewById(R.id.no_antrian);
+        dokter_name = (TextView) findViewById(R.id.dokter_name);
+        layanan_name = (TextView) findViewById(R.id.layanan_name);
+        tanggal = (TextView) findViewById(R.id.tanggal);
+        jam = (TextView) findViewById(R.id.jam);
+        pasien_name = (TextView) findViewById(R.id.pasien_name);
+        buttonBatal = (Button) findViewById(R.id.btnBatal);
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
-        container = (LinearLayout) findViewById(R.id.content);
+        container = (LinearLayout) findViewById(R.id.container);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -66,32 +77,33 @@ public class DetailInbox extends AppCompatActivity {
         }
 
         initData();
-        updateRead();
 
+
+        //toolbar.setTitle("Dokter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Detail Inbox");
+
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
     }
+
 
     private void initData()
     {
-
         Bundle b = getIntent().getExtras();
 
 
-        String url = "http://103.43.44.211:1337/v1/inbox/"+ b.getInt("id");
-        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.43.44.211:1337/v1/order/"+ b.getInt("id")+"?populate=pasien,dokter,layanan,detailjadwal";
+
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
+
         Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -135,54 +147,29 @@ public class DetailInbox extends AppCompatActivity {
 
     private void parseData(JSONObject data) throws JSONException {
 
-        title.setText(data.getString("title"));
-        tanggal.setText(data.getString("tanggal"));
-        body.setText(data.getString("body"));
+        JSONObject pasien = data.getJSONObject("pasien");
+        JSONObject dokter = data.getJSONObject("dokter");
+        JSONObject detailjadwal = data.getJSONObject("detailjadwal");
+        JSONObject layanan = data.getJSONObject("layanan");
 
-        toolbar.setTitle(data.getString("title"));
+        no_antrian.setText(data.getString("noUrut"));
+        dokter_name.setText(dokter.getString("nama"));
+        layanan_name.setText(layanan.getString("nama"));
+        tanggal.setText(detailjadwal.getString("hari") + ", " +data.getString("tanggal"));
+        jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
+        pasien_name.setText(pasien.getString("nama"));
 
-    }
+        status = data.getString("status");
+        id = data.getInt("id");
+        checkIn = data.getBoolean("checkIn");
 
-    private void updateRead(){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("read", true);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(status == "Dibatalkan oleh user")
+        {
+            buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
+            buttonBatal.setEnabled(false);
+            buttonBatal.setClickable(false);
+            buttonBatal.setText("Telah dibatalkan");
         }
 
-        Bundle b = getIntent().getExtras();
-
-        String url = "http://103.43.44.211:1337/v1/inbox/"+ b.getInt("id");
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // response
-                        Log.d("updateRead - Response", response.toString());
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", String.valueOf(error));
-                    }
-                }
-        ){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + jwTokenSP);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
-        requestQueue.add(putRequest);
     }
-
 }

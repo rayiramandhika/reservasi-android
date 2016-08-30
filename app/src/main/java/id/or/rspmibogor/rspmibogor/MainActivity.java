@@ -29,11 +29,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,9 +43,13 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
@@ -100,9 +106,15 @@ public class MainActivity extends AppCompatActivity
         Log.d("Checking login", "loginSuccess: " + login);
 
         if(jwTokenSP == null && login != true){
+            finish();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-            finish();
+
+        }
+
+        if(jwTokenSP != null){
+            updateFCMToken();
+            refreshingToken();
         }
 
         /** Checking if user has login **/
@@ -115,11 +127,6 @@ public class MainActivity extends AppCompatActivity
 
             transaction.replace(R.id.container, HomeFrag);
             transaction.commit();
-
-            if(jwTokenSP != null){
-                updateFCMToken();
-                refreshingToken();
-            }
         }
         /** Checking if home fragment not added first **/
 
@@ -209,23 +216,9 @@ public class MainActivity extends AppCompatActivity
 
         /** Bottom NavBar **/
 
-        //TODO set icon badge inbox
-        TextView view = (TextView) navigationView.getMenu().getItem(2).getActionView();
-        view.setText("2");
-
-        // Make a Badge for the first tab, with red background color and a value of "4".
-        unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", 4);
-
-        // Control the badge's visibility
-        unreadMessages.show();
-        //unreadMessages.hide();
-
-        // Change the displayed count for this badge.
-        //unreadMessages.setCount(4);
-
-        // Change the show / hide animation duration.
-        unreadMessages.setAnimationDuration(200);
-        // TODO: 24/08/16
+        /**Checking unread Message **/
+        checkingUnreadMessage();
+        /**Checking unread Message **/
 
     }
 
@@ -307,6 +300,7 @@ public class MainActivity extends AppCompatActivity
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
 
         }
 
@@ -365,6 +359,48 @@ public class MainActivity extends AppCompatActivity
     {
         User user = new User();
         user.refreshToken(jwTokenSP, this.getBaseContext());
+    }
+
+    private void checkingUnreadMessage()
+    {
+        String url =  "http://103.43.44.211:1337/v1/count/unread";
+
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            Integer count = response.getInt("data");
+                            unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", count);
+                            unreadMessages.show();
+                            unreadMessages.setAnimationDuration(200);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        //Creating request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(req);
     }
 
 }

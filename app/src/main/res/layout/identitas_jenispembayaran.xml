@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="#FFF">
 
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"

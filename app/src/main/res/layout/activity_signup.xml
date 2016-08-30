@@ -11,6 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
@@ -22,6 +23,15 @@
             android:layout_gravity="center_horizontal" />
 
         <!--  Name Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Sign Up"
+            android:id="@+id/textView4"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFF" />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +87,8 @@
             android:layout_marginBottom="24dp"
             android:text="Sudah Punya Akun? Login"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="16dip"
+            android:textColor="#FFF" />
 
     </LinearLayout>
 </ScrollView>
