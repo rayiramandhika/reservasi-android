@@ -17,7 +17,7 @@ public class OrderAdapter extends FragmentPagerAdapter {
 
     //nama tab nya
     String[] title = new String[]{
-            "Pesanan Baru", "Pesanan Lama"
+            "Pendaftaran Baru", "Pendaftaran Lama"
     };
 
     public OrderAdapter(FragmentManager fm) {

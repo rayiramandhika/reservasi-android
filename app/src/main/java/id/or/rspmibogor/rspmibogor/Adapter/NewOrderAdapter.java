@@ -10,10 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import id.or.rspmibogor.rspmibogor.DetailInbox;
 import id.or.rspmibogor.rspmibogor.DetailOrder;
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.R;
 
@@ -61,6 +65,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
 
                     Bundle b = new Bundle();
                     b.putInt("id", newOrder.getOrder_id());
+                    b.putInt("position_list", getPosition());
 
                     Intent intent = new Intent(context, DetailOrder.class);
                     intent.putExtras(b);

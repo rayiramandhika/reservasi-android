@@ -36,14 +36,33 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context="id.or.rspmibogor.rspmibogor.MainActivity">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar"
-                android:id="@+id/container"
-                >
+                android:layout_height="wrap_content">
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.synnapps.carouselview.CarouselView
+                        android:id="@+id/carouselView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:fillColor="#FFFFFFFF"
+                        app:pageColor="#00000000"
+                        app:radius="6dp"
+                        app:slideInterval="3000"
+                        app:strokeColor="#FF777777"
+                        app:strokeWidth="1dp"/>
+
+                    <include layout="@layout/menu_utama"
+
+                        />
+
+                </LinearLayout>
+
+            </ScrollView>
 
         </RelativeLayout>
 

@@ -41,4 +41,9 @@
         <item name="android:textColorPrimary">@color/colorPrimaryText</item>
     </style>
 
+    <style name="Splashscreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

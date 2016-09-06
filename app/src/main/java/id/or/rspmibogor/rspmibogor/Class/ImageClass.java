@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 /**
  * Created by iqbalprabu on 24/08/16.
@@ -32,5 +33,6 @@ public class ImageClass {
                 new Rect(0, 0, targetWidth, targetHeight), null);
         return targetBitmap;
     }
+
 
 }

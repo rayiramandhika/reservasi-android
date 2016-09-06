@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_pmi_potrait"
     android:theme="@style/AppTheme.LoginTheme">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:focusableInTouchMode="true"
         android:weightSum="1">
 
-        <ImageView android:src="@drawable/icon"
+        <ImageView android:src="@drawable/logo"
             android:layout_width="241dp"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"

@@ -1,6 +1,9 @@
 package id.or.rspmibogor.rspmibogor.Fragment.PasienAdd;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +13,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.fcannizzaro.materialstepper.AbstractStep;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.R;
 
@@ -28,17 +43,19 @@ public class IdentitasKeluarga  extends AbstractStep {
     private MaterialBetterSpinner statusMarital;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_keluarga, container, false);
+
         namaPasutri = (TextView) v.findViewById(R.id.namaPasutri);
         namaAyah = (TextView) v.findViewById(R.id.namaAyah);
         namaIbu = (TextView) v.findViewById(R.id.namaIbu);
         statusMarital = (MaterialBetterSpinner) v.findViewById(R.id.statusMarital);
 
         initSpinner();
+
+
 
         return v;
     }

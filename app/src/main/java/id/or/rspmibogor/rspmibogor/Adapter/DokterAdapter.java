@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
@@ -90,5 +91,11 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return Dokter.size();
+    }
+
+    public void setFilter(List<Dokter> dokter) {
+        Dokter = new ArrayList<>();
+        Dokter.addAll(dokter);
+        notifyDataSetChanged();
     }
 }

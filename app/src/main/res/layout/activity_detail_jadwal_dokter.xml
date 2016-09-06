@@ -34,7 +34,7 @@
             android:layout_height="200dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="@drawable/header">
+            android:background="@drawable/bg_pmi">
 
             <ImageView
                 android:layout_width="309dp"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:elevation="6dp"
-            android:background="@color/colorPrimary">
+            android:background="@color/colorPrimaryDark">
 
             <TextView
                 android:layout_width="match_parent"

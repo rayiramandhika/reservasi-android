@@ -1,15 +1,21 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -33,7 +39,7 @@ import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
 
-public class JadwalDokterActivity extends AppCompatActivity {
+public class JadwalDokterActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "RecyclerViewFragment";
 
@@ -47,7 +53,6 @@ public class JadwalDokterActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,58 @@ public class JadwalDokterActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+        new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when collapsed
+                mAdapter.setFilter(listDokter);
+                return true; // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                return true; // Return true to expand action view
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<Dokter> filteredModelList = filter(listDokter, newText);
+        mAdapter.setFilter(filteredModelList);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private List<Dokter> filter(List<Dokter> models, String query) {
+        query = query.toLowerCase();
+
+        final List<Dokter> filteredModelList = new ArrayList<>();
+        for (Dokter model : models) {
+            final String text = model.getDokter_name().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
     }
 
     private void initDataset() {

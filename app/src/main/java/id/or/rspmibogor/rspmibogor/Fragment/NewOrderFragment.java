@@ -25,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.LoginActivity;
 import id.or.rspmibogor.rspmibogor.R;
@@ -82,6 +85,8 @@ public class NewOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        Log.d(TAG, "onCreateView - loaded");
         View viewRoot =  inflater.inflate(R.layout.fragment_old_order, container, false);
         spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
 
@@ -95,6 +100,8 @@ public class NewOrderFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        EventBus.getDefault().register(this);
 
         return viewRoot;
     }
@@ -146,6 +153,8 @@ public class NewOrderFragment extends Fragment {
 
     }
 
+
+
     //This method will parse json data
     private void parseData(JSONArray array){
         for(int i = 0; i < array.length(); i++) {
@@ -187,6 +196,32 @@ public class NewOrderFragment extends Fragment {
             listNewOrder.add(newOrder);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe
+    public void onEvent(MessageEvent event){
+        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+
+        String msg = event.getPesan();
+
+        if(msg.equals("cancelOrder"))
+        {
+            Integer pos = event.getPosition_list();
+            Log.d(TAG, "onEvent - loaded - event - position_list: " + pos );
+            //mAdapter.notifyDataSetChanged();
+
+            NewOrder newOrder = listNewOrder.get(pos);
+            listNewOrder.remove(newOrder);
+            mAdapter.notifyItemRemoved(pos);
+            mAdapter.notifyItemRangeChanged(pos, listNewOrder.size());
+        }
+
     }
 
 }

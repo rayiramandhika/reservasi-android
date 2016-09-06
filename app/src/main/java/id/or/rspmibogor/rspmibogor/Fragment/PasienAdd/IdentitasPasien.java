@@ -9,6 +9,7 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,16 @@ public class IdentitasPasien extends AbstractStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_diri, container, false);
+
+        Toolbar toolbar = mStepper.getToolbar();
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
         nama = (TextView) v.findViewById(R.id.nama);
         tempatLahir = (TextView) v.findViewById(R.id.tempatLahir);
         agama = (MaterialBetterSpinner) v.findViewById(R.id.agama);
@@ -113,7 +124,7 @@ public class IdentitasPasien extends AbstractStep {
         String jlTxt = jenisKelaminRadio.getText().toString();
         String noTelpTxt = noTelp.getText().toString();
         String agamaTxt = agama.getText().toString();
-        String pendidikanTxt = agama.getText().toString();
+        String pendidikanTxt = pendidikan.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
         String gdTxt = golonganDarah.getText().toString();
 
@@ -299,18 +310,18 @@ public class IdentitasPasien extends AbstractStep {
 
         // Initializing a String Array
         String[] Bulan = new String[]{
-                "Januari",
-                "Febuari",
-                "Maret",
-                "April",
-                "Mei",
-                "Juni",
-                "Juli",
-                "Agustus",
-                "September",
-                "Oktober",
-                "November",
-                "Desember"
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
 
         };
 

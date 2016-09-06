@@ -29,10 +29,12 @@
         tools:context="id.or.rspmibogor.rspmibogor.PasienActivity"
         tools:showIn="@layout/activity_pasien">
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclePasien"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
 
         <RelativeLayout
             android:layout_width="match_parent"

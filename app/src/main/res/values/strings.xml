@@ -85,6 +85,11 @@
         <item>Asuransi</item>
     </string-array>
     <string name="title_activity_detail_order_old">DetailOrderOld</string>
+    <string name="title_activity_pendaftaran">Pendaftaran</string>
+    <string name="title_activity_inbox">InboxActivity</string>
+    <string name="title_activity_pilih_pasien">PilihPasien</string>
+    <string name="title_activity_complete_order">CompleteOrder</string>
+    <string name="title_activity_pasien_edit">PasienEditActivity</string>
 
 
 </resources>

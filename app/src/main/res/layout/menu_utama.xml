@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/carouselView"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/menu_jadwaldokter">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="6dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon_dokter_pmi"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/icon_jadwaldokter"
+                    android:layout_margin="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jadwal Dokter"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/icon_jadwaldokter"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:layout_marginBottom="10dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/menu_pasien">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="6dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon_pasien_pmi"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/icon_pasien"
+                    android:layout_margin="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pasien"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:layout_below="@+id/icon_pasien"
+                    android:layout_marginBottom="10dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/menu_pendaftaran">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="6dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon_pesanan_pmi"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/icon_pesanan"
+                    android:layout_margin="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pendaftaran"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/icon_pesanan"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:layout_marginBottom="10dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/menu_inbox">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="6dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon_inbox_pmi"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/icon_inbox"
+                    android:layout_margin="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kotak Masuk"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:layout_below="@+id/icon_inbox"
+                    android:layout_marginBottom="10dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

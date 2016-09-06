@@ -9,18 +9,22 @@ import com.github.fcannizzaro.materialstepper.AbstractStep;
 import com.github.fcannizzaro.materialstepper.style.DotStepper;
 import com.github.fcannizzaro.materialstepper.style.TabStepper;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasKeluarga;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasPasien;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.Pembayaran;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.TempatTinggal;
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 
 
 public class PasienAddActivity extends DotStepper {
-
+    private final String TAG = "PasienAddActivity";
     int i = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         setErrorTimeout(1500);
         setTitle("Tambah Pasien");
@@ -36,14 +40,34 @@ public class PasienAddActivity extends DotStepper {
         if(toolbar == null) Log.d("actionBar", String.valueOf(toolbar));
         //Log.d("PassienAddActivity", "toolbar: " + toolbar.toString());
 
+        EventBus.getDefault().register(this);
+
         super.onCreate(savedInstanceState);
     }
 
     private AbstractStep createFragment(AbstractStep fragment) {
+        Log.d(TAG, "fragment: " + fragment.name());
         Bundle b = new Bundle();
         b.putInt("position", i++);
         fragment.setArguments(b);
         return fragment;
     }
 
+    /*@Override
+    public void onStart() {
+        super.onStart();
+
+    }*/
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+
+    @Subscribe
+    public void onEvent(MessageEvent event){
+        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+    }
 }

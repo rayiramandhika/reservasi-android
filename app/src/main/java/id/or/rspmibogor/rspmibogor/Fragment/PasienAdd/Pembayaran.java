@@ -5,13 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,12 +25,14 @@ import com.android.volley.toolbox.Volley;
 import com.github.fcannizzaro.materialstepper.AbstractStep;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -46,6 +46,7 @@ public class Pembayaran extends AbstractStep {
     private MaterialBetterSpinner jenisPembayaran;
     private RadioGroup typePasienGroup;
     private RadioButton typePasienRadio;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -203,7 +204,6 @@ public class Pembayaran extends AbstractStep {
 
         //Log.d(TAG, "saveData - identitas_jenisPembayaran: " + namaPenjamin);
 
-
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         String url = "http://103.43.44.211:1337/v1/pasien";
 
@@ -253,6 +253,8 @@ public class Pembayaran extends AbstractStep {
                         // response
                         progressDialog.dismiss();
                         Toast.makeText(activity, "Pasien berhasil disimpan", Toast.LENGTH_SHORT).show();
+
+                        EventBus.getDefault().post(new MessageEvent("addPasien", 0));
 
                         new android.os.Handler().postDelayed(
                             new Runnable() {

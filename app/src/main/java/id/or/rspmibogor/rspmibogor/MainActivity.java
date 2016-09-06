@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.telecom.Call;
 import android.util.Base64;
 import android.util.Log;
@@ -42,7 +43,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,11 +60,14 @@ import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.InboxFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final String TAG = "MainActivity";
 
     HomeFragment HomeFrag = new HomeFragment();
     InboxFragment InboxFrag = new InboxFragment();
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
     SharedPreferences sharedPreferences;
 
-    BottomBar bottomBar;
+    //BottomBar bottomBar;
     NavigationView navigationView;
     DrawerLayout drawer;
     View header;
@@ -76,11 +84,20 @@ public class MainActivity extends AppCompatActivity
     TextView namaText;
     ImageView imageHeader;
 
-    BottomBarBadge unreadMessages;
+    //Main menu dashboard
+    CardView imageJadwaldokter;
+    CardView imagePasien;
+    CardView imagePendaftaran;
+    CardView imageInbox;
+
+    //BottomBarBadge unreadMessages;
 
     int MenuIdActive;
 
     String jwTokenSP;
+
+    CarouselView carouselView;
+    int[] sliderImage = {R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header};
 
 
     @Override
@@ -122,11 +139,11 @@ public class MainActivity extends AppCompatActivity
         /** Checking if home fragment not added first **/
         if (savedInstanceState == null && !HomeFrag.isAdded()) {
 
-            FragmentManager manager = getSupportFragmentManager();
+           /** FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
 
             transaction.replace(R.id.container, HomeFrag);
-            transaction.commit();
+            transaction.commit();**/
         }
         /** Checking if home fragment not added first **/
 
@@ -149,6 +166,20 @@ public class MainActivity extends AppCompatActivity
         /** setting toolbar and navigation drawer **/
 
 
+        /** Setting Carrousel **/
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView.setPageCount(sliderImage.length);
+        carouselView.setImageListener(imageListener);
+
+        imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setImageResource(sliderImage[position]);
+            }
+        };
+        /** **/
+
+
         /** get data from shared preferences **/
         String namaSP = sharedPreferences.getString("nama", null);
         String emailSP = sharedPreferences.getString("email", null);
@@ -158,7 +189,7 @@ public class MainActivity extends AppCompatActivity
         setHeader(emailSP, namaSP, profilePictureSP);
         /** get data from shared preferences **/
 
-        /** Bottom NavBar **/
+        /** Bottom NavBar
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.setItemsFromMenu(R.menu.bottom_menu, new OnMenuTabSelectedListener() {
             @Override
@@ -214,11 +245,49 @@ public class MainActivity extends AppCompatActivity
 
         bottomBar.setActiveTabColor("#D32F2F");
 
-        /** Bottom NavBar **/
+         Bottom NavBar **/
 
         /**Checking unread Message **/
-        checkingUnreadMessage();
+        //checkingUnreadMessage();
         /**Checking unread Message **/
+
+        /** checking listening main menu **/
+        imageJadwaldokter = (CardView) findViewById(R.id.menu_jadwaldokter);
+        imagePasien = (CardView) findViewById(R.id.menu_pasien);
+        imagePendaftaran = (CardView) findViewById(R.id.menu_pendaftaran);
+        imageInbox = (CardView) findViewById(R.id.menu_inbox);
+
+        imageJadwaldokter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), JadwalDokterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imagePasien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PasienActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imagePendaftaran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PendaftaranActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imageInbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), InboxActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -233,23 +302,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onResume() {
-
-        super.onResume();  // Always call the superclass method first
-
-        Integer currentTab = bottomBar.getCurrentTabPosition();
-        navigationView.getMenu().getItem(currentTab).setChecked(true);
-
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
 
         int id = item.getItemId();
 
@@ -262,10 +319,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.dashboard) {
 
-            transaction.replace(R.id.container, HomeFrag);
+           /* transaction.replace(R.id.container, HomeFrag);
             transaction.commit();
 
-            bottomBar.selectTabAtPosition(0, false);
+            //bottomBar.selectTabAtPosition(0, false);*/
 
         } else if (id == R.id.pasien) {
 
@@ -274,17 +331,24 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.order) {
 
-            transaction.replace(R.id.container, OrderFrag);
+            /*transaction.replace(R.id.container, OrderFrag);
             transaction.commit();
 
-            bottomBar.selectTabAtPosition(1, false);
+            //bottomBar.selectTabAtPosition(1, false);*/
+
+            Intent intent = new Intent(this, PendaftaranActivity.class);
+            startActivity(intent);
+
 
         } else if (id == R.id.inbox) {
 
-            transaction.replace(R.id.container, InboxFrag);
+           /* transaction.replace(R.id.container, InboxFrag);
             transaction.commit();
 
-            bottomBar.selectTabAtPosition(2, false);
+            bottomBar.selectTabAtPosition(2, false);*/
+            Intent intent = new Intent(this, InboxActivity.class);
+            startActivity(intent);
+
 
         } else if (id == R.id.jadwaldokter) {
 
@@ -331,7 +395,14 @@ public class MainActivity extends AppCompatActivity
                 Bitmap image = imageClass.getRoundedShape(response);
                 imageHeader.setImageBitmap(image);
             }
-        }, 0, 0, null, null);
+        }, 0, 0, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                imageHeader.setImageDrawable(getDrawable(R.drawable.no_profilepicture));
+            }
+        });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(ir);
@@ -372,9 +443,12 @@ public class MainActivity extends AppCompatActivity
 
                         try {
                             Integer count = response.getInt("data");
-                            unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", count);
-                            unreadMessages.show();
-                            unreadMessages.setAnimationDuration(200);
+                            if(count > 0){
+                               /* unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", count);
+                                unreadMessages.show();
+                                unreadMessages.setAnimationDuration(200);*/
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -402,5 +476,12 @@ public class MainActivity extends AppCompatActivity
         //Adding request to the queue
         requestQueue.add(req);
     }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sliderImage[position]);
+        }
+    };
 
 }

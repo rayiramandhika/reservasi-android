@@ -58,12 +58,14 @@ public class DetailJadwalDokter extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_jadwal_dokter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Dokter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -123,7 +125,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                             try {
 
                                 JSONObject layanan = data.getJSONObject("layanan");
-
+                                toolbar.setTitle(data.getString("nama"));
                                 dokter_name.setText(data.getString("nama"));
                                 layanan_name.setText(layanan.getString("nama"));
 

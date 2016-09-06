@@ -36,8 +36,10 @@ import java.util.List;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.DetailInbox;
+import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
+import id.or.rspmibogor.rspmibogor.PasienEditActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -130,7 +132,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                         String title = item.getTitle().toString();
                         switch (title){
                             case "Edit":
-                                editPasien();
+                                editPasien(pasien_id);
                                 break;
                             case "Hapus":
                                 deletePasien(pasien_id, position);
@@ -167,12 +169,14 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    private void editPasien()
+    private void editPasien(Integer id)
     {
-        Toast.makeText(activity,
-                "You Clicked : Edit" ,
-                Toast.LENGTH_SHORT
-        ).show();
+        Bundle b = new Bundle();
+        b.putInt("pasien_id", id);
+
+        Intent intent = new Intent(activity, PasienEditActivity.class);
+        intent.putExtras(b);
+        activity.startActivity(intent);
     }
 
     private void deleteFromServer(final Integer id, final Integer position)

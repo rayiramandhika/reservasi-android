@@ -215,7 +215,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Batalkan Pesanan"
+                android:text="Batalkan Pendaftaran"
                 android:background="@drawable/badge_oval"
                 android:id="@+id/btnBatal"
                 android:padding="12dp"

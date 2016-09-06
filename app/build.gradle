@@ -37,6 +37,7 @@ dependencies {
 
     compile 'com.github.fcannizzaro:material-stepper:1.2.2'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 //Add this line

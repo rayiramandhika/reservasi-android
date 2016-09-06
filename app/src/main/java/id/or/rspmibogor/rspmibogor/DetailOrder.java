@@ -1,8 +1,10 @@
 package id.or.rspmibogor.rspmibogor;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,15 +22,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
+
 public class DetailOrder extends AppCompatActivity {
 
-    private static final String TAG = "DetailInbox";
+    private static final String TAG = "DetailOrder";
 
     Toolbar toolbar;
     TextView no_antrian;
@@ -49,13 +54,15 @@ public class DetailOrder extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
+    Integer position_list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_order);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Detail Pesanan");
+        toolbar.setTitle("Detail Pendaftaran");
 
         no_antrian = (TextView) findViewById(R.id.no_antrian);
         dokter_name = (TextView) findViewById(R.id.dokter_name);
@@ -76,6 +83,10 @@ public class DetailOrder extends AppCompatActivity {
             startActivity(intent);
         }
 
+        Bundle b = getIntent().getExtras();
+
+        position_list = b.getInt("position_last");
+
         initData();
 
 
@@ -88,6 +99,25 @@ public class DetailOrder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        buttonBatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.setTitle("Batalkan Pendaftaran ")
+                        .setMessage("Apa kamu yakin akan membatalkan pendaftaran?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                cancelOrder(id, tanggal.getText().toString());
+                            }})
+
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
     }
@@ -152,10 +182,11 @@ public class DetailOrder extends AppCompatActivity {
         JSONObject detailjadwal = data.getJSONObject("detailjadwal");
         JSONObject layanan = data.getJSONObject("layanan");
 
+
         no_antrian.setText(data.getString("noUrut"));
         dokter_name.setText(dokter.getString("nama"));
         layanan_name.setText(layanan.getString("nama"));
-        tanggal.setText(detailjadwal.getString("hari") + ", " +data.getString("tanggal"));
+        tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
         jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));
 
@@ -163,13 +194,69 @@ public class DetailOrder extends AppCompatActivity {
         id = data.getInt("id");
         checkIn = data.getBoolean("checkIn");
 
-        if(status == "Dibatalkan oleh user")
+
+        Log.d(TAG, "status: " + status);
+        if(status.toString() == "Dibatalkan Oleh User")
         {
             buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
             buttonBatal.setEnabled(false);
             buttonBatal.setClickable(false);
             buttonBatal.setText("Telah dibatalkan");
+            buttonBatal.setPadding(12, 12, 12, 12);
         }
 
+    }
+
+    private void cancelOrder(Integer id, String tanggal)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://103.43.44.211:1337/v1/order/cancel/" + id;
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("order_id", id);
+            object.put("tanggal", tanggal);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        EventBus.getDefault().post(new MessageEvent("cancelOrder", position_list));
+        finish();
+
+        /*JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+                        Toast.makeText(getBaseContext(), "PendaftaranActivity berhasil dibatalkan.", Toast.LENGTH_SHORT).show();
+
+
+
+                        finish();
+                        Log.d("cancelOrder - Response", response.toString());
+                    }
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "PendaftaranActivity Gagal dibatalkan.", Toast.LENGTH_SHORT).show();
+                        Log.d("cancelOrder - Error.Response", String.valueOf(error));
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        queue.add(putRequest);*/
     }
 }

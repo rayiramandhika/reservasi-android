@@ -2,7 +2,9 @@ package id.or.rspmibogor.rspmibogor.Fragment.PasienAdd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,15 +47,20 @@ public class TempatTinggal extends AbstractStep {
     private TextView kecamatan;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_alamat, container, false);
+
         alamat = (TextView) v.findViewById(R.id.alamat);
         provinsi = (TextView) v.findViewById(R.id.provinsi);
         kota = (TextView) v.findViewById(R.id.kota);
         kecamatan = (TextView) v.findViewById(R.id.kecamatan);
         desa = (TextView) v.findViewById(R.id.desa);
+
+
+
 
         return v;
     }
