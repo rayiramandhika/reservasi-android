@@ -17,7 +17,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -34,20 +34,20 @@
             android:layout_height="200dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="@drawable/bg_pmi">
+            android:background="@drawable/bg_pmi"
+            android:id="@+id/linearLayout3">
 
             <ImageView
                 android:layout_width="309dp"
                 android:layout_height="98dp"
                 android:id="@+id/dokter_foto"
-                android:src="@drawable/ic_face_black_24dp"
+                android:src="@drawable/noprofile"
                 android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Nama Dokter"
                 android:id="@+id/dokter_name"
                 android:layout_gravity="bottom|center"
                 android:textStyle="bold"
@@ -58,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Nama Layanan"
                 android:id="@+id/layanan_name"
                 android:layout_gravity="bottom|center"
                 android:textSize="13dp"
@@ -71,7 +70,11 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:elevation="6dp"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimaryDark"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout4">
 
             <TextView
                 android:layout_width="match_parent"
@@ -84,9 +87,30 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearLayout4">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/container"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerDetailJadwal"
@@ -96,7 +120,26 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nodata"
+            android:visibility="invisible"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Maaf, Tidak ada jadwal tersedia"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

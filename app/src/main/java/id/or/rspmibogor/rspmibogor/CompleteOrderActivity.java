@@ -145,10 +145,9 @@ public class CompleteOrderActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Ladoing...");
+        progressDialog.setMessage("Loading...");
         progressDialog.show();
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,

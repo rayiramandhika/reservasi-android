@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -52,6 +54,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
     protected ListJadwalAdapter mAdapter;
 
     ProgressBar spinner;
+    LinearLayout container;
+    RelativeLayout nodata;
 
     private List<ListJadwal> listJadwalDokter;
 
@@ -69,6 +73,10 @@ public class DetailJadwalDokter extends AppCompatActivity {
         toolbar.setTitle("Dokter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        spinner = (ProgressBar) findViewById(R.id.progress_bar);
+        container = (LinearLayout) findViewById(R.id.container);
+        nodata = (RelativeLayout) findViewById(R.id.nodata);
 
         Bundle b = getIntent().getExtras();
         dokter_id = b.getInt("id");
@@ -111,13 +119,13 @@ public class DetailJadwalDokter extends AppCompatActivity {
     private void initData()
     {
         String url = "http://103.43.44.211:1337/v1/getjadwal/" + dokter_id;
-        //spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        //spinner.setVisibility(View.GONE);
+
+                        spinner.setVisibility(View.GONE);
 
                         try {
                             JSONObject data = response.getJSONObject("data");
@@ -166,45 +174,58 @@ public class DetailJadwalDokter extends AppCompatActivity {
     }
 
     //This method will parse json data
-    private void parseData(JSONObject data) throws JSONException {
+    private void parseData(JSONObject data) {
 
-        JSONArray array = data.getJSONArray("listJadwal");
-        JSONObject layanan = data.getJSONObject("layanan");
-        JSONObject jadwalDokter = data.getJSONObject("jadwalDokter");
-
-        for(int i = 0; i < array.length(); i++) {
-
-            ListJadwal listJadwal = new ListJadwal();
-            JSONObject json = null;
-            try {
-
-                json = array.getJSONObject(i);
-
-                //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
-                //JSONObject layanan = json.getJSONObject("layanan");
-
-                listJadwal.setDokter_id(data.getInt("id"));
-                listJadwal.setDokter_foto(data.getString("foto"));
-                listJadwal.setDokter_nama(data.getString("nama"));
-                listJadwal.setLayanan_id(layanan.getInt("id"));
-                listJadwal.setLayanan_nama(layanan.getString("nama"));
-
-                listJadwal.setJadwal_hari(json.getString("hari"));
-                listJadwal.setJadwal_id(json.getInt("id"));
-                listJadwal.setJadwal_jamMulai(json.getString("jamMulai"));
-                listJadwal.setJadwal_jamTutup(json.getString("jamTutup"));
-                listJadwal.setJadwal_tanggal(json.getString("tanggal"));
-                listJadwal.setJadwal_kuota(json.getInt("sisaKuota"));
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            listJadwalDokter.add(listJadwal);
+        JSONArray array = new JSONArray();
+        try {
+            array = data.getJSONArray("listJadwal");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            container.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
+
+        JSONObject layanan = new JSONObject();
+        try {
+            layanan = data.getJSONObject("layanan");
+            JSONObject jadwalDokter = data.getJSONObject("jadwalDokter");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (array.length() > 1) {
+            for (int i = 0; i < array.length(); i++) {
+
+                ListJadwal listJadwal = new ListJadwal();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
+                    //JSONObject layanan = json.getJSONObject("layanan");
+
+                    listJadwal.setDokter_id(data.getInt("id"));
+                    listJadwal.setDokter_foto(data.getString("foto"));
+                    listJadwal.setDokter_nama(data.getString("nama"));
+                    listJadwal.setLayanan_id(layanan.getInt("id"));
+                    listJadwal.setLayanan_nama(layanan.getString("nama"));
+
+                    listJadwal.setJadwal_hari(json.getString("hari"));
+                    listJadwal.setJadwal_id(json.getInt("id"));
+                    listJadwal.setJadwal_jamMulai(json.getString("jamMulai"));
+                    listJadwal.setJadwal_jamTutup(json.getString("jamTutup"));
+                    listJadwal.setJadwal_tanggal(json.getString("tanggal"));
+                    listJadwal.setJadwal_kuota(json.getInt("sisaKuota"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listJadwalDokter.add(listJadwal);
+            }
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 }

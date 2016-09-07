@@ -14,8 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -220,10 +222,8 @@ public class DetailOrder extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        EventBus.getDefault().post(new MessageEvent("cancelOrder", position_list));
-        finish();
 
-        /*JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
@@ -232,9 +232,9 @@ public class DetailOrder extends AppCompatActivity {
 
                         Toast.makeText(getBaseContext(), "PendaftaranActivity berhasil dibatalkan.", Toast.LENGTH_SHORT).show();
 
-
-
+                        EventBus.getDefault().post(new MessageEvent("cancelOrder", position_list));
                         finish();
+
                         Log.d("cancelOrder - Response", response.toString());
                     }
 
@@ -257,6 +257,6 @@ public class DetailOrder extends AppCompatActivity {
             }
         };
 
-        queue.add(putRequest);*/
+        queue.add(putRequest);
     }
 }

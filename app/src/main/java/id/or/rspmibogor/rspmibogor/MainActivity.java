@@ -8,16 +8,19 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
 import android.telecom.Call;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -248,7 +251,7 @@ public class MainActivity extends AppCompatActivity
          Bottom NavBar **/
 
         /**Checking unread Message **/
-        //checkingUnreadMessage();
+        checkingUnreadMessage();
         /**Checking unread Message **/
 
         /** checking listening main menu **/
@@ -300,6 +303,13 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().getItem(0).setChecked(true);
+        checkingUnreadMessage();
     }
 
 
@@ -356,7 +366,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
 
-        } else if (id == R.id.myacccount) {
+        /*} else if (id == R.id.myacccount) {*/
 
         } else if (id == R.id.logout) {
 
@@ -400,7 +410,7 @@ public class MainActivity extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
 
 
-                imageHeader.setImageDrawable(getDrawable(R.drawable.no_profilepicture));
+                imageHeader.setImageDrawable(getDrawable(R.drawable.noprofile));
             }
         });
 
@@ -447,6 +457,15 @@ public class MainActivity extends AppCompatActivity
                                /* unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", count);
                                 unreadMessages.show();
                                 unreadMessages.setAnimationDuration(200);*/
+
+                                TextView unread = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                                        findItem(R.id.inbox));
+
+                                unread.setGravity(Gravity.CENTER_VERTICAL);
+                                unread.setTypeface(null, Typeface.BOLD);
+
+                                unread.setTextColor(getColor(R.color.colorPrimary));
+                                unread.setText(count.toString());
                             }
 
                         } catch (JSONException e) {

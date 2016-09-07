@@ -41,9 +41,25 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/provinsi"
+                    android:id="@+id/desa"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Provinsi"
+                    android:hint="Desa / Kelurahan"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/kecamatan"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Kecamatan"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -71,24 +87,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/kecamatan"
+                    android:id="@+id/provinsi"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Kecamatan"
-                    android:maxLines="1" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/desa"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="Desa / Kelurahan"
+                    android:hint="Provinsi"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>

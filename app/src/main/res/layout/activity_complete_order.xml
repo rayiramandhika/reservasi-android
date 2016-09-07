@@ -34,157 +34,165 @@
         tools:context=".CompleteOrderActivity"
         tools:showIn="@layout/activity_complete_order">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/colorDivider"
-            android:orientation="vertical"
+            android:elevation="6dp"
+            android:layout_margin="10dp"
             android:id="@+id/linearLayout">
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mohon cek kembali pendaftaran anda"
-                android:id="@+id/textView9"
-                android:gravity="center"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textStyle="bold" />
+                android:divider="@color/colorDivider"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/line"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:paddingTop="5dip"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/connect_help"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorDivider" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mohon cek kembali pendaftaran anda"
+                    android:id="@+id/textView9"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="bold" />
 
-        <LinearLayout
+                <TextView
+                    android:id="@+id/line"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:paddingTop="5dip"
+                    android:gravity="center_horizontal"
+                    android:layout_below="@+id/connect_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider" />
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical"
+            android:elevation="6dp"
             android:layout_margin="10dp"
-            android:id="@+id/linearLayout2">
+            android:id="@+id/linearLayout2"
+            android:layout_below="@+id/linearLayout">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Info Dokter"
-                android:id="@+id/textView10"
-                android:textSize="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Nama Dokter"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="15dp"
-                android:id="@+id/dokter_name" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama Layanan"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/layanan_name"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hari, Tanggal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/hari"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jam Mulai - Jam Buka"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/jam"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/line"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:paddingTop="5dip"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/connect_help"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorDivider"
-                android:layout_marginTop="20dp" />
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
-        </LinearLayout>
 
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Info Dokter"
+                    android:id="@+id/textView10"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Nama Dokter"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="15dp"
+                    android:id="@+id/dokter_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Layanan"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/layanan_name"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hari, Tanggal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/hari"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jam Mulai - Jam Buka"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/jam"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_alignLeft="@+id/linearLayout2"
-            android:layout_alignStart="@+id/linearLayout2">
+            android:layout_margin="10dp"
+            android:elevation="6dp"
+            android:layout_below="@+id/linearLayout2">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Info Pasien"
-                android:id="@+id/textView10"
-                android:textSize="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Nama Pasien"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="15dp"
-                android:id="@+id/pasien_name" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Umur"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/pasien_umur"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/line"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:paddingTop="5dip"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/connect_help"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorDivider"
-                android:layout_marginTop="20dp" />
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Info Pasien"
+                    android:id="@+id/textView10"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Nama Pasien"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="15dp"
+                    android:id="@+id/pasien_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Umur"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/pasien_umur"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
 
         <Button
             android:layout_width="match_parent"
@@ -197,7 +205,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="26dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
     </RelativeLayout>
 

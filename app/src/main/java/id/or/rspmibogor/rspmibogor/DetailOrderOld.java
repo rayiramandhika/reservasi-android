@@ -167,10 +167,9 @@ public class DetailOrderOld extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final ProgressDialog progressDialog = new ProgressDialog(DetailOrderOld.this,
-                        R.style.AppTheme_Dark_Dialog);
+                final ProgressDialog progressDialog = new ProgressDialog(DetailOrderOld.this);
                 progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Authenticating...");
+                progressDialog.setMessage("Loading...");
                 progressDialog.show();
 
                 Bundle b = getIntent().getExtras();

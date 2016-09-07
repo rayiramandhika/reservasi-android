@@ -112,10 +112,9 @@ public class PilihPasienActivity extends AppCompatActivity {
     private void initData()
     {
         String url = "http://103.43.44.211:1337/v1/pasien?sort=createdAt%20DESC";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override

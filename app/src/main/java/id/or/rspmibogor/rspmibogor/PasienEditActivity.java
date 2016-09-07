@@ -76,6 +76,7 @@ public class PasienEditActivity extends DotStepper {
         Log.d(TAG, "fragment: " + fragment);
         Bundle b = new Bundle();
 
+        b.putInt("position", i++);
         b.putInt("pasien_id", pasien_id);
 
         fragment.setArguments(b);

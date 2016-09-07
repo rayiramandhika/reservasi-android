@@ -6,17 +6,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PasienActivity"
             android:label="@string/title_activity_pasien"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Defining Services -->
@@ -48,10 +50,12 @@
         <activity
             android:name=".DetailJadwalDokter"
             android:label="@string/title_activity_detail_jadwal_dokter"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DetailInbox"
             android:label="@string/title_activity_detail_inbox"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".LoginActivity"
@@ -61,13 +65,16 @@
             android:name=".SignupActivity"
             android:label="Sign Up"
             android:screenOrientation="portrait" />
-        <activity android:name=".DetailOrder" />
+        <activity android:name=".DetailOrder"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DetailOrderOld"
             android:label="@string/title_activity_detail_order_old"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".SplashScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,22 +85,27 @@
         <activity
             android:name=".PendaftaranActivity"
             android:label="@string/title_activity_pendaftaran"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".InboxActivity"
             android:label="@string/title_activity_inbox"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".PilihPasienActivity"
             android:label="@string/title_activity_pilih_pasien"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CompleteOrderActivity"
             android:label="@string/title_activity_complete_order"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".PasienEditActivity"
             android:label="@string/title_activity_pasien_edit"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>
 

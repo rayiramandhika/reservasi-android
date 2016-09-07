@@ -11,28 +11,31 @@
             android:id="@+id/order"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="Pendaftaran" />
+
         <item
-            android:id="@+id/inbox"
-            android:icon="@drawable/ic_inbox_black_24dp"
-            android:title="Kotak Masuk"
-            app:actionLayout="@layout/menu_counter"/>
+            android:id="@+id/jadwaldokter"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Jadwal Dokter" />
+
         <item
             android:id="@+id/pasien"
             android:icon="@drawable/ic_accessible_black_24dp"
             android:title="Pasien" />
 
         <item
-            android:id="@+id/jadwaldokter"
-            android:icon="@drawable/ic_supervisor_account_black_24dp"
-            android:title="Jadwal Dokter" />
+            android:id="@+id/inbox"
+            android:icon="@drawable/ic_inbox_black_24dp"
+            android:title="Kotak Masuk"
+            app:actionViewClass="android.widget.TextView"/>
+
     </group>
 
     <item android:title="Pengaturan">
         <menu>
-            <item
+            <!--item
                 android:id="@+id/myacccount"
                 android:icon="@drawable/ic_face_black_24dp"
-                android:title="Akun Saya" />
+                android:title="Akun Saya" /-->
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
