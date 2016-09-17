@@ -191,7 +191,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -287,7 +287,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }

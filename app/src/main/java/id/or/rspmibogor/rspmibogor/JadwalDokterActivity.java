@@ -257,7 +257,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -353,7 +353,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }

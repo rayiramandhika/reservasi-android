@@ -270,7 +270,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -325,8 +325,9 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
         if(array.length() > 0) {
 
-            container.setVisibility(View.VISIBLE);
-            nodata.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.VISIBLE);
+            //nodata.setVisibility(View.INVISIBLE);
+
             for (int i = 0; i < array.length(); i++) {
 
                 Pasien pasien = new Pasien();
@@ -384,9 +385,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 listPasien.add(0, pasien);
             }
             mAdapter.notifyDataSetChanged();
-        }else{
-            container.setVisibility(View.INVISIBLE);
-            nodata.setVisibility(View.VISIBLE);
         }
     }
 
@@ -508,7 +506,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            container.setVisibility(View.INVISIBLE);
+            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
