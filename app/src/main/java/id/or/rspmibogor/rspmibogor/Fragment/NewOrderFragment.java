@@ -118,7 +118,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initDataset() {
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new";
+        String url = "http://api.rspmibogor.or.id/v1/getorder/new";
         spinner.setVisibility(View.VISIBLE);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
@@ -249,7 +249,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void refreshData() {
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new";
+        String url = "http://api.rspmibogor.or.id/v1/getorder/new";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override

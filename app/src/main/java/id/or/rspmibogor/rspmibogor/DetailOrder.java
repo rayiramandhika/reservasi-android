@@ -213,7 +213,7 @@ public class DetailOrder extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
 
 
-        String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = "http://api.rspmibogor.or.id/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -398,7 +398,7 @@ public class DetailOrder extends AppCompatActivity {
     private void cancelOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
+        String url = "http://api.rspmibogor.or.id/v1/order/cancel/" + id;
 
         JSONObject object = new JSONObject();
         try {
@@ -449,7 +449,7 @@ public class DetailOrder extends AppCompatActivity {
     private void confirmOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/order/" + id;
+        String url = "http://api.rspmibogor.or.id/v1/order/" + id;
 
         JSONObject object = new JSONObject();
         try {
@@ -511,7 +511,7 @@ public class DetailOrder extends AppCompatActivity {
         {
             dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
         }else {
-            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto;
+            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
             ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {

@@ -134,7 +134,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         final Activity activity = this;
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/order/new/" + detailjadwal_id;
+        String url = "http://api.rspmibogor.or.id/v1/order/new/" + detailjadwal_id;
 
         JSONObject object = new JSONObject();
         try {

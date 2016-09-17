@@ -160,7 +160,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         String setTitle = "RS PMI Bogor";
-        if(! title.isEmpty()) setTitle = title;
+        if(title != null) setTitle = title;
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setSmallIcon(R.drawable.icon_notif);

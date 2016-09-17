@@ -192,7 +192,7 @@ public class DetailOrderOld extends AppCompatActivity {
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
-                String url = "http://103.23.22.46:1337/v1/order/" + id;
+                String url = "http://api.rspmibogor.or.id/v1/order/" + id;
 
                 JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                         new Response.Listener<JSONObject>() {
@@ -255,7 +255,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
 
 
-        String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = "http://api.rspmibogor.or.id/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -364,7 +364,7 @@ public class DetailOrderOld extends AppCompatActivity {
         {
             dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
         }else {
-            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto;
+            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
             ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {

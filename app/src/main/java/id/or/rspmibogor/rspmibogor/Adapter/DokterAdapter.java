@@ -103,7 +103,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
         {
             foto.setImageDrawable(activity.getDrawable(R.drawable.noprofile));
         }else {
-            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + dokter.getDokter_foto();
+            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + dokter.getDokter_foto();
             ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {

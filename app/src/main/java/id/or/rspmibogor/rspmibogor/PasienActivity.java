@@ -157,7 +157,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        String url = "http://api.rspmibogor.or.id/v1/pasien?sort=id%20DESC";
         //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
@@ -277,7 +277,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void getNewData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
+        String url = "http://api.rspmibogor.or.id/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
         Log.d(TAG, "url: " + url);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
@@ -399,7 +399,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien";
+        String url = "http://api.rspmibogor.or.id/v1/pasien";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {

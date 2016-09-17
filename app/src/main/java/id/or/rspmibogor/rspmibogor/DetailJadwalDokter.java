@@ -132,7 +132,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
     {
         Log.d(TAG, "init data set");
 
-        String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id;
+        String url = "http://api.rspmibogor.or.id/v1/getjadwal/" + dokter_id;
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -252,7 +252,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         {
             dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
         }else {
-            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto;
+            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
             ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {

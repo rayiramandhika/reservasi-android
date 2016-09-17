@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/login";
+        String url = "http://api.rspmibogor.or.id/v1/login";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /*private void initBanner()
     {
-        String url =  "http://103.23.22.46:1337/v1/banner?show=1";
+        String url =  "http://api.rspmibogor.or.id/v1/banner?show=1";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
                     json = array.getJSONObject(i);
 
                     final String link = json.getString("link");
-                    final String uri = "http://103.23.22.46:1337/v1/getbanner/" + link.toString();
+                    final String uri = "http://api.rspmibogor.or.id/v1/getbanner/" + link.toString();
 
                     images.add(uri);
 

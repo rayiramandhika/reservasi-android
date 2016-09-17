@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "108491702384",
-    "firebase_url": "https://reservasi-rs-pmi-bogor.firebaseio.com",
-    "project_id": "reservasi-rs-pmi-bogor",
-    "storage_bucket": "reservasi-rs-pmi-bogor.appspot.com"
+    "project_number": "1096046294281",
+    "firebase_url": "https://rs-pmi-bogor-mobile-apps.firebaseio.com",
+    "project_id": "rs-pmi-bogor-mobile-apps",
+    "storage_bucket": "rs-pmi-bogor-mobile-apps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:108491702384:android:213f07a961a7c98f",
+        "mobilesdk_app_id": "1:1096046294281:android:213f07a961a7c98f",
         "android_client_info": {
           "package_name": "id.or.rspmibogor.rspmibogor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "108491702384-jev002otm0r0382rg1ajf8ag6t7b5djb.apps.googleusercontent.com",
+          "client_id": "1096046294281-9tfehmo8anf8lqg506jbnhf7c88h5chs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA1CUKrPkYi3dONbsmSaUho5SaExHw5YVE"
+          "current_key": "AIzaSyC3rjoO1ZUmclEPOzGuH-ksZi81ofvqnGk"
         }
       ],
       "services": {

@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         emailText.setText(email);
         namaText.setText(nama);
 
-        /*String url = "http://103.23.22.46:1337/v1/user/profilepicture/" + profilePicture;
+        /*String url = "http://api.rspmibogor.or.id/v1/user/profilepicture/" + profilePicture;
         ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity
 
     private void checkingUnreadMessage()
     {
-        String url =  "http://103.23.22.46:1337/v1/count/unread";
+        String url =  "http://api.rspmibogor.or.id/v1/count/unread";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {

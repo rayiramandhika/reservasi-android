@@ -174,7 +174,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void initDataset() {
 
-        String url = "http://103.23.22.46:1337/v1/jadwaldokter?populate=layanan,dokter,poliklinik";
+        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?populate=layanan,dokter,poliklinik";
         //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         //Creating a json array request
@@ -270,7 +270,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void refreshData() {
 
-        String url = "http://103.23.22.46:1337/v1/dokter?populate=layanan";
+        String url = "http://api.rspmibogor.or.id/v1/dokter?populate=layanan";
         //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         //spinner.setVisibility(View.VISIBLE);
         //Creating a json array request

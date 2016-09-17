@@ -109,7 +109,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void initDataset() {
 
-        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://api.rspmibogor.or.id/v1/inbox?sort=createdAt%20DESC";
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -205,7 +205,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://api.rspmibogor.or.id/v1/inbox?sort=createdAt%20DESC";
         //spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
