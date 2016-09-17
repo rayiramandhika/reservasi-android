@@ -174,7 +174,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void initDataset() {
 
-        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?populate=layanan,dokter,poliklinik";
+        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
         //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         //Creating a json array request
@@ -248,6 +248,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
                     dokter.setLayanan_id(layanan.getInt("id"));
                     dokter.setPoliklinik_name(poliklinik.getString("nama"));
                     dokter.setPoliklinik_id(poliklinik.getInt("id"));
+                    dokter.setJadwal_id(json.getInt("id"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -270,10 +271,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void refreshData() {
 
-        String url = "http://api.rspmibogor.or.id/v1/dokter?populate=layanan";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
-        //spinner.setVisibility(View.VISIBLE);
-        //Creating a json array request
+        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -320,6 +318,8 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
         if(array.length() > 0) {
 
+            listDokter.removeAll(listDokter);
+
             container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
 
@@ -331,15 +331,20 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
                     json = array.getJSONObject(i);
 
+
                     //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
                     JSONObject layanan = json.getJSONObject("layanan");
+                    JSONObject dokter_obj = json.getJSONObject("dokter");
+                    JSONObject poliklinik = json.getJSONObject("poliklinik");
 
-                    dokter.setDokter_name(json.getString("nama"));
-                    dokter.setDokter_foto(json.getString("foto"));
-                    dokter.setDokter_id(json.getInt("id"));
+                    dokter.setDokter_name(dokter_obj.getString("nama"));
+                    dokter.setDokter_foto(dokter_obj.getString("foto"));
+                    dokter.setDokter_id(dokter_obj.getInt("id"));
                     dokter.setLayanan_name(layanan.getString("nama"));
                     dokter.setLayanan_id(layanan.getInt("id"));
-
+                    dokter.setPoliklinik_name(poliklinik.getString("nama"));
+                    dokter.setPoliklinik_id(poliklinik.getInt("id"));
+                    dokter.setJadwal_id(json.getInt("id"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

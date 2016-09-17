@@ -64,6 +64,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
 
                     Bundle b = new Bundle();
                     b.putInt("id", dokter.getDokter_id());
+                    b.putInt("jadwal_id", dokter.getJadwal_id());
 
                     Log.d(TAG, "dokter_id: " + dokter.getDokter_id());
 

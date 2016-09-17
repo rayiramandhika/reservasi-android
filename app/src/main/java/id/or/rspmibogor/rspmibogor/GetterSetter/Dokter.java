@@ -14,6 +14,7 @@ public class Dokter {
     private Integer layanan_id;
     private String poliklinik_name;
     private Integer poliklinik_id;
+    private Integer jadwal_id;
 
     public String getDokter_name()
     {
@@ -76,5 +77,13 @@ public class Dokter {
 
     public void setDokter_foto(String dokter_foto) {
         this.dokter_foto = dokter_foto;
+    }
+
+    public Integer getJadwal_id() {
+        return jadwal_id;
+    }
+
+    public void setJadwal_id(Integer jadwal_id) {
+        this.jadwal_id = jadwal_id;
     }
 }

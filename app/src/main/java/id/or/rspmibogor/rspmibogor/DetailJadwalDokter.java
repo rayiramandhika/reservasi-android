@@ -47,6 +47,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
     private String TAG = "DetailJadwalDokter";
     private Integer dokter_id;
+    private Integer jadwal_id;
 
     ImageView dokter_foto;
     TextView dokter_name;
@@ -87,6 +88,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         dokter_id = b.getInt("id");
+        jadwal_id = b.getInt("jadwal_id");
 
         dokter_foto = (ImageView) findViewById(R.id.dokter_foto);
         dokter_name = (TextView) findViewById(R.id.dokter_name);
@@ -132,7 +134,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
     {
         Log.d(TAG, "init data set");
 
-        String url = "http://api.rspmibogor.or.id/v1/getjadwal/" + dokter_id;
+        String url = "http://api.rspmibogor.or.id/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
