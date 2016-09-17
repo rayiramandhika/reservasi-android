@@ -48,7 +48,6 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         private final TextView layanan_name;
         private final TextView hari;
         private final TextView jadwal;
-        private final TextView no_antrian;
         private final TextView tanggal;
 
 
@@ -56,16 +55,15 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    NewOrder newOrder = NewOrder.get(getPosition());
+                    NewOrder newOrder = NewOrder.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
-                    b.putInt("id", newOrder.getOrder_id());
-                    b.putInt("position_list", getPosition());
+                    b.putString("id", newOrder.getOrder_id().toString());
+                    b.putInt("position_list", getAdapterPosition());
 
                     Intent intent = new Intent(context, DetailOrder.class);
                     intent.putExtras(b);
@@ -78,7 +76,6 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
             layanan_name = (TextView) v.findViewById(R.id.name_layanan);
             hari = (TextView) v.findViewById(R.id.hari);
             jadwal = (TextView) v.findViewById(R.id.jam);
-            no_antrian = (TextView) v.findViewById(R.id.no_antrian);
             tanggal = (TextView) v.findViewById(R.id.tanggal);
         }
 
@@ -100,7 +97,6 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         viewHolder.pasien_name.setText(newOrder.getPasien_name());
         viewHolder.hari.setText(newOrder.getDetailjadwal_hari());
         viewHolder.jadwal.setText(newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
-        viewHolder.no_antrian.setText(String.valueOf(newOrder.getOrder_noUrut()));
         viewHolder.dokter_name.setText(newOrder.getDokter_name());
         viewHolder.layanan_name.setText(newOrder.getLayanan_name());
         viewHolder.tanggal.setText(newOrder.getOrder_tanggal());

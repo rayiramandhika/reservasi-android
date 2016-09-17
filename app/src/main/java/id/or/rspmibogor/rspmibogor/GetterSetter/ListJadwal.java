@@ -16,6 +16,7 @@ public class ListJadwal {
     private Integer dokter_id;
     private String layanan_nama;
     private Integer layanan_id;
+    private String jadwal_status;
 
     public String getJadwal_hari() {return  jadwal_hari;}
     public void setJadwal_hari(String jadwal_hari) {this.jadwal_hari = jadwal_hari;}
@@ -50,6 +51,6 @@ public class ListJadwal {
     public Integer getLayanan_id() {return layanan_id;}
     public void setLayanan_id(Integer layanan_id) {this.layanan_id = layanan_id;}
 
-
-
+    public String getJadwal_status() { return jadwal_status; }
+    public void setJadwal_status(String jadwal_status) { this.jadwal_status = jadwal_status; }
 }

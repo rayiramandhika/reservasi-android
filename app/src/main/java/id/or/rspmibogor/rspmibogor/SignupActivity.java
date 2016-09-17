@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.43.44.211:1337/v1/register";
+        String url = "http://103.23.22.46:1337/v1/register";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {

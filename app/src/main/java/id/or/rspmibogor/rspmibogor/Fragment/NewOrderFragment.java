@@ -2,6 +2,7 @@ package id.or.rspmibogor.rspmibogor.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -9,13 +10,18 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,6 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBusException;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,9 +50,9 @@ import id.or.rspmibogor.rspmibogor.LoginActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
 
-public class NewOrderFragment extends Fragment {
+public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "RecyclerViewFragment";
+    private static final String TAG = "NewOrderFragment";
 
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -55,9 +62,12 @@ public class NewOrderFragment extends Fragment {
 
     private ProgressBar spinner;
 
-
     SharedPreferences sharedPreferences;
     String jwTokenSP;
+
+    RelativeLayout nodata;
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     public NewOrderFragment() {
@@ -74,24 +84,24 @@ public class NewOrderFragment extends Fragment {
         sharedPreferences = this.getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this.getContext(), LoginActivity.class);
-            startActivity(intent);
-        }
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         Log.d(TAG, "onCreateView - loaded");
-        View viewRoot =  inflater.inflate(R.layout.fragment_old_order, container, false);
+        View viewRoot =  inflater.inflate(R.layout.fragment_new_order, container, false);
         spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
+        nodata = (RelativeLayout) viewRoot.findViewById(R.id.nodata);
+        swipeRefreshLayout = (SwipeRefreshLayout) viewRoot.findViewById(R.id.swipe_refresh_layout);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getContext(), R.color.colorPrimary));
 
 
-        mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recycleOldOrder);
+        mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recylceNewOrder);
         mLayoutManager = new LinearLayoutManager(this.getContext());
 
         initDataset();
@@ -108,15 +118,13 @@ public class NewOrderFragment extends Fragment {
 
     private void initDataset() {
 
-        String url = "http://103.43.44.211:1337/v1/getorder/new";
+        String url = "http://103.23.22.46:1337/v1/getorder/new";
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
+
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
@@ -145,57 +153,56 @@ public class NewOrderFragment extends Fragment {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-
-        //Adding request to the queue
         requestQueue.add(req);
 
     }
 
-
-
-    //This method will parse json data
     private void parseData(JSONArray array){
-        for(int i = 0; i < array.length(); i++) {
+        if(array.length() > 0) {
+            nodata.setVisibility(View.INVISIBLE);
 
-            NewOrder newOrder = new NewOrder();
-            JSONObject json = null;
-            try {
+            for (int i = 0; i < array.length(); i++) {
 
-                json = array.getJSONObject(i);
+                NewOrder newOrder = new NewOrder();
+                JSONObject json = null;
+                try {
 
-                Log.d(TAG, "parseData - json" + json);
+                    json = array.getJSONObject(i);
 
-                //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
-                JSONObject pasien = json.getJSONObject("pasien");
-                JSONObject detailjadwal = json.getJSONObject("detailjadwal");
-                JSONObject user = json.getJSONObject("user");
-                JSONObject dokter = json.getJSONObject("dokter");
-                JSONObject layanan = json.getJSONObject("layanan");
+                    Log.d(TAG, "parseData - json" + json);
 
-                newOrder.setPasien_name(pasien.getString("nama"));
-                newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
-                newOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
-                newOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
-                newOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
-                newOrder.setUser_id(user.getInt("id"));
-                newOrder.setUser_name(user.getString("nama"));
-                newOrder.setOrder_id(json.getInt("id"));
-                newOrder.setOrder_noUrut(json.getInt("noUrut"));
-                newOrder.setDokter_id(dokter.getInt("id"));
-                newOrder.setDokter_name(dokter.getString("nama"));
-                newOrder.setLayanan_id(layanan.getInt("id"));
-                newOrder.setLayanan_name(layanan.getString("nama"));
-                newOrder.setOrder_tanggal(json.getString("tanggal"));
+                    JSONObject pasien = json.getJSONObject("pasien");
+                    JSONObject detailjadwal = json.getJSONObject("detailjadwal");
+                    JSONObject user = json.getJSONObject("user");
+                    JSONObject dokter = json.getJSONObject("dokter");
+                    JSONObject layanan = json.getJSONObject("layanan");
+
+                    newOrder.setPasien_name(pasien.getString("nama"));
+                    newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
+                    newOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
+                    newOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
+                    newOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
+                    newOrder.setUser_id(user.getInt("id"));
+                    newOrder.setUser_name(user.getString("nama"));
+                    newOrder.setOrder_id(json.getInt("id"));
+                    newOrder.setOrder_noUrut(json.getInt("noUrut"));
+                    newOrder.setDokter_id(dokter.getInt("id"));
+                    newOrder.setDokter_name(dokter.getString("nama"));
+                    newOrder.setLayanan_id(layanan.getInt("id"));
+                    newOrder.setLayanan_name(layanan.getString("nama"));
+                    newOrder.setOrder_tanggal(json.getString("tanggal"));
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listNewOrder.add(newOrder);
             }
-            listNewOrder.add(newOrder);
+            mAdapter.notifyDataSetChanged();
+        }else{
+            nodata.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -212,16 +219,121 @@ public class NewOrderFragment extends Fragment {
 
         if(msg.equals("cancelOrder"))
         {
-            Integer pos = event.getPosition_list();
-            Log.d(TAG, "onEvent - loaded - event - position_list: " + pos );
-            //mAdapter.notifyDataSetChanged();
+            try{
 
-            NewOrder newOrder = listNewOrder.get(pos);
-            listNewOrder.remove(newOrder);
-            mAdapter.notifyItemRemoved(pos);
-            mAdapter.notifyItemRangeChanged(pos, listNewOrder.size());
+                Integer pos = event.getPosition_list();
+                Log.d(TAG, "onEvent - loaded - event - position_list: " + pos );
+
+                NewOrder newOrder = listNewOrder.get(pos);
+                listNewOrder.remove(newOrder);
+                mAdapter.notifyItemRemoved(pos);
+                mAdapter.notifyItemRangeChanged(pos, listNewOrder.size());
+
+            }catch (EventBusException e){
+
+                listNewOrder.removeAll(listNewOrder);
+                initDataset();
+
+            }
+
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+
+        refreshData();
+    }
+
+    private void refreshData() {
+
+        String url = "http://103.23.22.46:1337/v1/getorder/new";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseRefreshData(data);
+
+                            Log.d(TAG, "onResponse - data" + data.toString());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+        requestQueue.add(req);
+
+    }
+
+    private void parseRefreshData(JSONArray array){
+        if(array.length() > 0) {
+
+            nodata.setVisibility(View.INVISIBLE);
+            listNewOrder.removeAll(listNewOrder);
+
+            for (int i = 0; i < array.length(); i++) {
+
+                NewOrder newOrder = new NewOrder();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    Log.d(TAG, "parseData - json" + json);
+
+                    JSONObject pasien = json.getJSONObject("pasien");
+                    JSONObject detailjadwal = json.getJSONObject("detailjadwal");
+                    JSONObject user = json.getJSONObject("user");
+                    JSONObject dokter = json.getJSONObject("dokter");
+                    JSONObject layanan = json.getJSONObject("layanan");
+
+                    newOrder.setPasien_name(pasien.getString("nama"));
+                    newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
+                    newOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
+                    newOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
+                    newOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
+                    newOrder.setUser_id(user.getInt("id"));
+                    newOrder.setUser_name(user.getString("nama"));
+                    newOrder.setOrder_id(json.getInt("id"));
+                    newOrder.setOrder_noUrut(json.getInt("noUrut"));
+                    newOrder.setDokter_id(dokter.getInt("id"));
+                    newOrder.setDokter_name(dokter.getString("nama"));
+                    newOrder.setLayanan_id(layanan.getInt("id"));
+                    newOrder.setLayanan_name(layanan.getString("nama"));
+                    newOrder.setOrder_tanggal(json.getString("tanggal"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listNewOrder.add(newOrder);
+            }
+            mAdapter.notifyDataSetChanged();
+        }else{
+            nodata.setVisibility(View.VISIBLE);
+        }
     }
 
 }

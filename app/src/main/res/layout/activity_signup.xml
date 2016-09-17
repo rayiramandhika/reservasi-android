@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/imageView"
-                android:src="@drawable/logo_pmi" />
+                android:src="@drawable/logo_pmi_white" />
         </RelativeLayout>
 
         <LinearLayout
@@ -92,17 +92,18 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:padding="12dp"
-                android:text="Buat Akun"
+                android:text="Sign Up"
                 android:background="@color/colorPrimaryDark"
                 android:clickable="true"
                 android:elevation="6dp"
-                android:drawableTint="@color/colorPrimary" />
+                android:drawableTint="@color/colorPrimary"
+                android:textColor="#FFF" />
 
             <TextView android:id="@+id/link_login"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="Sudah Punya Akun? Login"
+                android:text="Sudah Punya Akun? Sign In"
                 android:gravity="center"
                 android:textSize="16dip" />
 

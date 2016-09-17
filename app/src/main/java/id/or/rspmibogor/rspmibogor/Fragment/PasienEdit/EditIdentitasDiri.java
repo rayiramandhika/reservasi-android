@@ -1,12 +1,16 @@
 package id.or.rspmibogor.rspmibogor.Fragment.PasienEdit;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.nfc.FormatException;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.PasienAddActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -46,7 +51,6 @@ public class EditIdentitasDiri extends AbstractStep {
 
     private TextView nama;
     private TextView tempatLahir;
-    private TextView umur;
     private TextView noID;
     private TextView wargaNegara;
     private TextView noRekamMedik;
@@ -62,12 +66,52 @@ public class EditIdentitasDiri extends AbstractStep {
     private RadioButton rgLaki;
     private RadioButton rgPerempuan;
     private RadioButton jenisKelaminRadio;
+    private RadioGroup typePasienGroup;
+    private RadioButton typePasienRadio;
+
+    private RadioButton rgBaru;
+    private RadioButton rgLama;
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
 
     JSONObject data;
+
+    String jnsKelamin;
+    String typePasien;
+
+    Toolbar toolbar;
+
+    @Override
+    public void onCreate(Bundle savedInstace)
+    {
+        super.onCreate(savedInstace);
+        toolbar = mStepper.getToolbar();
+        if(toolbar==null){
+            Log.d("toolbar","null");
+        }
+        else{
+            toolbar = mStepper.getToolbar();
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mStepper.finish();
+                }
+            });
+        }
+    }
+
+    private android.support.v7.app.ActionBar getActionBar() {
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getActivity().finish();
+        return true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +120,6 @@ public class EditIdentitasDiri extends AbstractStep {
         nama = (TextView) v.findViewById(R.id.nama);
         tempatLahir = (TextView) v.findViewById(R.id.tempatLahir);
         agama = (MaterialBetterSpinner) v.findViewById(R.id.agama);
-        umur = (TextView) v.findViewById(R.id.umur);
         wargaNegara = (TextView) v.findViewById(R.id.wargaNegara);
         noRekamMedik = (TextView) v.findViewById(R.id.noRekamMedik);
         noID = (TextView) v.findViewById(R.id.noID);
@@ -95,87 +138,91 @@ public class EditIdentitasDiri extends AbstractStep {
         int selectedId = jenisKelaminGroup.getCheckedRadioButtonId();
         jenisKelaminRadio = (RadioButton) v.findViewById(selectedId);
 
+        typePasienGroup = (RadioGroup) v.findViewById(R.id.typePasien);
+        rgBaru = (RadioButton) v.findViewById(R.id.baru);
+        rgLama = (RadioButton) v.findViewById(R.id.lama);
+
+        int selectedIdType = typePasienGroup.getCheckedRadioButtonId();
+        typePasienRadio = (RadioButton) v.findViewById(selectedIdType);
+
         initSpinner();
 
-        Toolbar toolbar = mStepper.getToolbar();
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        jenisKelaminGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().finish();
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i){
+                    case R.id.lakiLaki:
+                        jnsKelamin = "Laki-laki";
+                        break;
+
+                    case R.id.perempuan:
+                        jnsKelamin = "Perempuan";
+                        break;
+                }
+
             }
         });
 
-        sharedPreferences = getActivity().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        String url = "http://103.43.44.211:1337/v1/pasien/" + getArguments().getInt("pasien_id");
-        //spinner.setVisibility(View.VISIBLE);
-        JsonObjectRequest req = new JsonObjectRequest(url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        //spinner.setVisibility(View.GONE);
-
-                        try {
-                            data = response.getJSONObject("data");
-
-                            nama.setText(data.getString("nama"));
-                            tempatLahir.setText(data.getString("tempatLahir"));
-                            wargaNegara.setText(data.getString("wargaNegara"));
-                            noRekamMedik.setText(data.getString("noRekamMedik"));
-                            noID.setText(data.getString("noID"));
-                            umur.setText(data.getString("umur"));
-                            noTelp.setText(data.getString("noTelp"));
-                            agama.setText(data.getString("agama"));
-                            golonganDarah.setText(data.getString("golonganDarah"));
-                            pendidikan.setText(data.getString("pendidikan"));
-                            pekerjaan.setText(data.getString("pekerjaan"));
-
-                            String date = data.getString("tanggalLahir");
-                            String[] split = date.split("-");
-
-                            if(split.length > 0)
-                            {
-                                tanggalLahir.setText(split[0]);
-                                bulanLahir.setText(split[1]);
-                                tahunLahir.setText(split[2]);
-                            }
-
-                            String jl = data.getString("jenisKelamin");
-                            Log.d(TAG, "jenis kelamin" + jl);
-                            if(jl == "Laki-laki") rgLaki.setChecked(true);
-                            else if(jl == "Perempuan") rgPerempuan.setChecked(true);
-
-                            Log.d(TAG, "onResponse - pasien" + data.toString());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        ;
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        ) {
+        typePasienGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + jwTokenSP);
-                return params;
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i){
+                    case R.id.lama:
+                        typePasien = "Pasien Lama";
+                        break;
+
+                    case R.id.baru:
+                        typePasien = "Pasien Baru";
+                        break;
+                }
+
             }
+        });
+
+        nama.setText(getArguments().getString("nama"));
+        tempatLahir.setText(getArguments().getString("tempatLahir"));
+        wargaNegara.setText(getArguments().getString("wargaNegara"));
+        noRekamMedik.setText(getArguments().getString("noRekamMedik"));
+        noID.setText(getArguments().getString("noID"));
+        noTelp.setText(getArguments().getString("noTelp"));
+        agama.setText(getArguments().getString("agama"));
+        golonganDarah.setText(getArguments().getString("golonganDarah"));
+        pendidikan.setText(getArguments().getString("pendidikan"));
+        pekerjaan.setText(getArguments().getString("pekerjaan"));
+
+        String date = getArguments().getString("tanggalLahir");
+        String[] split = date.split("-");
+
+        if(split.length > 0)
+        {
+            tanggalLahir.setText(split[0]);
+            bulanLahir.setText(split[1]);
+            tahunLahir.setText(split[2]);
+        }
+
+        String jl = getArguments().getString("jenisKelamin").trim().toString();
+        Log.d(TAG, "jenis kelamin" + jl);
+        if(jl.equals("Laki-laki")){
+            rgLaki.setChecked(true);
+            jnsKelamin = "Laki-laki";
+        }
+        else if(jl.equals("Perempuan"))
+        {
+            rgPerempuan.setChecked(true);
+            jnsKelamin = "Perempuan";
         };
 
-        //Creating request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
-        //Adding request to the queue
-        requestQueue.add(req);
+        String type = getArguments().getString("type");
+
+        if(type.equals("Pasien Baru")) {
+            rgBaru.setChecked(true);
+            typePasien = "Pasien Baru";
+        }
+        else if(type.equals("Pasien Lama")) {
+            rgLama.setChecked(true);
+            typePasien = "Pasien Lama";
+        }
 
 
         return v;
@@ -202,12 +249,11 @@ public class EditIdentitasDiri extends AbstractStep {
         String noIDTxt = noID.getText().toString();
         String noRekamMdk = noRekamMedik.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
-        String umurTxt = umur.getText().toString();
         String tmptLahirTxt = tempatLahir.getText().toString();
         String tglLahirTxt = tanggalLahir.getText().toString();
         String blnLahirTxt = bulanLahir.getText().toString();
         String thnLahirTxt = tahunLahir.getText().toString();
-        String jlTxt = jenisKelaminRadio.getText().toString();
+        String jlTxt = jnsKelamin;
         String noTelpTxt = noTelp.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = agama.getText().toString();
@@ -216,10 +262,11 @@ public class EditIdentitasDiri extends AbstractStep {
 
         String tanggalLahir =  thnLahirTxt + '-' + blnLahirTxt + '-' + tglLahirTxt;
 
+        Log.d(TAG,"jnsKelamin: " + jlTxt);
+
         b.putInt("position", poss);
         b.putString("nama", namaTxt);
         b.putString("noID", noIDTxt);
-        b.putString("umur", umurTxt);
         b.putString("noTelp", noTelpTxt);
         b.putString("noRekamMedik", noRekamMdk);
         b.putString("wargaNegara", wnTxt);
@@ -230,6 +277,7 @@ public class EditIdentitasDiri extends AbstractStep {
         b.putString("pendidikan", pendidikanTxt);
         b.putString("pekerjaan", pekerjaanTxt);
         b.putString("golonganDarah", gdTxt);
+        b.putString("type", typePasien);
         //set data for other step
 
 
@@ -255,7 +303,6 @@ public class EditIdentitasDiri extends AbstractStep {
         String jlTxt = jenisKelaminRadio.getText().toString();
         String noIDTxt = noID.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
-        String umurTxt = umur.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = pendidikan.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
@@ -281,13 +328,6 @@ public class EditIdentitasDiri extends AbstractStep {
             i++;
         } else {
             wargaNegara.setError(null);
-        }
-
-        if (umurTxt.isEmpty()){
-            umur.setError("Umur harus diisi");
-            i++;
-        } else {
-            umur.setError(null);
         }
 
         if (tmptLahirTxt.isEmpty()){

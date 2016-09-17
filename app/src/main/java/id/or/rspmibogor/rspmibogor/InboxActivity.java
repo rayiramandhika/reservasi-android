@@ -6,13 +6,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,7 +38,7 @@ import java.util.Map;
 import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 
-public class InboxActivity extends AppCompatActivity {
+public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "InboxFragment";
 
     protected RecyclerView mRecyclerView;
@@ -47,6 +51,11 @@ public class InboxActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
+
+    RelativeLayout nodata;
+    LinearLayout container;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +70,19 @@ public class InboxActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                InboxActivity.this.finish();
             }
         });
+
+        nodata = (RelativeLayout) findViewById(R.id.nodata);
+        container = (LinearLayout) findViewById(R.id.container);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         listInbox = new ArrayList<>();
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleInbox);
         mLayoutManager = new LinearLayoutManager(this);
@@ -86,11 +95,21 @@ public class InboxActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
     private void initDataset() {
 
-        String url = "http://103.43.44.211:1337/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -134,39 +153,144 @@ public class InboxActivity extends AppCompatActivity {
 
     //This method will parse json data
     private void parseData(JSONArray array){
-        for(int i = 0; i < array.length(); i++) {
+        if(array.length() > 0) {
 
-            Inbox inbox = new Inbox();
-            JSONObject json = null;
-            String desc = "";
-            String desc2 = "";
-            try {
+            container.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
 
-                json = array.getJSONObject(i);
+            for (int i = 0; i < array.length(); i++) {
 
-                desc = json.getString("body");
-                if(desc.length() > 100)
-                {
-                    desc2 = desc.substring(0,100)  + " ......";
-                }else{
-                    desc2 = desc;
+                Inbox inbox = new Inbox();
+                JSONObject json = null;
+                String desc = "";
+                String desc2 = "";
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    desc = json.getString("body");
+                    if (desc.length() > 100) {
+                        desc2 = desc.substring(0, 100) + " ......";
+                    } else {
+                        desc2 = desc;
+                    }
+
+
+                    inbox.setTitle(json.getString("title"));
+                    inbox.setDesc(desc2);
+                    inbox.setBody(json.getString("body"));
+                    inbox.setTanggal(json.getString("tanggal"));
+                    inbox.setRead(json.getBoolean("read"));
+                    inbox.setId(json.getInt("id"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-
-                inbox.setTitle(json.getString("title"));
-                inbox.setDesc(desc2);
-                inbox.setBody(json.getString("body"));
-                inbox.setTanggal(json.getString("tanggal"));
-                inbox.setRead(json.getBoolean("read"));
-                inbox.setId(json.getInt("id"));
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                listInbox.add(inbox);
             }
-            listInbox.add(inbox);
+            mAdapter.notifyDataSetChanged();
+        }else{
+            container.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+
+        refreshData();
+    }
+
+    private void refreshData()
+    {
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        //spinner.setVisibility(View.VISIBLE);
+        Log.d(TAG, "init Data set loaded" );
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //loading.dismiss();
+                        Log.d(TAG, "onResponse - response" + response.toString());
+                        swipeRefreshLayout.setRefreshing(false);
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseRefreshData(data);
+
+                            Log.d(TAG, "onResponse - data" + data.toString());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void parseRefreshData(JSONArray array){
+        if(array.length() > 0) {
+
+            listInbox.removeAll(listInbox);
+
+            container.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
+
+            for (int i = 0; i < array.length(); i++) {
+
+                Inbox inbox = new Inbox();
+                JSONObject json = null;
+                String desc = "";
+                String desc2 = "";
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    desc = json.getString("body");
+                    if (desc.length() > 100) {
+                        desc2 = desc.substring(0, 100) + " ......";
+                    } else {
+                        desc2 = desc;
+                    }
+
+
+                    inbox.setTitle(json.getString("title"));
+                    inbox.setDesc(desc2);
+                    inbox.setBody(json.getString("body"));
+                    inbox.setTanggal(json.getString("tanggal"));
+                    inbox.setRead(json.getBoolean("read"));
+                    inbox.setId(json.getInt("id"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listInbox.add(inbox);
+            }
+            mAdapter.notifyDataSetChanged();
+        }else{
+            container.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.VISIBLE);
+        }
+    }
+
 
 }

@@ -88,7 +88,6 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,7 +110,6 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
                      Intent intent = new Intent(activity, CompleteOrderActivity.class);
                      intent.putExtras(b);
                      activity.startActivity(intent);
-                    //Log.d(TAG, "Element " + getPosition() + " clicked.");
 
                 }
             });
@@ -134,40 +132,11 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final Pasien pasien =  Pasien.get(position);
 
-        //viewHolder.title.setText(pasien.getTitle());
         viewHolder.pasien_name.setText(pasien.getPasien_name());
         viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
         viewHolder.menuMore.setVisibility(View.GONE);
-        /*viewHolder.menuMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(activity, viewHolder.menuMore);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                        .inflate(R.menu.menu_pasien, popup.getMenu());
 
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Integer pasien_id = pasien.getPasien_id();
-                        String title = item.getTitle().toString();
-                        switch (title){
-                            case "Edit":
-                                editPasien();
-                                break;
-                            case "Hapus":
-                                deletePasien(pasien_id, position);
-                                break;
-                        }
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
-            }
-        });*/
 
     }
 
@@ -177,71 +146,4 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
     }
 
 
-    private void deletePasien(final Integer id, final Integer position)
-    {
-
-        new AlertDialog.Builder(activity)
-                .setTitle("Hapus Pasien")
-                .setMessage("Apa kamu yakin akan menghapus pasien?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        deleteFromServer(id, position);
-                    }})
-
-                .setNegativeButton(android.R.string.no, null).show();
-    }
-
-    private void editPasien()
-    {
-        Toast.makeText(activity,
-                "You Clicked : Edit" ,
-                Toast.LENGTH_SHORT
-        ).show();
-    }
-
-    private void deleteFromServer(final Integer id, final Integer position)
-    {
-        Log.d(TAG, "position: "+ position);
-
-        RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = "http://103.43.44.211:1337/v1/pasien/" + id;
-
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.DELETE, url,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // response
-                        Pasien pasien = Pasien.get(position);
-                        Pasien.remove(pasien);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, Pasien.size());
-                        //notifyDataSetChanged();
-
-                        Toast.makeText(activity, "Pasien berhasil dihapus.", Toast.LENGTH_SHORT).show();
-                        Log.d("deleteFromServer - Response", response.toString());
-                    }
-
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("deleteFromServer - Error.Response", String.valueOf(error));
-                    }
-                }
-        ){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + jwTokenSP);
-                return params;
-            }
-        };
-
-        queue.add(putRequest);
-    }
 }

@@ -50,7 +50,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,15 +63,14 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
                     desk.setTypeface(null , Typeface.NORMAL);
                     read.setVisibility(View.GONE);
 
-                    Inbox inbox =  Inbox.get(getPosition());
+                    Inbox inbox =  Inbox.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
-                    b.putInt("id", inbox.getId());
+                    b.putString("id", inbox.getId().toString());
 
                     Intent intent = new Intent(Context, DetailInbox.class);
                     intent.putExtras(b);
                     Context.startActivity(intent);
-                    //Log.d(TAG, "Element " + getPosition() + " clicked.");
 
                 }
             });

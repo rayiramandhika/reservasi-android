@@ -37,11 +37,11 @@
             android:background="@drawable/bg_pmi"
             android:id="@+id/linearLayout3">
 
-            <ImageView
-                android:layout_width="309dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
                 android:layout_height="98dp"
                 android:id="@+id/dokter_foto"
-                android:src="@drawable/noprofile"
                 android:layout_gravity="center" />
 
             <TextView
@@ -52,7 +52,8 @@
                 android:layout_gravity="bottom|center"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:layout_width="match_parent"

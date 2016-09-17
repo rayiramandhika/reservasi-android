@@ -3,6 +3,7 @@ package id.or.rspmibogor.rspmibogor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -37,6 +39,7 @@ import java.util.Map;
 import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.ListJadwalAdapter;
 import id.or.rspmibogor.rspmibogor.Class.DividerItemDecoration;
+import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.ListJadwal;
 
@@ -64,10 +67,14 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    static DetailJadwalDokter detailJadwalDokter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_jadwal_dokter);
+
+        detailJadwalDokter = this;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Dokter");
@@ -86,6 +93,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         layanan_name = (TextView) findViewById(R.id.layanan_name);
 
         listJadwalDokter = new ArrayList<>();
+        listJadwalDokter.removeAll(listJadwalDokter);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerDetailJadwal);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -95,11 +103,6 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
 
         initData();
 
@@ -111,14 +114,25 @@ public class DetailJadwalDokter extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    public static DetailJadwalDokter getInstance(){
+        return detailJadwalDokter;
+    }
+
     private void initData()
     {
-        String url = "http://103.43.44.211:1337/v1/getjadwal/" + dokter_id;
+        Log.d(TAG, "init data set");
+
+        String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id;
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -137,6 +151,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
                                 dokter_name.setText(data.getString("nama"));
                                 layanan_name.setText(layanan.getString("nama"));
 
+                                String uriFoto = data.getString("foto");
+                                initFoto(uriFoto);
                                 parseData(data);
 
                             } catch (JSONException e) {
@@ -177,6 +193,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
     private void parseData(JSONObject data) {
 
         JSONArray array = new JSONArray();
+
         try {
             array = data.getJSONArray("listJadwal");
         } catch (JSONException e) {
@@ -186,6 +203,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         }
 
         JSONObject layanan = new JSONObject();
+
         try {
             layanan = data.getJSONObject("layanan");
             JSONObject jadwalDokter = data.getJSONObject("jadwalDokter");
@@ -217,7 +235,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setJadwal_jamTutup(json.getString("jamTutup"));
                     listJadwal.setJadwal_tanggal(json.getString("tanggal"));
                     listJadwal.setJadwal_kuota(json.getInt("sisaKuota"));
-
+                    listJadwal.setJadwal_status(json.getString("status"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -225,6 +243,33 @@ public class DetailJadwalDokter extends AppCompatActivity {
                 listJadwalDokter.add(listJadwal);
             }
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void initFoto(String uriFoto)
+    {
+        if(uriFoto.isEmpty())
+        {
+            dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+        }else {
+            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto;
+            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    //Log.d("Main Activity", "ImageRequest - response" + response);
+
+                    dokter_foto.setImageBitmap(response);
+                }
+            }, 0, 0, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(ir);
         }
     }
 

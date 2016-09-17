@@ -120,7 +120,7 @@ public class IdentitasKeluarga  extends AbstractStep {
              statusMarital.setError(null);
          }
 
-         if (nmPasutri.isEmpty() && marital == "Sudah Kawin"){
+         if (nmPasutri.isEmpty() && marital.equals("Sudah Kawin")){
              namaPasutri.setError("Nama Pasutri harus diisi");
              i++;
          } else {

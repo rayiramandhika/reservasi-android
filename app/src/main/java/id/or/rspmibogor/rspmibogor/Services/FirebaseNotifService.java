@@ -3,20 +3,40 @@ package id.or.rspmibogor.rspmibogor.Services;
 /**
  * Created by iqbalprabu on 15/08/16.
  */
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.media.RingtoneManager;
+import android.net.ParseException;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+
+import id.or.rspmibogor.rspmibogor.DetailInbox;
+import id.or.rspmibogor.rspmibogor.DetailOrder;
+import id.or.rspmibogor.rspmibogor.DetailOrderOld;
+import id.or.rspmibogor.rspmibogor.InboxActivity;
 import id.or.rspmibogor.rspmibogor.MainActivity;
+import id.or.rspmibogor.rspmibogor.PendaftaranActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -29,37 +49,132 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        //Displaying data in log
-        //It is optional
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
-        //Calling method to generate notification
-        sendNotification(remoteMessage.getNotification().getBody());
+
+        String title = remoteMessage.getNotification().getTitle();
+        String body = remoteMessage.getNotification().getBody();
+        String activity = remoteMessage.getNotification().getClickAction();
+        String id = remoteMessage.getData().get("id");
+        String icon = remoteMessage.getNotification().getIcon();
+
+
+
+       /* Integer id = 0 ;
+
+        try {
+
+            id = Integer.parseInt(idTxt);
+
+        }catch (ParseException e)
+        {
+             id = 0;
+        }*/
+
+
+        Log.d(TAG, "click_action: " + activity);
+        Log.d(TAG, "id: " + id);
+
+        PendingIntent mPendingIntent;
+        Intent intent;
+
+        if(activity != null)
+        {
+            if(activity.equals("open_detail_inbox")){
+
+                if(id.equals(0)){
+
+                    intent = new Intent(this, InboxActivity.class);
+
+                }else {
+
+                    intent = new Intent(this, DetailInbox.class);
+
+                    Bundle b = new Bundle();
+                    b.putString("id", id);
+                    intent.putExtras(b);
+
+                }
+
+            }else if(activity.equals("open_detail_order")){
+
+                if(id.equals(0)){
+
+                    intent = new Intent(this, PendaftaranActivity.class);
+
+                }else {
+
+                    intent = new Intent(this, DetailOrder.class);
+
+                    Bundle b = new Bundle();
+                    b.putString("id", id);
+                    intent.putExtras(b);
+
+                }
+
+            }else if(activity.equals("open_detail_order_old")){
+
+                if(id.equals(0)){
+
+                    intent = new Intent(this, PendaftaranActivity.class);
+
+                }else {
+
+                    intent = new Intent(this, DetailOrderOld.class);
+
+                    Bundle b = new Bundle();
+                    b.putString("id", id);
+                    intent.putExtras(b);
+
+                }
+
+            }else {
+
+                intent = new Intent(this, MainActivity.class);
+
+                /*Bundle b = new Bundle();
+                b.putInt("id", id);
+                intent.putExtras(b);*/
+
+            }
+        }else {
+
+            intent = new Intent(this, MainActivity.class);
+
+            /*Bundle b = new Bundle();
+            b.putInt("id", id);
+            intent.putExtras(b);*/
+
+        }
+
+
+        mPendingIntent = PendingIntent.getActivities(getApplicationContext(), 100,
+                new Intent[]{intent}, PendingIntent.FLAG_ONE_SHOT);
+
+        sendNotification(body, title, icon, mPendingIntent);
     }
 
-    //This method is only generating push notification
-    //It is same as we did in earlier posts
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+
+    private void sendNotification(String messageBody, String title, String icon,  @Nullable PendingIntent pendingIntent) {
+
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        String setTitle = "RS PMI Bogor";
+        if(! title.isEmpty()) setTitle = title;
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("RS PMI Bogor")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+        builder.setSmallIcon(R.drawable.icon_notif);
+        builder.setContentTitle(setTitle);
+        builder.setContentText(messageBody);
+        builder.setAutoCancel(true);
+        builder.setSound(defaultSoundUri);
+        if (pendingIntent != null) {
+            builder.setContentIntent(pendingIntent);
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(0, builder.build());
     }
 }

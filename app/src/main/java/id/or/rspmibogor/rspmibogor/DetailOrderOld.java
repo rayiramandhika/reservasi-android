@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -29,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 
 public class DetailOrderOld extends AppCompatActivity {
     private static final String TAG = "DetailOrderOld";
@@ -44,10 +48,12 @@ public class DetailOrderOld extends AppCompatActivity {
     ImageView ratingWow;
     ImageView rating;
 
+
     ImageView btnSend;
 
     TextView no_antrian;
     TextView dokter_name;
+    ImageView dokter_foto;
     TextView layanan_name;
     TextView tanggal;
     TextView jam;
@@ -66,6 +72,8 @@ public class DetailOrderOld extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
+
+    String id;
 
 
     @Override
@@ -104,6 +112,7 @@ public class DetailOrderOld extends AppCompatActivity {
         saranEditTxt = (EditText) findViewById(R.id.saranEditTxt);
 
         dokter_name = (TextView) findViewById(R.id.dokter_name);
+        dokter_foto = (ImageView) findViewById(R.id.dokter_foto);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
         tanggal = (TextView) findViewById(R.id.tanggal);
         jam = (TextView) findViewById(R.id.jam);
@@ -155,11 +164,10 @@ public class DetailOrderOld extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        Log.d(TAG, "jwtTokenSP: " + jwTokenSP);
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
+
+
+        Bundle b = getIntent().getExtras();
+        id = b.getString("id");
 
         initData();
 
@@ -171,8 +179,6 @@ public class DetailOrderOld extends AppCompatActivity {
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage("Loading...");
                 progressDialog.show();
-
-                Bundle b = getIntent().getExtras();
 
                 final String saran = saranEditTxt.getText().toString();
                 final String rating = Rating.toString();
@@ -186,7 +192,7 @@ public class DetailOrderOld extends AppCompatActivity {
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
-                String url = "http://103.43.44.211:1337/v1/order/" + b.getInt("id");
+                String url = "http://103.23.22.46:1337/v1/order/" + id;
 
                 JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                         new Response.Listener<JSONObject>() {
@@ -237,14 +243,19 @@ public class DetailOrderOld extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
 
 
     private void initData()
     {
-        Bundle b = getIntent().getExtras();
 
 
-        String url = "http://103.43.44.211:1337/v1/order/"+ b.getInt("id")+"?populate=pasien,dokter,layanan,detailjadwal";
+
+        String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -334,6 +345,10 @@ public class DetailOrderOld extends AppCompatActivity {
         JSONObject layanan = data.getJSONObject("layanan");
 
         dokter_name.setText(dokter.getString("nama"));
+
+        String uriFoto = dokter.getString("foto");
+        initFoto(uriFoto);
+
         layanan_name.setText(layanan.getString("nama"));
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
         jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
@@ -341,5 +356,32 @@ public class DetailOrderOld extends AppCompatActivity {
 
 
 
+    }
+
+    private void initFoto(String uriFoto)
+    {
+        if(uriFoto.isEmpty())
+        {
+            dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+        }else {
+            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto;
+            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    //Log.d("Main Activity", "ImageRequest - response" + response);
+
+                    dokter_foto.setImageBitmap(response);
+                }
+            }, 0, 0, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(ir);
+        }
     }
 }

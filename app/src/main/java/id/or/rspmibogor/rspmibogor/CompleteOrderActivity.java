@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -33,6 +34,8 @@ import org.w3c.dom.Text;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 
 public class CompleteOrderActivity extends AppCompatActivity {
 
@@ -67,12 +70,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-
 
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
@@ -127,12 +124,17 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     private void Order()
     {
         final Activity activity = this;
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.43.44.211:1337/v1/order/new/" + detailjadwal_id;
+        String url = "http://103.23.22.46:1337/v1/order/new/" + detailjadwal_id;
 
         JSONObject object = new JSONObject();
         try {
@@ -157,14 +159,24 @@ public class CompleteOrderActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         progressDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Pendaftaran berhasil", Toast.LENGTH_SHORT).show();
 
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setTitle("Pendaftaran Berhasil")
+                        .setMessage("Anda diminta untuk melakukan konfirmasi pada hari H paling lambat pukul 07.30. \n" +
+                                "Silahkan melakukan konfirmasi di halaman detail pendaftaran. \n \nTerima Kasih.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                intent = new Intent(activity, PendaftaranActivity.class);
+                                activity.startActivity(intent);
 
-                        intent = new Intent(activity, PendaftaranActivity.class);
-                        activity.startActivity(intent);
+                                JadwalDokterActivity.getInstance().finish();
+                                DetailJadwalDokter.getInstance().finish();
+                                PilihPasienActivity.getInstance().finish();
+                                finish();
+                            }
+                        }).show();
 
-
-                        finish();
                         Log.d("cancelOrder - Response", response.toString());
                     }
 
@@ -187,7 +199,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        onLoginFailed(message);
+                        onOrderFailed(message);
                     }
                 }
         ){
@@ -203,11 +215,26 @@ public class CompleteOrderActivity extends AppCompatActivity {
         queue.add(putRequest);
     }
 
-    public void onLoginFailed(String message) {
+    public void onOrderFailed(String message) {
         String msg = null;
         if(message == null) msg = "Pendaftaran Gagal";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     }
+
+    /*static PilihPasienActivity pilihPasienActivity;
+    static JadwalDokterActivity jadwalDokterActivity;
+    static DetailJadwalDokter detailJadwalDokter;*/
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        /*pilihPasienActivity.finish();
+        jadwalDokterActivity.finish();
+        detailJadwalDokter.finish();*/
+
+    }
+
 
 }

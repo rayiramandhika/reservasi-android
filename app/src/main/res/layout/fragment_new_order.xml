@@ -3,17 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.or.rspmibogor.rspmibogor.Fragment.NewOrderFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recylceNewOrder"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/container">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recylceNewOrder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,6 +38,36 @@
             android:indeterminateTint="@color/colorPrimary"
             android:indeterminateTintMode="src_atop"
             android:indeterminate="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nodata"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Belum ada pendaftaran."
+            android:gravity="center"
+            android:textSize="15dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/textView11"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Semua pendaftaran anda akan ditampilkan disini"
+            android:layout_below="@+id/textView11"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:textSize="10dp" />
 
     </RelativeLayout>
 

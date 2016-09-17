@@ -44,6 +44,8 @@ public class DetailInbox extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
+    String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +62,8 @@ public class DetailInbox extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
+        Bundle b = getIntent().getExtras();
+        id = b.getString("id");
 
         initData();
         updateRead();
@@ -74,19 +74,24 @@ public class DetailInbox extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     private void initData()
     {
 
-        Bundle b = getIntent().getExtras();
 
 
-        String url = "http://103.43.44.211:1337/v1/inbox/"+ b.getInt("id");
+
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
         //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -151,9 +156,7 @@ public class DetailInbox extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Bundle b = getIntent().getExtras();
-
-        String url = "http://103.43.44.211:1337/v1/inbox/"+ b.getInt("id");
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                 new Response.Listener<JSONObject>()
                 {

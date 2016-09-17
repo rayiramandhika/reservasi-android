@@ -11,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -20,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.PilihPasienAdapter;
+import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
 
 public class PilihPasienActivity extends AppCompatActivity {
@@ -43,19 +48,31 @@ public class PilihPasienActivity extends AppCompatActivity {
     ProgressBar spinner;
 
     private List<Pasien> listPasien;
+    private Integer last_id = 0;
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
+    Integer user_id;
+
+    RelativeLayout nodata;
+    LinearLayout container;
+
+    static PilihPasienActivity pilihPasienActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pilih_pasien);
 
+        pilihPasienActivity = this;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Pilih Pasien");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        nodata = (RelativeLayout) findViewById(R.id.nodata);
+        container = (LinearLayout) findViewById(R.id.container);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +90,7 @@ public class PilihPasienActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        if(jwTokenSP == null){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
+        user_id = sharedPreferences.getInt("id", 0);
 
         initData();
 
@@ -107,14 +120,44 @@ public class PilihPasienActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    public static PilihPasienActivity getInstance(){
+        return pilihPasienActivity;
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void onEvent(MessageEvent event){
+        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+
+        String msg = event.getPesan().toString();
+
+        if(msg.equals("addPasien"))
+        {
+            getNewData();
+        }
     }
 
     private void initData()
     {
-        String url = "http://103.43.44.211:1337/v1/pasien?sort=createdAt%20DESC";
+        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
-
+        //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -125,7 +168,6 @@ public class PilihPasienActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
@@ -142,7 +184,7 @@ public class PilihPasienActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        error.printStackTrace();
                     }
                 }
         ){
@@ -163,25 +205,129 @@ public class PilihPasienActivity extends AppCompatActivity {
 
     //This method will parse json data
     private void parseData(JSONArray array){
-        for(int i = 0; i < array.length(); i++) {
+        if(array.length() > 0) {
 
-            Pasien pasien = new Pasien();
-            JSONObject json = null;
-            try {
+            container.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
 
-                json = array.getJSONObject(i);
+            for (int i = 0; i < array.length(); i++) {
 
-                pasien.setPasien_name(json.getString("nama"));
-                pasien.setPasien_id(json.getInt("id"));
-                pasien.setPasien_umur(json.getString("umur") + " Tahun");
+                Pasien pasien = new Pasien();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+                    if (i == 0) {
+                        last_id = json.getInt("id");
+                        Log.d(TAG, "last_id: " + last_id);
+                    }
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    pasien.setPasien_name(json.getString("nama"));
+                    pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_umur(json.getString("umur") + " Tahun");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listPasien.add(pasien);
             }
-            listPasien.add(pasien);
+            mAdapter.notifyDataSetChanged();
+        }else {
+            container.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
+    }
+
+    private void getNewData()
+    {
+        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
+        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        spinner.setVisibility(View.VISIBLE);
+        Log.d(TAG, "init Data set loaded" );
+        //Creating a json array request
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //loading.dismiss();
+                        try {
+                            last_updated = response.getString("last_update");
+                        } catch (JSONException e) {
+
+                        }
+                        spinner.setVisibility(View.GONE);
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseDataNew(data);
+                            Log.d(TAG, "onResponse - data" + data.toString());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(req);
+    }
+
+    //This method will parse json data
+    private void parseDataNew(JSONArray array) {
+        if (array.length() > 0) {
+
+            container.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
+
+            for (int i = 0; i < array.length(); i++) {
+
+                Pasien pasien = new Pasien();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+                    Integer aLength = array.length();
+                    if (i == (aLength - 1)) {
+                        last_id = json.getInt("id");
+                        Log.d(TAG, "last_id: " + last_id);
+                    }
+
+
+                    pasien.setPasien_name(json.getString("nama"));
+                    pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_umur(json.getString("umur") + " Tahun");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (listPasien.size() > 0) {
+                    listPasien.add(0, pasien);
+                } else {
+                    listPasien.add(pasien);
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        } else {
+            container.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.VISIBLE);
+        }
     }
 
 }

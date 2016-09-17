@@ -15,7 +15,6 @@ import id.or.rspmibogor.rspmibogor.Fragment.OldOrderFragment;
 
 public class OrderAdapter extends FragmentPagerAdapter {
 
-    //nama tab nya
     String[] title = new String[]{
             "Pendaftaran Baru", "Pendaftaran Lama"
     };
@@ -24,7 +23,6 @@ public class OrderAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    //method ini yang akan memanipulasi penampilan Fragment dilayar
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;

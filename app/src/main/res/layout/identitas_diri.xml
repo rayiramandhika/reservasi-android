@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true"
     android:background="#FFF"
     style="@style/AppTheme.AddPasien">
 
@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
+        android:layout_margin="2dp"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -27,12 +28,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/noID"
+                android:inputType="number"
                 android:layout_gravity="center_horizontal"
-                android:hint="No. ID/SIM"
+                android:hint="No. ID/SIM *"
                 android:elegantTextHeight="false"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Apakah pernah berkunjung ke RS PMI Bogor sebelumnya ? *"
+            android:layout_marginLeft="12dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/typePasien"
+                android:gravity="center">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lama"
+                    android:text="Ya"
+                    android:layout_gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="50dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/baru"
+                    android:text="Tidak"
+                    android:layout_alignParentRight="true" />
+
+            </RadioGroup>
+
+        </RelativeLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -60,7 +102,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/nama"
             android:layout_gravity="center_horizontal"
-            android:hint="Nama Lengkap"
+            android:hint="Nama Lengkap *"
             android:elegantTextHeight="false"
             android:maxLines="1" />
 
@@ -76,7 +118,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tempatLahir"
             android:layout_gravity="center_horizontal"
-            android:hint="Tempat Lahir"
+            android:hint="Tempat Lahir *"
             android:maxLines="1" />
 
     </android.support.design.widget.TextInputLayout>
@@ -92,7 +134,7 @@
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Tanggal"
+            android:hint="Tanggal "
             android:textColorHint="@color/colorAccent"
             app:theme="@style/AppTheme.Spinner"
             android:id="@+id/tanggalLahir"
@@ -134,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tanggal Lahir"
+                android:text="Tanggal Lahir *"
                 android:id="@+id/textView"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -155,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Jenis Kelamin"
+            android:text="Jenis Kelamin *"
             android:layout_marginLeft="12dp" />
 
         <RelativeLayout
@@ -191,15 +233,6 @@
 
         </RelativeLayout>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/umur"
-            android:hint="Umur"
-            android:elegantTextHeight="false"
-            android:maxLines="1"
-            android:layout_margin="12dp" />
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/wargaNegara"
                 android:layout_gravity="center_horizontal"
-                android:hint="Warga Negara"
+                android:hint="Warga Negara *"
                 android:elegantTextHeight="false"
                 android:maxLines="1" />
 
@@ -225,6 +258,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/noTelp"
+                android:inputType="number"
                 android:layout_gravity="center_horizontal"
                 android:hint="No. Telfon"
                 android:elegantTextHeight="false"
@@ -235,7 +269,7 @@
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Agama"
+        android:hint="Agama *"
         android:textColorHint="@color/colorAccent"
         app:theme="@style/AppTheme.Spinner"
         android:id="@+id/agama"
@@ -247,7 +281,7 @@
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pendidikan"
+        android:hint="Pendidikan *"
         android:textColorHint="@color/colorAccent"
         app:theme="@style/AppTheme.Spinner"
         android:id="@+id/pendidikan"
@@ -257,7 +291,7 @@
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pekerjaan"
+        android:hint="Pekerjaan *"
         android:textColorHint="@color/colorAccent"
         app:theme="@style/AppTheme.Spinner"
         android:id="@+id/pekerjaan"
@@ -267,7 +301,7 @@
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Golongan Darah"
+        android:hint="Golongan Darah *"
         android:textColorHint="@color/colorAccent"
         app:theme="@style/AppTheme.Spinner"
         android:id="@+id/golonganDarah"

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:focusableInTouchMode="true"
     android:background="#FFF"
     style="@style/AppTheme.AddPasien">
 
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
+            android:layout_margin="2dp"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/alamat"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Alamat Lengkap" />
+                    android:hint="Alamat Lengkap *" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/desa"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Desa / Kelurahan"
+                    android:hint="Desa / Kelurahan *"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/kecamatan"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Kecamatan"
+                    android:hint="Kecamatan *"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/kota"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Kota / Kabupaten"
+                    android:hint="Kota / Kabupaten *"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/provinsi"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Provinsi"
+                    android:hint="Provinsi *"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>

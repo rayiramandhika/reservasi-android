@@ -2,8 +2,10 @@ package id.or.rspmibogor.rspmibogor.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,11 +31,15 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
     List<ListJadwal> ListJadwal;
 
+    final AlertDialog.Builder builder;
+
     public ListJadwalAdapter(List<ListJadwal> listJadwal, Activity activity)
     {
         super();
         this.ListJadwal = listJadwal;
         this.activity = activity;
+
+        builder = new AlertDialog.Builder(activity);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,17 +54,28 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     ListJadwal listJadwal =  ListJadwal.get(getPosition());
 
-                    if(listJadwal.getJadwal_kuota() == 0){
-                        Toast.makeText(activity, "Mohon maaf kuota sudah habis.", Toast.LENGTH_LONG).show();
+                    String status = listJadwal.getJadwal_status();
+                    if(status.equals("cuti"))
+                    {
+                        builder.setTitle("Dokter Cuti")
+                                .setMessage("Mohon maaf.\nPada jadwal tersebut dokter sedang cuti.")
+                                .setNegativeButton(android.R.string.yes, null).show();
                         return;
+                    }else{
+                        if(listJadwal.getJadwal_kuota() == 0){
+                            builder.setTitle("Kuota Penuh")
+                                    .setMessage("Mohon maaf.\nPendaftaran via online sudah penuh. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor.")
+                                    .setNegativeButton(android.R.string.yes, null).show();
+                            return;
+                        }
                     }
+
 
                     String jam = listJadwal.getJadwal_jamMulai() + " - " + listJadwal.getJadwal_jamTutup();
 
@@ -104,15 +121,32 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
         viewHolder.jam.setText(listJadwal.getJadwal_jamMulai() + " - " + listJadwal.getJadwal_jamTutup());
         viewHolder.kuota.setText("Kuota Tersedia: " + listJadwal.getJadwal_kuota());
 
-        if(listJadwal.getJadwal_kuota() == 0){
+        int kuota = listJadwal.getJadwal_kuota();
+
+        String status = listJadwal.getJadwal_status();
+
+        if(status.equals("cuti"))
+        {
             viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
-            viewHolder.pesan.setText("Kuota Habis");
-            viewHolder.pesan.setPadding(16, 0, 16, 0);
+            viewHolder.pesan.setText("Dokter Cuti");
+            viewHolder.pesan.setPadding(16, 5, 16, 5);
+
         }else{
-            viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
-            viewHolder.pesan.setText("Daftar");
-            viewHolder.pesan.setPadding(16, 0, 16, 0);
+
+            if(kuota == 0){
+                viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+                viewHolder.pesan.setText("Pendaftaran via Online Penuh");
+
+                viewHolder.pesan.setPadding(16, 5, 16, 5);
+            }else{
+                viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
+                viewHolder.pesan.setText("Daftar");
+                viewHolder.pesan.setPadding(16, 5, 16, 5);
+            }
+
         }
+
+
     }
 
     @Override

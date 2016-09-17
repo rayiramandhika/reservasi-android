@@ -57,54 +57,10 @@ public class EditIdentitasKeluarga  extends AbstractStep {
 
         initSpinner();
 
-        sharedPreferences = getActivity().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
-        String url = "http://103.43.44.211:1337/v1/pasien/" + getArguments().getInt("pasien_id");
-        //spinner.setVisibility(View.VISIBLE);
-        JsonObjectRequest req = new JsonObjectRequest(url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        //spinner.setVisibility(View.GONE);
-
-                        try {
-                            JSONObject data = response.getJSONObject("data");
-
-                            namaPasutri.setText(data.getString("namaPasutri"));
-                            namaAyah.setText(data.getString("namaAyah"));
-                            namaIbu.setText(data.getString("namaIbu"));
-                            statusMarital.setText(data.getString("statusMarital"));
-
-                            Log.d(TAG, "onResponse - pasien" + data.toString());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        ;
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + jwTokenSP);
-                return params;
-            }
-        };
-
-        //Creating request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-
-        //Adding request to the queue
-        requestQueue.add(req);
+        namaPasutri.setText(getArguments().getString("namaPasutri"));
+        namaAyah.setText(getArguments().getString("namaAyah"));
+        namaIbu.setText(getArguments().getString("namaIbu"));
+        statusMarital.setText(getArguments().getString("statusMarital"));
 
         return v;
     }
@@ -169,7 +125,7 @@ public class EditIdentitasKeluarga  extends AbstractStep {
             statusMarital.setError(null);
         }
 
-        if (nmPasutri.isEmpty() && marital == "Sudah Kawin"){
+        if (nmPasutri.isEmpty() && marital.equals("Sudah Kawin")){
             namaPasutri.setError("Nama Pasutri harus diisi");
             i++;
         } else {

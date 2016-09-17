@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
 import android.telecom.Call;
@@ -42,10 +43,8 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarBadge;
-import com.roughike.bottombar.OnMenuTabSelectedListener;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -56,13 +55,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.InboxFragment;
 import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
+import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
@@ -72,13 +75,8 @@ public class MainActivity extends AppCompatActivity
 
     private final String TAG = "MainActivity";
 
-    HomeFragment HomeFrag = new HomeFragment();
-    InboxFragment InboxFrag = new InboxFragment();
-    OrderFragment OrderFrag = new OrderFragment();
-
     SharedPreferences sharedPreferences;
 
-    //BottomBar bottomBar;
     NavigationView navigationView;
     DrawerLayout drawer;
     View header;
@@ -87,28 +85,26 @@ public class MainActivity extends AppCompatActivity
     TextView namaText;
     ImageView imageHeader;
 
-    //Main menu dashboard
     CardView imageJadwaldokter;
     CardView imagePasien;
     CardView imagePendaftaran;
     CardView imageInbox;
 
-    //BottomBarBadge unreadMessages;
+    TextView unread;
 
-    int MenuIdActive;
 
     String jwTokenSP;
 
     CarouselView carouselView;
-    int[] sliderImage = {R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header};
-
+    int[] sliderImage = {R.drawable.csm_laparoskopi_ab6621e110, R.drawable.csm_main_banner_eswl_510b76606f, R.drawable.csm_main_banner_flamboyan2_89df9c8f6d};
+    //List<String> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /** Checking if user has login **/
+        unread = (TextView) findViewById(R.id.unread);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -121,9 +117,8 @@ public class MainActivity extends AppCompatActivity
             else login = false;
         }
 
-
-        Log.d("Checking login", "jwtToken: " + jwTokenSP);
-        Log.d("Checking login", "loginSuccess: " + login);
+        //Log.d("Checking login", "jwtToken: " + jwTokenSP);
+        //Log.d("Checking login", "loginSuccess: " + login);
 
         if(jwTokenSP == null && login != true){
             finish();
@@ -132,129 +127,45 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if(jwTokenSP != null){
+        /*if(jwTokenSP != null){
             updateFCMToken();
-            refreshingToken();
-        }
+            //refreshingToken();
+        }*/
 
-        /** Checking if user has login **/
-
-        /** Checking if home fragment not added first **/
-        if (savedInstanceState == null && !HomeFrag.isAdded()) {
-
-           /** FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-
-            transaction.replace(R.id.container, HomeFrag);
-            transaction.commit();**/
-        }
-        /** Checking if home fragment not added first **/
-
-
-        /** setting toolbar and navigation drawer **/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /** setting toolbar and navigation drawer **/
+        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,
+                toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
 
-        /** Setting Carrousel **/
-        carouselView = (CarouselView) findViewById(R.id.carouselView);
-        carouselView.setPageCount(sliderImage.length);
-        carouselView.setImageListener(imageListener);
-
-        imageListener = new ImageListener() {
             @Override
-            public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(sliderImage[position]);
+            public void onDrawerClosed(View v){
+                super.onDrawerClosed(v);
+            }
+
+            @Override
+            public void onDrawerOpened(View v) {
+                super.onDrawerOpened(v);
             }
         };
-        /** **/
+        drawer.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
 
-
-        /** get data from shared preferences **/
         String namaSP = sharedPreferences.getString("nama", null);
         String emailSP = sharedPreferences.getString("email", null);
         String profilePictureSP = sharedPreferences.getString("profilePicture", null);
 
-        //set header
         setHeader(emailSP, namaSP, profilePictureSP);
-        /** get data from shared preferences **/
 
-        /** Bottom NavBar
-        bottomBar = BottomBar.attach(this, savedInstanceState);
-        bottomBar.setItemsFromMenu(R.menu.bottom_menu, new OnMenuTabSelectedListener() {
-            @Override
-            public void onMenuItemSelected(int itemId) {
-
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-
-                switch (itemId) {
-                    case R.id.home:
-                        //Toast.makeText(getApplicationContext(),"Beranda dipilih",Toast.LENGTH_SHORT).show();
-
-                        if (drawer.isDrawerOpen(GravityCompat.START)) {
-                            drawer.closeDrawer(GravityCompat.START);
-                        }
-
-                        navigationView.getMenu().getItem(0).setChecked(true);
-
-                        transaction.replace(R.id.container, HomeFrag);
-                        transaction.commit();
-
-
-                        break;
-                    case R.id.order:
-                        //Toast.makeText(getApplicationContext(),"Pesanan dipilih",Toast.LENGTH_SHORT).show();
-
-                        if (drawer.isDrawerOpen(GravityCompat.START)) {
-                            drawer.closeDrawer(GravityCompat.START);
-                        }
-
-                        navigationView.getMenu().getItem(1).setChecked(true);
-
-                        transaction.replace(R.id.container, OrderFrag);
-                        transaction.commit();
-
-                        break;
-                    case R.id.inbox:
-                        //Toast.makeText(getApplicationContext(),"Kotak Masuk dipilih",Toast.LENGTH_SHORT).show();
-
-                        if (drawer.isDrawerOpen(GravityCompat.START)) {
-                            drawer.closeDrawer(GravityCompat.START);
-                        }
-
-                        navigationView.getMenu().getItem(2).setChecked(true);
-
-                        transaction.replace(R.id.container, InboxFrag);
-                        transaction.commit();
-
-                        break;
-                }
-            }
-        });
-
-        bottomBar.setActiveTabColor("#D32F2F");
-
-         Bottom NavBar **/
-
-        /**Checking unread Message **/
         checkingUnreadMessage();
-        /**Checking unread Message **/
 
-        /** checking listening main menu **/
         imageJadwaldokter = (CardView) findViewById(R.id.menu_jadwaldokter);
         imagePasien = (CardView) findViewById(R.id.menu_pasien);
         imagePendaftaran = (CardView) findViewById(R.id.menu_pendaftaran);
@@ -292,6 +203,35 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
+
+        Set<String> set = prefs.getStringSet("listBanner", null);
+        final List<String> images = new ArrayList<String>(set);
+
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView.setPageCount(images.size());
+        carouselView.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(final int position, ImageView imageView) {
+
+                Log.d(TAG, "image: " + images.get(position).toString());
+
+                Glide.with(getBaseContext())
+                        .load(images.get(position).toString())
+                        .centerCrop()
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(imageView);
+
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*String imageUrl = images.get(position);
+                        System.out.println("ImageView clicked! " + imageUrl); // outputs the imageUrl registered*/
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -305,6 +245,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -316,23 +258,10 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
 
         int id = item.getItemId();
 
-        if (id == MenuIdActive) {
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
-        }
-
-        MenuIdActive = item.getItemId();
-
         if (id == R.id.dashboard) {
-
-           /* transaction.replace(R.id.container, HomeFrag);
-            transaction.commit();
-
-            //bottomBar.selectTabAtPosition(0, false);*/
 
         } else if (id == R.id.pasien) {
 
@@ -341,21 +270,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.order) {
 
-            /*transaction.replace(R.id.container, OrderFrag);
-            transaction.commit();
-
-            //bottomBar.selectTabAtPosition(1, false);*/
-
             Intent intent = new Intent(this, PendaftaranActivity.class);
             startActivity(intent);
 
 
         } else if (id == R.id.inbox) {
 
-           /* transaction.replace(R.id.container, InboxFrag);
-            transaction.commit();
-
-            bottomBar.selectTabAtPosition(2, false);*/
             Intent intent = new Intent(this, InboxActivity.class);
             startActivity(intent);
 
@@ -365,12 +285,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, JadwalDokterActivity.class);
             startActivity(intent);
 
-
-        /*} else if (id == R.id.myacccount) {*/
-
         } else if (id == R.id.logout) {
 
-            sharedPreferences.edit().clear().commit();
+            SharedPreferences preferences = getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -389,12 +309,12 @@ public class MainActivity extends AppCompatActivity
 
         emailText = (TextView) header.findViewById(R.id.header_email);
         namaText = (TextView) header.findViewById(R.id.header_name);
-        imageHeader = (ImageView) header.findViewById(R.id.header_image);
+        //imageHeader = (ImageView) header.findViewById(R.id.header_image);
 
         emailText.setText(email);
         namaText.setText(nama);
 
-        String url = "http://103.43.44.211:1337/v1/user/profilepicture/" + profilePicture;
+        /*String url = "http://103.23.22.46:1337/v1/user/profilepicture/" + profilePicture;
         ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -415,12 +335,11 @@ public class MainActivity extends AppCompatActivity
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(ir);
+        requestQueue.add(ir);*/
     }
 
     private void updateFCMToken()
     {
-        /** update FCM token to server **/
         Integer idSP = sharedPreferences.getInt("id", 0);
 
         if(idSP != 0){
@@ -430,10 +349,7 @@ public class MainActivity extends AppCompatActivity
 
             User user = new User();
             user.updateFCMToken(token, idSP, jwTokenSP, this.getBaseContext());
-
-           // Log.d("Firebase", "token: " + token);
         }
-        /** update FCM token to server **/
     }
 
     private void refreshingToken()
@@ -444,7 +360,7 @@ public class MainActivity extends AppCompatActivity
 
     private void checkingUnreadMessage()
     {
-        String url =  "http://103.43.44.211:1337/v1/count/unread";
+        String url =  "http://103.23.22.46:1337/v1/count/unread";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -454,18 +370,13 @@ public class MainActivity extends AppCompatActivity
                         try {
                             Integer count = response.getInt("data");
                             if(count > 0){
-                               /* unreadMessages = bottomBar.makeBadgeForTabAt(2, "#D32F2F", count);
-                                unreadMessages.show();
-                                unreadMessages.setAnimationDuration(200);*/
 
-                                TextView unread = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                                        findItem(R.id.inbox));
+                                TextView view = (TextView) navigationView.getMenu().findItem(R.id.inbox).getActionView();
+                                view.setText(count > 0 ? String.valueOf(count) : null);
 
-                                unread.setGravity(Gravity.CENTER_VERTICAL);
-                                unread.setTypeface(null, Typeface.BOLD);
+                                unread.setVisibility(View.VISIBLE);
 
-                                unread.setTextColor(getColor(R.color.colorPrimary));
-                                unread.setText(count.toString());
+                                Log.d(TAG, "checkingUnreadMessage: " + String.valueOf(count));
                             }
 
                         } catch (JSONException e) {
@@ -477,7 +388,7 @@ public class MainActivity extends AppCompatActivity
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        error.printStackTrace();
                     }
                 }
         ){
@@ -489,18 +400,8 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
-
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sliderImage[position]);
-        }
-    };
 
 }

@@ -44,19 +44,17 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
         private final TextView dokter_name;
         private final TextView hari;
         private final TextView jadwal;
-        private final TextView no_antrian;
         private final TextView tanggal;
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OldOrder oldOrder = OldOrder.get(getPosition());
+                    OldOrder oldOrder = OldOrder.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
-                    b.putInt("id", oldOrder.getOrder_id());
+                    b.putString("id", oldOrder.getOrder_id().toString());
 
                     Intent intent = new Intent(context, DetailOrderOld.class);
                     intent.putExtras(b);
@@ -68,7 +66,6 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
             layanan_name = (TextView) v.findViewById(R.id.name_layanan);
             hari = (TextView) v.findViewById(R.id.hari);
             jadwal = (TextView) v.findViewById(R.id.jam);
-            no_antrian = (TextView) v.findViewById(R.id.no_antrian);
             tanggal = (TextView) v.findViewById(R.id.tanggal);
         }
 
@@ -90,7 +87,6 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
         viewHolder.pasien_name.setText(oldOrder.getPasien_name());
         viewHolder.hari.setText(oldOrder.getDetailjadwal_hari());
         viewHolder.jadwal.setText(oldOrder.getDetailjadwal_jammulai() + " . " + oldOrder.getDetailjadwal_jamtutup());
-        viewHolder.no_antrian.setText(oldOrder.getOrder_noUrut());
         viewHolder.dokter_name.setText(oldOrder.getDokter_name());
         viewHolder.layanan_name.setText(oldOrder.getLayanan_name());
         viewHolder.tanggal.setText(oldOrder.getOrder_tanggal());

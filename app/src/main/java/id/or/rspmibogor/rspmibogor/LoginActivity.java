@@ -1,41 +1,23 @@
 package id.or.rspmibogor.rspmibogor;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,17 +31,14 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import id.or.rspmibogor.rspmibogor.Models.User;
 
-import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -73,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //ButterKnife.inject(this);
 
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);
@@ -94,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
@@ -128,13 +105,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.43.44.211:1337/v1/login";
+        String url = "http://103.23.22.46:1337/v1/login";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // response
+
                         progressDialog.dismiss();
                         try {
                             onLoginSuccess(response);
@@ -147,27 +124,28 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
-                        progressDialog.dismiss();
 
+                        progressDialog.dismiss();
 
                         String message = null;
 
-                        //JSONObject data = new JSONObject(error.networkResponse.data);
+                        if(error.networkResponse != null && error.networkResponse.data != null){
+                            try {
 
-                        try {
-                            String body = new String(error.networkResponse.data,"UTF-8");
-                            JSONObject data = new JSONObject(body);
-                            message = data.getString("message");
-                            Log.d("login - Error.Response", data.getString("message"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                String body = new String(error.networkResponse.data,"UTF-8");
+
+                                JSONObject data = new JSONObject(body);
+                                message = data.getString("message");
+                                Log.d("login - Error.Response", data.getString("message"));
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         onLoginFailed(message);
-
 
                     }
                 }
@@ -182,8 +160,6 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
         }
@@ -191,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
+
         moveTaskToBack(true);
     }
 
@@ -202,10 +178,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d(TAG, "onLoginSuccess data: " + data.toString());
         Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);
-
-        /**SharedPreferences sharedpreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS" ,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("jwtToken", jwtToken);**/
 
         User user = new User();
         user.getDataFromToken(jwtToken, this);
@@ -231,12 +203,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed(String message) {
+
         String msg = null;
         if(message == null) msg = "Login Failed";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
+
     }
 
     public boolean validate() {
@@ -261,5 +235,80 @@ public class LoginActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    /*private void initBanner()
+    {
+        String url =  "http://103.23.22.46:1337/v1/banner?show=1";
+
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+
+                            parseBanner(data);
+
+                            Log.d("Login Activity", "initBanner - response" + response.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(req);
+    }
+
+    private void parseBanner(JSONArray array){
+
+        List<String> images = new ArrayList<>();
+
+        if(array.length() > 0) {
+
+            for (int i = 0; i < array.length(); i++) {
+
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    final String link = json.getString("link");
+                    final String uri = "http://103.23.22.46:1337/v1/getbanner/" + link.toString();
+
+                    images.add(uri);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }else{
+
+            Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+            images.add(String.valueOf(url));
+
+        }
+
+        SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit=prefs.edit();
+
+        Set<String> set = new HashSet<String>();
+        set.addAll(images);
+        edit.putStringSet("listBanner", set);
+        edit.commit();
+
+        Log.d("Login Activity", "prefs banner: " + prefs);
+    }*/
 }
 

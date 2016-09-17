@@ -146,15 +146,30 @@
                     android:layout_margin="12dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Kotak Masuk"
                     android:layout_marginTop="5dp"
                     android:layout_centerInParent="true"
-                    android:gravity="center"
                     android:textColor="#000"
+                    android:id="@+id/inbox"
                     android:layout_below="@+id/icon_inbox"
                     android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/unread"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentEnd="false"
+                    android:layout_below="@+id/icon_inbox"
+                    android:layout_toRightOf="@+id/inbox"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="invisible" />
 
             </RelativeLayout>
 

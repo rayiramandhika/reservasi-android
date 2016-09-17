@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +15,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
@@ -86,6 +94,35 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
 
         viewHolder.dokter_name.setText(dokter.getDokter_name());
         viewHolder.layanan_name.setText(dokter.getLayanan_name());
+
+        final ImageView foto = viewHolder.foto;
+
+        String uriFoto = dokter.getDokter_foto();
+
+        if(uriFoto.isEmpty())
+        {
+            foto.setImageDrawable(activity.getDrawable(R.drawable.noprofile));
+        }else {
+            String url = "http://103.23.22.46:1337/v1/dokter/foto/" + dokter.getDokter_foto();
+            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    Log.d("Main Activity", "ImageRequest - response" + response);
+
+                    foto.setImageBitmap(response);
+                }
+            }, 0, 0, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    foto.setImageDrawable(activity.getDrawable(R.drawable.noprofile));
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(activity);
+            requestQueue.add(ir);
+        }
+
     }
 
     @Override

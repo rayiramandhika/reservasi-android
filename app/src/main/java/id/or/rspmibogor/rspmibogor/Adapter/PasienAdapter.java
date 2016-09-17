@@ -76,20 +76,11 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
         public ViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    /**Pasien pasien =  Pasien.get(getPosition());
-
-                    Bundle b = new Bundle();
-                    //b.putInt("id", Pasien.);
-
-                    Intent intent = new Intent(Context, DetailInbox.class);
-                    intent.putExtras(b);
-                    Context.startActivity(intent);**/
-                    //Log.d(TAG, "Element " + getPosition() + " clicked.");
 
                 }
             });
@@ -112,27 +103,27 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final Pasien pasien =  Pasien.get(position);
 
-        //viewHolder.title.setText(pasien.getTitle());
+
         viewHolder.pasien_name.setText(pasien.getPasien_name());
         viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
         viewHolder.menuMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Creating the instance of PopupMenu
+
                 PopupMenu popup = new PopupMenu(activity, viewHolder.menuMore);
-                //Inflating the Popup using xml file
+
                 popup.getMenuInflater()
                         .inflate(R.menu.menu_pasien, popup.getMenu());
 
-                //registering popup with OnMenuItemClickListener
+
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         Integer pasien_id = pasien.getPasien_id();
                         String title = item.getTitle().toString();
                         switch (title){
                             case "Edit":
-                                editPasien(pasien_id);
+                                editPasien(pasien);
                                 break;
                             case "Hapus":
                                 deletePasien(pasien_id, position);
@@ -142,7 +133,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                     }
                 });
 
-                popup.show(); //showing popup menu
+                popup.show();
             }
         });
 
@@ -169,10 +160,38 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    private void editPasien(Integer id)
+    private void editPasien(Pasien pasien)
     {
         Bundle b = new Bundle();
-        b.putInt("pasien_id", id);
+        b.putInt("id", pasien.getPasien_id());
+        b.putString("noID", pasien.getPasien_noID());
+        b.putString("noRekamMedik", pasien.getPasien_noRekamMedik());
+        b.putString("nama", pasien.getPasien_name());
+        b.putString("tempatLahir", pasien.getPasien_tempatLahir());
+        b.putString("tanggalLahir", pasien.getPasien_tanggalLahir());
+        b.putString("jenisKelamin", pasien.getPasien_jenisKelamin());
+        b.putString("umur", pasien.getPasien_umur());
+        b.putString("wargaNegara", pasien.getPasien_wargaNegara());
+        b.putString("noTelp", pasien.getPasien_noTelp());
+        b.putString("agama", pasien.getPasien_agama());
+        b.putString("pendidikan", pasien.getPasien_pendidikan());
+        b.putString("pekerjaan", pasien.getPasien_pekerjaan());
+        b.putString("golonganDarah", pasien.getPasien_golonganDarah());
+
+        b.putString("statusMarital", pasien.getPasien_statusMarital());
+        b.putString("namaPasutri", pasien.getPasien_namaPasutri());
+        b.putString("namaAyah", pasien.getPasien_namaAyah());
+        b.putString("namaIbu", pasien.getPasien_namaIbu());
+
+        b.putString("alamat", pasien.getPasien_alamat());
+        b.putString("provinsi", pasien.getPasien_provinsi());
+        b.putString("kota", pasien.getPasien_kota());
+        b.putString("kecamatan", pasien.getPasien_kecamatan());
+        b.putString("desa", pasien.getPasien_desa());
+
+        b.putString("jenisPembayaran", pasien.getPasien_jenisPembayaran());
+        b.putString("namaPenjamin", pasien.getPasien_namaPenjamin());
+        b.putString("type", pasien.getPasien_type());
 
         Intent intent = new Intent(activity, PasienEditActivity.class);
         intent.putExtras(b);
@@ -184,19 +203,19 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         Log.d(TAG, "position: "+ position);
 
         RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = "http://103.43.44.211:1337/v1/pasien/" + id;
+        String url = "http://103.23.22.46:1337/v1/pasien/" + id;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.DELETE, url,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // response
+
                         Pasien pasien = Pasien.get(position);
                         Pasien.remove(pasien);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, Pasien.size());
-                        //notifyDataSetChanged();
+
 
                         Toast.makeText(activity, "Pasien berhasil dihapus.", Toast.LENGTH_SHORT).show();
                         Log.d("deleteFromServer - Response", response.toString());
@@ -207,7 +226,6 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
                         Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }

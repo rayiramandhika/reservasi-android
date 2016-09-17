@@ -7,11 +7,13 @@ import android.util.Log;
 
 import com.github.fcannizzaro.materialstepper.AbstractStep;
 import com.github.fcannizzaro.materialstepper.style.DotStepper;
+import com.github.fcannizzaro.materialstepper.style.ProgressStepper;
 import com.github.fcannizzaro.materialstepper.style.TabStepper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.CheckingData;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasKeluarga;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasPasien;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.Pembayaran;
@@ -34,11 +36,7 @@ public class PasienAddActivity extends DotStepper {
         addStep(createFragment(new IdentitasKeluarga()));
         addStep(createFragment(new TempatTinggal()));
         addStep(createFragment(new Pembayaran()));
-
-        Toolbar toolbar = getToolbar();
-        //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
-        if(toolbar == null) Log.d("actionBar", String.valueOf(toolbar));
-        //Log.d("PassienAddActivity", "toolbar: " + toolbar.toString());
+        addStep(createFragment(new CheckingData()));
 
         EventBus.getDefault().register(this);
 
@@ -60,11 +58,15 @@ public class PasienAddActivity extends DotStepper {
     }*/
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
-
 
     @Subscribe
     public void onEvent(MessageEvent event){

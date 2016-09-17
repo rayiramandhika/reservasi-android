@@ -9,10 +9,12 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,7 +42,6 @@ public class IdentitasPasien extends AbstractStep {
 
     private TextView nama;
     private TextView tempatLahir;
-    private TextView umur;
     private TextView noID;
     private TextView wargaNegara;
     private TextView noRekamMedik;
@@ -55,25 +56,55 @@ public class IdentitasPasien extends AbstractStep {
     private RadioGroup jenisKelaminGroup;
     private RadioButton jenisKelaminRadio;
 
+    private RadioGroup typePasienGroup;
+    private RadioButton typePasienRadio;
+
+
+    String jnsKelamin = "Laki-laki";
+    String typePasien = "Pasien Lama";
+
+    Toolbar toolbar;
+
+    @Override
+    public void onCreate(Bundle savedInstace)
+    {
+        super.onCreate(savedInstace);
+        toolbar = mStepper.getToolbar();
+        if(toolbar==null){
+            Log.d("toolbar","null");
+        }
+        else{
+            toolbar = mStepper.getToolbar();
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mStepper.finish();
+                }
+            });
+        }
+    }
+
+    private android.support.v7.app.ActionBar getActionBar() {
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getActivity().finish();
+        return true;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_diri, container, false);
 
-        Toolbar toolbar = mStepper.getToolbar();
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().finish();
-            }
-        });
 
         nama = (TextView) v.findViewById(R.id.nama);
         tempatLahir = (TextView) v.findViewById(R.id.tempatLahir);
         agama = (MaterialBetterSpinner) v.findViewById(R.id.agama);
-        umur = (TextView) v.findViewById(R.id.umur);
         wargaNegara = (TextView) v.findViewById(R.id.wargaNegara);
         noRekamMedik = (TextView) v.findViewById(R.id.noRekamMedik);
         noID = (TextView) v.findViewById(R.id.noID);
@@ -85,9 +116,47 @@ public class IdentitasPasien extends AbstractStep {
         bulanLahir = (MaterialBetterSpinner) v.findViewById(R.id.bulanLahir);
         tahunLahir = (MaterialBetterSpinner) v.findViewById(R.id.tahunLahir);
         jenisKelaminGroup = (RadioGroup) v.findViewById(R.id.jenisKelamin);
+        typePasienGroup = (RadioGroup) v.findViewById(R.id.typePasien);
 
         int selectedId = jenisKelaminGroup.getCheckedRadioButtonId();
         jenisKelaminRadio = (RadioButton) v.findViewById(selectedId);
+
+        jenisKelaminGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i){
+                    case R.id.lakiLaki:
+                        jnsKelamin = "Laki-laki";
+                        break;
+
+                    case R.id.perempuan:
+                        jnsKelamin = "Perempuan";
+                        break;
+                }
+
+            }
+        });
+
+
+
+        int selectedIdType = typePasienGroup.getCheckedRadioButtonId();
+        typePasienRadio = (RadioButton) v.findViewById(selectedIdType);
+
+        typePasienGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i){
+                    case R.id.lama:
+                        typePasien = "Pasien Lama";
+                        break;
+
+                    case R.id.baru:
+                        typePasien = "Pasien Baru";
+                        break;
+                }
+
+            }
+        });
 
         initSpinner();
 
@@ -112,16 +181,16 @@ public class IdentitasPasien extends AbstractStep {
         int poss = this.getArguments().getInt("position");
         Bundle b = getStepDataFor(poss);
 
+
         String namaTxt = nama.getText().toString();
         String noIDTxt = noID.getText().toString();
         String noRekamMdk = noRekamMedik.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
-        String umurTxt = umur.getText().toString();
         String tmptLahirTxt = tempatLahir.getText().toString();
         String tglLahirTxt = tanggalLahir.getText().toString();
         String blnLahirTxt = bulanLahir.getText().toString();
         String thnLahirTxt = tahunLahir.getText().toString();
-        String jlTxt = jenisKelaminRadio.getText().toString();
+        String jlTxt = jnsKelamin;
         String noTelpTxt = noTelp.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = pendidikan.getText().toString();
@@ -133,7 +202,6 @@ public class IdentitasPasien extends AbstractStep {
         b.putInt("position", poss);
         b.putString("nama", namaTxt);
         b.putString("noID", noIDTxt);
-        b.putString("umur", umurTxt);
         b.putString("noTelp", noTelpTxt);
         b.putString("noRekamMedik", noRekamMdk);
         b.putString("wargaNegara", wnTxt);
@@ -144,6 +212,7 @@ public class IdentitasPasien extends AbstractStep {
         b.putString("pendidikan", pendidikanTxt);
         b.putString("pekerjaan", pekerjaanTxt);
         b.putString("golonganDarah", gdTxt);
+        b.putString("type", typePasien);
 
     }
 
@@ -167,7 +236,6 @@ public class IdentitasPasien extends AbstractStep {
         String jlTxt = jenisKelaminRadio.getText().toString();
         String noIDTxt = noID.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
-        String umurTxt = umur.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = agama.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
@@ -193,13 +261,6 @@ public class IdentitasPasien extends AbstractStep {
             i++;
         } else {
             wargaNegara.setError(null);
-        }
-
-        if (umurTxt.isEmpty()){
-            umur.setError("Umur harus diisi");
-            i++;
-        } else {
-            umur.setError(null);
         }
 
         if (tmptLahirTxt.isEmpty()){
