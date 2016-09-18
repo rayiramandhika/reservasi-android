@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed("Login Failed");
+            onLoginFailed("Login Gagal");
             return;
         }
 
@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
         intent.putExtras(b);
 
-        Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Login Berhasil", Toast.LENGTH_SHORT).show();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginFailed(String message) {
 
         String msg = null;
-        if(message == null) msg = "Login Failed";
+        if(message == null) msg = "Login Gagal";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 

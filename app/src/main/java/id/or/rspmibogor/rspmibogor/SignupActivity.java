@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
-            onSignupFailed("Register Failed");
+            onSignupFailed("Register Gagal");
             return;
         }
 
@@ -122,8 +122,8 @@ public class SignupActivity extends AppCompatActivity {
                                 String errorMsg = data.getString("error");
                                 Log.d("login - Error.Response", errorMsg);
                                 if(errorMsg.equals("E_VALIDATION")) {
-                                    message = "Email has been taken";
-                                    _emailText.setError("Email has been taken");
+                                    message = "Email sudah terdaftar";
+                                    _emailText.setError("Email sudah terdaftar");
                                 }
 
                             } catch (UnsupportedEncodingException e) {
@@ -146,7 +146,7 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
-        Toast.makeText(getBaseContext(), "Register Success", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Register Berhasil", Toast.LENGTH_LONG).show();
         final Intent intent = new Intent(this, LoginActivity.class);
 
         new android.os.Handler().postDelayed(
@@ -161,7 +161,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupFailed(String message) {
         String msg = null;
-        if(message == null) msg = "Register Failed";
+        if(message == null) msg = "Register Gagal";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 
