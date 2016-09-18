@@ -113,7 +113,7 @@ public class DetailOrder extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
-        position_list = b.getInt("position_last");
+        position_list = b.getInt("position_list");
 
         initData();
 
