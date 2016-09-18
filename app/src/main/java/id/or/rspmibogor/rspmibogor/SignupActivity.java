@@ -113,22 +113,24 @@ public class SignupActivity extends AppCompatActivity {
 
                         String message = null;
 
-                        try {
-                            String body = new String(error.networkResponse.data,"UTF-8");
-                            JSONObject data = new JSONObject(body);
-                            //message = data.getString("message");
+                        if(error.networkResponse != null && error.networkResponse.data != null){
+                            try {
+                                String body = new String(error.networkResponse.data,"UTF-8");
+                                JSONObject data = new JSONObject(body);
+                                //message = data.getString("message");
 
-                            String errorMsg = data.getString("error");
-                            Log.d("login - Error.Response", errorMsg);
-                            if(errorMsg.equals("E_VALIDATION")) {
-                                message = "Email has been taken";
-                                _emailText.setError("Email has been taken");
+                                String errorMsg = data.getString("error");
+                                Log.d("login - Error.Response", errorMsg);
+                                if(errorMsg.equals("E_VALIDATION")) {
+                                    message = "Email has been taken";
+                                    _emailText.setError("Email has been taken");
+                                }
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
 
                         onSignupFailed(message);
