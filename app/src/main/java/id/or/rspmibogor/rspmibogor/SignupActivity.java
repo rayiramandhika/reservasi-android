@@ -143,20 +143,22 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
+        //_signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
         Toast.makeText(getBaseContext(), "Register Berhasil", Toast.LENGTH_LONG).show();
-        final Intent intent = new Intent(this, LoginActivity.class);
+        final Intent intent = new Intent(this, CompleteRegisterActivity.class);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        startActivity(intent);
-                        finish();
-                    }
-                },
-                2000);
+        String email = _emailText.getText().toString();
+
+        Bundle b = new Bundle();
+        b.putString("email", email);
+
+        intent.putExtras(b);
+
+        startActivity(intent);
+        finish();
+
     }
 
     public void onSignupFailed(String message) {

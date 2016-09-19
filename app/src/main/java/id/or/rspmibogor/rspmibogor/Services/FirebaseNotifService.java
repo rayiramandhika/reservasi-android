@@ -57,20 +57,6 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String id = remoteMessage.getData().get("id");
         String icon = remoteMessage.getNotification().getIcon();
 
-
-
-       /* Integer id = 0 ;
-
-        try {
-
-            id = Integer.parseInt(idTxt);
-
-        }catch (ParseException e)
-        {
-             id = 0;
-        }*/
-
-
         Log.d(TAG, "click_action: " + activity);
         Log.d(TAG, "id: " + id);
 
@@ -85,7 +71,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
                     intent = new Intent(this, InboxActivity.class);
 
-                }else {
+                } else {
 
                     intent = new Intent(this, DetailInbox.class);
 
@@ -101,7 +87,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
                     intent = new Intent(this, PendaftaranActivity.class);
 
-                }else {
+                } else {
 
                     intent = new Intent(this, DetailOrder.class);
 
@@ -131,19 +117,10 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
                 intent = new Intent(this, MainActivity.class);
 
-                /*Bundle b = new Bundle();
-                b.putInt("id", id);
-                intent.putExtras(b);*/
-
             }
         }else {
 
             intent = new Intent(this, MainActivity.class);
-
-            /*Bundle b = new Bundle();
-            b.putInt("id", id);
-            intent.putExtras(b);*/
-
         }
 
 

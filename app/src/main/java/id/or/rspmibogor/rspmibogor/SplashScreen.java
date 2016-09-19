@@ -54,11 +54,6 @@ public class SplashScreen extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-
-        Bundle b = getIntent().getExtras();
-        if(b != null) Log.d("SplashScreen", "b: " + b.toString());
-
-
         final Intent i;
         if(jwTokenSP == null)
         {

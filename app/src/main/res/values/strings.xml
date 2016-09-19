@@ -90,6 +90,7 @@
     <string name="title_activity_pilih_pasien">PilihPasien</string>
     <string name="title_activity_complete_order">CompleteOrder</string>
     <string name="title_activity_pasien_edit">PasienEditActivity</string>
+    <string name="title_activity_complete_register">CompleteRegisterActivity</string>
 
 
 </resources>

@@ -162,6 +162,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                         builder.setTitle("Pendaftaran Berhasil")
+                        .setCancelable(false)
                         .setMessage("Anda diminta untuk melakukan konfirmasi pada hari H paling lambat pukul 07.30. \n" +
                                 "Silahkan melakukan konfirmasi di halaman detail pendaftaran. \n \nTerima Kasih.")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -170,12 +171,14 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                 intent = new Intent(activity, PendaftaranActivity.class);
                                 activity.startActivity(intent);
 
-                                JadwalDokterActivity.getInstance().finish();
-                                DetailJadwalDokter.getInstance().finish();
-                                PilihPasienActivity.getInstance().finish();
+                                if(JadwalDokterActivity.getInstance() != null) JadwalDokterActivity.getInstance().finish();
+                                if(DetailJadwalDokter.getInstance() != null) DetailJadwalDokter.getInstance().finish();
+                                if(PilihPasienActivity.getInstance() != null) PilihPasienActivity.getInstance().finish();
                                 finish();
                             }
                         }).show();
+
+
 
                         Log.d("cancelOrder - Response", response.toString());
                     }

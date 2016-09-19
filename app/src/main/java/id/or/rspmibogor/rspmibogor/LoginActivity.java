@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess(JSONObject data) throws JSONException {
-        _loginButton.setEnabled(true);
+        //_loginButton.setEnabled(true);
 
         final String jwtToken = data.getString("token");
 
@@ -198,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                 },
-                1000);
+                2000);
 
     }
 
@@ -235,80 +235,5 @@ public class LoginActivity extends AppCompatActivity {
 
         return valid;
     }
-
-    /*private void initBanner()
-    {
-        String url =  "http://api.rspmibogor.or.id/v1/banner?show=1";
-
-        JsonObjectRequest req = new JsonObjectRequest(url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            JSONArray data = response.getJSONArray("data");
-
-                            parseBanner(data);
-
-                            Log.d("Login Activity", "initBanner - response" + response.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
-        );
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(req);
-    }
-
-    private void parseBanner(JSONArray array){
-
-        List<String> images = new ArrayList<>();
-
-        if(array.length() > 0) {
-
-            for (int i = 0; i < array.length(); i++) {
-
-                JSONObject json = null;
-                try {
-
-                    json = array.getJSONObject(i);
-
-                    final String link = json.getString("link");
-                    final String uri = "http://api.rspmibogor.or.id/v1/getbanner/" + link.toString();
-
-                    images.add(uri);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }else{
-
-            Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
-            images.add(String.valueOf(url));
-
-        }
-
-        SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit=prefs.edit();
-
-        Set<String> set = new HashSet<String>();
-        set.addAll(images);
-        edit.putStringSet("listBanner", set);
-        edit.commit();
-
-        Log.d("Login Activity", "prefs banner: " + prefs);
-    }*/
 }
 

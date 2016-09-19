@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.LoginTheme">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="id.or.rspmibogor.rspmibogor.CompleteRegisterActivity"
+        tools:showIn="@layout/activity_complete_register">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_pmi"
+            android:gravity="center"
+            android:id="@+id/relativeLayout2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="Register Berhasil"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#FFF" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout5"
+            android:layout_below="@+id/relativeLayout2"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_check_circle_black_24dp"
+                android:tint="#13C800"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Silahkan masukan kode verifikasi yang telah dikirim ke email Anda."/>
+
+            <EditText
+                android:layout_marginTop="50dp"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtCodeConfirmation"
+                android:hint="Kode Konfirmasi"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:inputType="number"
+                android:maxLength="4"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="kirim ulang kode verfikasi"
+                android:id="@+id/txtKirimUlang"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

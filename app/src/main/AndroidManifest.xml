@@ -56,13 +56,12 @@
             android:name=".DetailInbox"
             android:label="@string/title_activity_detail_inbox"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="open_detail_inbox" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -72,28 +71,26 @@
             android:name=".SignupActivity"
             android:label="Sign Up"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".DetailOrder"
+        <activity
+            android:name=".DetailOrder"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="open_detail_order" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".DetailOrderOld"
             android:label="@string/title_activity_detail_order_old"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="open_detail_old_order" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".SplashScreen"
@@ -129,6 +126,10 @@
             android:name=".PasienEditActivity"
             android:label="@string/title_activity_pasien_edit"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CompleteRegisterActivity"
+            android:label="@string/title_activity_complete_register"
             android:theme="@style/AppTheme"></activity>
     </application>
 
