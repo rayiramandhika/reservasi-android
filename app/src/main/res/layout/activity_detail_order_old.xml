@@ -31,362 +31,362 @@
             android:layout_height="wrap_content">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/container"
-            android:focusableInTouchMode="true">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:foregroundGravity="center"
-                android:id="@+id/card1"
-                android:elevation="4dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Berikan Penilaianmu Untuk Pelayanan RS PMI Bogor"
-                        android:id="@+id/title"
-                        android:gravity="center"
-                        android:textColor="#000"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:layout_margin="12dp"/>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/containerRating"
-                        android:gravity="center"
-                        android:layout_below="@+id/title">
-
-                        <ImageView
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:src="@drawable/rating_ok"
-                            android:id="@+id/ratingImage"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ratingLayout"
-                        android:layout_below="@+id/containerRating"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:layout_marginTop="12dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rating_boo"
-                            android:layout_gravity="center"
-                            android:id="@+id/ratingBoo"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"
-                            android:tintMode="src_over" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rating_argh"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:id="@+id/ratingArgh"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rating_ok"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:id="@+id/ratingOk"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rating_aha"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:id="@+id/ratingAha"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/rating_wow"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:id="@+id/ratingWow"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_below="@+id/ratingLayout">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="Saran yang perlu di perbaiki"
-                            android:id="@+id/textView6"
-                            android:layout_above="@+id/editText"
-                            android:layout_alignLeft="@+id/editText"
-                            android:layout_alignStart="@+id/editText"
-                            android:textStyle="bold"
-                            android:layout_marginTop="20dp"
-                            android:paddingLeft="20dp"
-                            android:textSize="15dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:id="@+id/saranFormlayout"
-                            android:visibility="visible">
-
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/saranEditTxt"
-                                android:layout_marginLeft="20dp"
-                                android:layout_weight="1" />
-
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_send_black_24dp"
-                                android:layout_weight="5"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:clickable="true"
-                                android:id="@+id/btnSend" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/saranTextLayout"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:visibility="invisible">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="New Text"
-                                android:id="@+id/txtSaran"
-                                android:gravity="center"
-                                android:textSize="15dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:elevation="4dp">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/container"
+                android:focusableInTouchMode="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Info Dokter"
-                    android:id="@+id/textView8"
-                    android:layout_marginLeft="12dp"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:layout_margin="12dp" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:foregroundGravity="center"
+                    android:id="@+id/card1"
+                    android:elevation="4dp">
 
-                <LinearLayout
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Berikan Penilaianmu Untuk Pelayanan RS PMI Bogor"
+                            android:id="@+id/title"
+                            android:gravity="center"
+                            android:textColor="#000"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_margin="12dp"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/containerRating"
+                            android:gravity="center"
+                            android:layout_below="@+id/title">
+
+                            <ImageView
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:src="@drawable/rating_ok"
+                                android:id="@+id/ratingImage"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ratingLayout"
+                            android:layout_below="@+id/containerRating"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:layout_marginTop="12dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/rating_boo"
+                                android:layout_gravity="center"
+                                android:id="@+id/ratingBoo"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:tintMode="src_over" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/rating_argh"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/ratingArgh"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"/>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/rating_ok"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/ratingOk"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"/>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/rating_aha"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/ratingAha"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"/>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/rating_wow"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/ratingWow"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_below="@+id/ratingLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="Saran yang perlu di perbaiki"
+                                android:id="@+id/textView6"
+                                android:layout_above="@+id/editText"
+                                android:layout_alignLeft="@+id/editText"
+                                android:layout_alignStart="@+id/editText"
+                                android:textStyle="bold"
+                                android:layout_marginTop="20dp"
+                                android:paddingLeft="20dp"
+                                android:textSize="15dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:id="@+id/saranFormlayout"
+                                android:visibility="visible">
+
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/saranEditTxt"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_weight="1" />
+
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_send_black_24dp"
+                                    android:layout_weight="5"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:id="@+id/btnSend" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/saranTextLayout"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:visibility="invisible">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="New Text"
+                                    android:id="@+id/txtSaran"
+                                    android:gravity="center"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/dokter_foto"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp"
-                        android:layout_gravity="center"
-                        android:baselineAlignBottom="false"/>
-
+                    android:layout_marginTop="10dp"
+                    android:elevation="4dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Nama Dokter"
-                            android:id="@+id/dokter_name"
-                            android:layout_gravity="center"
-                            android:textSize="16dp" />
+                            android:text="Info Dokter"
+                            android:id="@+id/textView8"
+                            android:layout_marginLeft="12dp"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:layout_margin="12dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="Nama Layanan"
-                            android:id="@+id/layanan_name"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="13dp" />
+                            android:padding="16dp"
+                            android:weightSum="1"
+                            android:orientation="horizontal">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/dokter_foto"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginRight="16dp"
+                                android:layout_gravity="center"
+                                android:baselineAlignBottom="false"/>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="Nama Dokter"
+                                    android:id="@+id/dokter_name"
+                                    android:layout_gravity="center"
+                                    android:textSize="16dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="Nama Layanan"
+                                    android:id="@+id/layanan_name"
+                                    android:layout_gravity="center_vertical"
+                                    android:textSize="13dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:elevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Detail Pendaftaran"
+                            android:id="@+id/textView8"
+                            android:layout_marginLeft="12dp"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:layout_margin="12dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="12dp">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_date_range_black_24dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:text="26-Agustus-2016"
+                                android:id="@+id/tanggal"
+                                android:layout_gravity="center"
+                                android:textSize="18dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="12dp">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_access_time_black_24dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:text="13:00 - 14:00"
+                                android:id="@+id/jam"
+                                android:layout_gravity="center"
+                                android:textSize="18dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_margin="12dp">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_accessible_black_24dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:text="Nama Pasien"
+                                android:id="@+id/pasien_name"
+                                android:layout_gravity="center"
+                                android:textSize="18dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
-                android:elevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Detail Pendaftaran"
-                        android:id="@+id/textView8"
-                        android:layout_marginLeft="12dp"
-                        android:textStyle="bold"
-                        android:textSize="15dp"
-                        android:layout_margin="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="12dp">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/ic_date_range_black_24dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:text="26-Agustus-2016"
-                            android:id="@+id/tanggal"
-                            android:layout_gravity="center"
-                            android:textSize="18dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="12dp">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/ic_access_time_black_24dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:text="13:00 - 14:00"
-                            android:id="@+id/jam"
-                            android:layout_gravity="center"
-                            android:textSize="18dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_margin="12dp">
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/ic_accessible_black_24dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:text="Nama Pasien"
-                            android:id="@+id/pasien_name"
-                            android:layout_gravity="center"
-                            android:textSize="18dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
 
         </ScrollView>
 

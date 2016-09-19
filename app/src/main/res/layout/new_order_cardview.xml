@@ -25,41 +25,29 @@
                 android:id="@+id/name_pasien"
                 android:textSize="20sp"
                 android:text="Nama Pasien"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_weight="1" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/name_dokter"
-                    android:textSize="12sp"
-                    android:text="Nama Dokter"
-                    android:layout_centerHorizontal="true"
-                    android:textIsSelectable="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_dokter"
+                android:textSize="12sp"
+                android:text="Nama Dokter"
+                android:layout_centerHorizontal="true"
+                android:textIsSelectable="false"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginRight="3dp"
-                    android:textSize="12sp"
-                    android:text="-"
-                    android:layout_centerHorizontal="true"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/name_layanan"
-                    android:textSize="12sp"
-                    android:text="Nama Layanan"
-                    android:layout_centerHorizontal="true"
-                    android:textIsSelectable="false" />
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_layanan"
+                android:textSize="12sp"
+                android:text="Nama Layanan"
+                android:layout_centerHorizontal="true"
+                android:textIsSelectable="false"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
