@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.RingtoneManager;
 import android.net.ParseException;
@@ -19,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -140,7 +143,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         if(title != null) setTitle = title;
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setSmallIcon(R.drawable.icon_notif);
+        builder.setSmallIcon(R.drawable.icon);
         builder.setContentTitle(setTitle);
         builder.setContentText(messageBody);
         builder.setAutoCancel(true);
@@ -154,4 +157,8 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
         notificationManager.notify(0, builder.build());
     }
+
+
+
+
 }
