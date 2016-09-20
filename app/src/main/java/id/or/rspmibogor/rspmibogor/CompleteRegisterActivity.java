@@ -33,7 +33,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
 
     private EditText edtConfirm;
-    private TextView txtSendEmail;
+    private TextView txtSendEmail, txtLogin;
     private ProgressDialog progressDialog;
     private String TAG = "CompleteRegisterActivity";
 
@@ -44,6 +44,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
         edtConfirm = (EditText) findViewById(R.id.edtCodeConfirmation);
         txtSendEmail = (TextView)  findViewById(R.id.txtKirimUlang);
+        txtLogin =  (TextView) findViewById(R.id.txtLogin);
 
         progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
         progressDialog.setIndeterminate(true);
@@ -78,6 +79,14 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                 progressDialog.show();
                 sendEmail();
 
+            }
+        });
+
+        txtLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CompleteRegisterActivity.this, LoginActivity.class));
+                finish();
             }
         });
 
