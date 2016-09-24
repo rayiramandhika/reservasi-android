@@ -240,7 +240,7 @@ public class EditIdentitasDiri extends AbstractStep {
 
     @Override
     public void onNext() {
-        Log.d(TAG, "onNext");
+       // Log.d(TAG, "onNext");
 
         int poss = this.getArguments().getInt("position");
         Bundle b = getStepDataFor(poss);
@@ -291,7 +291,7 @@ public class EditIdentitasDiri extends AbstractStep {
 
     @Override
     public boolean nextIf() {
-        Log.d(TAG, "nextIf");
+       // Log.d(TAG, "nextIf");
 
         Integer i = 0;
 

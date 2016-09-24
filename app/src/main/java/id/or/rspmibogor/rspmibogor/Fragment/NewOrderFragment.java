@@ -91,7 +91,6 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(TAG, "onCreateView - loaded");
         View viewRoot =  inflater.inflate(R.layout.fragment_new_order, container, false);
         spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
         nodata = (RelativeLayout) viewRoot.findViewById(R.id.nodata);
@@ -118,7 +117,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initDataset() {
 
-        String url = "http://api.rspmibogor.or.id/v1/getorder/new";
+        String url = "http://103.23.22.46:1337/v1/getorder/new";
         spinner.setVisibility(View.VISIBLE);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
@@ -130,7 +129,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -170,7 +169,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                     json = array.getJSONObject(i);
 
-                    Log.d(TAG, "parseData - json" + json);
+                    //Log.d(TAG, "parseData - json" + json);
 
                     JSONObject pasien = json.getJSONObject("pasien");
                     JSONObject detailjadwal = json.getJSONObject("detailjadwal");
@@ -213,7 +212,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Subscribe
     public void onEvent(MessageEvent event){
-        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+       // Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
 
         String msg = event.getPesan();
 
@@ -222,7 +221,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
             try{
 
                 Integer pos = event.getPosition_list();
-                Log.d(TAG, "onEvent - loaded - event - position_list: " + pos );
+                //Log.d(TAG, "onEvent - loaded - event - position_list: " + pos );
 
                 NewOrder newOrder = listNewOrder.get(pos);
                 listNewOrder.remove(newOrder);
@@ -249,7 +248,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void refreshData() {
 
-        String url = "http://api.rspmibogor.or.id/v1/getorder/new";
+        String url = "http://103.23.22.46:1337/v1/getorder/new";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -259,7 +258,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -301,7 +300,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                     json = array.getJSONObject(i);
 
-                    Log.d(TAG, "parseData - json" + json);
+                    //Log.d(TAG, "parseData - json" + json);
 
                     JSONObject pasien = json.getJSONObject("pasien");
                     JSONObject detailjadwal = json.getJSONObject("detailjadwal");

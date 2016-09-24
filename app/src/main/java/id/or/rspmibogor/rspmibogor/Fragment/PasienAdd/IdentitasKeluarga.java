@@ -77,7 +77,7 @@ public class IdentitasKeluarga  extends AbstractStep {
     @Override
     public void onNext() {
 
-        Log.d(TAG, "onNext");
+        //Log.d(TAG, "onNext");
 
 
         String nmPasutri = namaPasutri.getText().toString();
@@ -104,7 +104,7 @@ public class IdentitasKeluarga  extends AbstractStep {
      @Override
      public boolean nextIf() {
 
-         Log.d(TAG, "nextIf");
+         //Log.d(TAG, "nextIf");
 
          Integer i = 0;
 

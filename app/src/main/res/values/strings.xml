@@ -91,6 +91,23 @@
     <string name="title_activity_complete_order">CompleteOrder</string>
     <string name="title_activity_pasien_edit">PasienEditActivity</string>
     <string name="title_activity_complete_register">CompleteRegisterActivity</string>
+    <string name="title_activity_bantuan">BantuanActivity</string>
+
+
+
+    <string name="next">Selanjutnya</string>
+    <string name="skip">SKIP</string>
+    <string name="start">SIGN IN</string>
+
+    <string name="slide_1_title">Halo! Selamat Datang di Pendataran Online RS PMI Bogor.</string>
+    <string name="slide_1_desc">Aplikasi ini akan membantu Anda untuk melakukan pendaftaran rawat jalan Poliklinik Afiat di RS PMI Bogor secara online.</string>
+
+    <string name="slide_2_title">Informasi Perubahan Jadwal Praktek Dokter</string>
+    <string name="slide_2_desc">Jika anda sudah melakukan pendaftaran pada jadwal praktek tersebut (jadwal yang berubah). kami akan informasikan melalui notifikasi atau kotak masuk.</string>
+
+    <string name="slide_3_title">Konfirmasi Pendaftaran</string>
+    <string name="slide_3_desc">Lakukan konfirmasi pendaftaran Anda pada hari H di halaman detail pendaftaran. Pendaftaran akan di anggap batal jika Anda tidak melakukan konfirmasi pendaftaran.</string>
+
 
 
 </resources>

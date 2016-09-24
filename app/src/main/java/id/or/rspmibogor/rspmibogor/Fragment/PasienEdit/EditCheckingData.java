@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,10 @@ public class EditCheckingData extends AbstractStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_checking, container, false);
+
+        mStepper.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         noID =  (TextView) v.findViewById(R.id.noID);
         noRekamMedik =  (TextView) v.findViewById(R.id.noRekamMedik);
@@ -154,7 +160,7 @@ public class EditCheckingData extends AbstractStep {
 
     @Override
     public void onNext() {
-        Log.d(TAG, "onNext");
+        //Log.d(TAG, "onNext");
 
 
         saveData();
@@ -218,7 +224,7 @@ public class EditCheckingData extends AbstractStep {
 
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = "http://api.rspmibogor.or.id/v1/pasien/" + getArguments().getInt("pasien_id");
+        String url = "http://103.23.22.46:1337/v1/pasien/" + getArguments().getInt("pasien_id");
 
         JSONObject object = new JSONObject();
         try {
@@ -275,7 +281,7 @@ public class EditCheckingData extends AbstractStep {
                                 },
                                 500);
 
-                        Log.d("SaveData - Response", response.toString());
+                        //Log.d("SaveData - Response", response.toString());
                     }
 
                 },
@@ -285,7 +291,7 @@ public class EditCheckingData extends AbstractStep {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(activity, "Pasien Gagal diubah", Toast.LENGTH_SHORT).show();
-                        Log.d("getDataFromToken - Error.Response", String.valueOf(error));
+                       // Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
                 }
         ){

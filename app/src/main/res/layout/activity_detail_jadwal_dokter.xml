@@ -49,21 +49,23 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/dokter_name"
-                android:layout_gravity="bottom|center"
+                android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="#FFF"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/layanan_name"
-                android:layout_gravity="bottom|center"
+                android:layout_gravity="center"
                 android:textSize="13dp"
                 android:textAlignment="center"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:gravity="center" />
 
         </LinearLayout>
 

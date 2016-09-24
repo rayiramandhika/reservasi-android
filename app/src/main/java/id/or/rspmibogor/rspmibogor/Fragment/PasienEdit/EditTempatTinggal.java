@@ -83,7 +83,7 @@ public class EditTempatTinggal extends AbstractStep {
 
     @Override
     public void onNext() {
-        Log.d(TAG, "onNext");
+        //Log.d(TAG, "onNext");
 
         String alamatTxt = alamat.getText().toString();
         String provinsiTxt = provinsi.getText().toString();
@@ -109,7 +109,7 @@ public class EditTempatTinggal extends AbstractStep {
     @Override
     public boolean nextIf() {
 
-        Log.d(TAG, "nextIf");
+        //Log.d(TAG, "nextIf");
 
         Integer i = 0;
 

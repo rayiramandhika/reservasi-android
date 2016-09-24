@@ -109,7 +109,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void initDataset() {
 
-        String url = "http://api.rspmibogor.or.id/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -117,13 +117,13 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                     @Override
                     public void onResponse(JSONObject response) {
                         //loading.dismiss();
-                        Log.d(TAG, "onResponse - response" + response.toString());
+                        //Log.d(TAG, "onResponse - response" + response.toString());
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -205,7 +205,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void refreshData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
         //spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -213,13 +213,13 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                     @Override
                     public void onResponse(JSONObject response) {
                         //loading.dismiss();
-                        Log.d(TAG, "onResponse - response" + response.toString());
+                        //Log.d(TAG, "onResponse - response" + response.toString());
                         swipeRefreshLayout.setRefreshing(false);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                           // Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();

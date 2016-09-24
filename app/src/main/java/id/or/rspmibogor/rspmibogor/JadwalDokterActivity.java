@@ -43,9 +43,9 @@ import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
 
-public class JadwalDokterActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+public class JadwalDokterActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,  SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "RecyclerViewFragment";
+    private static final String TAG = "JadwalDokterActivity";
 
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -65,6 +65,9 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     static JadwalDokterActivity jadwalDokterActivity;
 
+    private int skip = 0;
+    private int numRows = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
         jadwalDokterActivity = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Dokter");
+        toolbar.setTitle("Dokter - Afiat");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -104,8 +107,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
         });
 
-
-        //Init Swipe Refresh Layout
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));
@@ -120,6 +121,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
         return jadwalDokterActivity;
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -133,15 +135,13 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
         new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Do something when collapsed
                 mAdapter.setFilter(listDokter);
-                return true; // Return true to collapse action view
+                return true;
             }
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
-                return true; // Return true to expand action view
+                return true;
             }
         });
         return true;
@@ -174,26 +174,24 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void initDataset() {
 
-        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
         spinner.setVisibility(View.VISIBLE);
-        //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
+                            /*JSONObject metadata = response.getJSONObject("metadata");
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        ;
+                        };
                     }
                 },
                 new Response.ErrorListener() {
@@ -211,15 +209,11 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
 
     }
 
-    //This method will parse json data
     private void parseData(JSONArray array){
 
         if(array.length() > 0) {
@@ -235,8 +229,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
                     json = array.getJSONObject(i);
 
-
-                    //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
                     JSONObject layanan = json.getJSONObject("layanan");
                     JSONObject dokter_obj = json.getJSONObject("dokter");
                     JSONObject poliklinik = json.getJSONObject("poliklinik");
@@ -257,7 +249,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -265,29 +256,30 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-
         refreshData();
     }
 
-    private void refreshData() {
-
-        String url = "http://api.rspmibogor.or.id/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
+    private void refreshData()
+    {
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
+
+                        listDokter.remove(listDokter.size()-1);
                         swipeRefreshLayout.setRefreshing(false);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parserRefreshData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            /*JSONObject metadata = response.getJSONObject("metadata");
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        ;
+                        };
                     }
                 },
                 new Response.ErrorListener() {
@@ -305,15 +297,12 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
 
     }
 
-    //This method will parse json data
+
     private void parserRefreshData(JSONArray array){
 
         if(array.length() > 0) {
@@ -331,8 +320,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
                     json = array.getJSONObject(i);
 
-
-                    //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
                     JSONObject layanan = json.getJSONObject("layanan");
                     JSONObject dokter_obj = json.getJSONObject("dokter");
                     JSONObject poliklinik = json.getJSONObject("poliklinik");
@@ -353,7 +340,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }

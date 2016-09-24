@@ -10,12 +10,14 @@
         <item
             android:id="@+id/order"
             android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="Pendaftaran" />
+            android:title="Pendaftaran"
+            />
 
         <item
             android:id="@+id/jadwaldokter"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="Jadwal Dokter" />
+            android:title="Jadwal Dokter - Afiat"
+            />
 
         <item
             android:id="@+id/pasien"
@@ -32,10 +34,11 @@
 
     <item android:title="Pengaturan">
         <menu>
-            <!--item
-                android:id="@+id/myacccount"
-                android:icon="@drawable/ic_face_black_24dp"
-                android:title="Akun Saya" /-->
+            <item
+                android:id="@+id/help"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="Bantuan"/>
+
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"

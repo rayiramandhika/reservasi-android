@@ -39,7 +39,6 @@ public class SignupActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        //ButterKnife.inject(this);
 
         _nameText = (EditText) findViewById(R.id.input_name);
         _emailText = (EditText) findViewById(R.id.input_email);
@@ -57,7 +56,6 @@ public class SignupActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
                 finish();
             }
         });
@@ -92,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/register";
+        String url = "http://103.23.22.46:1337/v1/register";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -101,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
                         // response
                         progressDialog.dismiss();
                         onSignupSuccess();
-                        Log.d("login - Response", response.toString());
+                        //Log.d("login - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -120,7 +118,7 @@ public class SignupActivity extends AppCompatActivity {
                                 //message = data.getString("message");
 
                                 String errorMsg = data.getString("error");
-                                Log.d("login - Error.Response", errorMsg);
+                                //Log.d("login - Error.Response", errorMsg);
                                 if(errorMsg.equals("E_VALIDATION")) {
                                     message = "Email sudah terdaftar";
                                     _emailText.setError("Email sudah terdaftar");

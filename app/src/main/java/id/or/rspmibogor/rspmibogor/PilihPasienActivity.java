@@ -114,8 +114,6 @@ public class PilihPasienActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 Intent intent = new Intent(view.getContext(), PasienAddActivity.class);
                 startActivity(intent);
             }
@@ -153,11 +151,9 @@ public class PilihPasienActivity extends AppCompatActivity {
 
     private void initData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/pasien?sort=id%20DESC";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -173,7 +169,7 @@ public class PilihPasienActivity extends AppCompatActivity {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -196,10 +192,7 @@ public class PilihPasienActivity extends AppCompatActivity {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
 
@@ -242,11 +235,8 @@ public class PilihPasienActivity extends AppCompatActivity {
 
     private void getNewData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -261,7 +251,7 @@ public class PilihPasienActivity extends AppCompatActivity {
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataNew(data);
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -288,7 +278,6 @@ public class PilihPasienActivity extends AppCompatActivity {
         requestQueue.add(req);
     }
 
-    //This method will parse json data
     private void parseDataNew(JSONArray array) {
         if (array.length() > 0) {
 
@@ -305,7 +294,7 @@ public class PilihPasienActivity extends AppCompatActivity {
                     Integer aLength = array.length();
                     if (i == (aLength - 1)) {
                         last_id = json.getInt("id");
-                        Log.d(TAG, "last_id: " + last_id);
+                        //Log.d(TAG, "last_id: " + last_id);
                     }
 
 

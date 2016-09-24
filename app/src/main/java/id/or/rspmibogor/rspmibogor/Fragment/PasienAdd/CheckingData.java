@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -72,6 +73,10 @@ public class CheckingData extends AbstractStep {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.identitas_checking, container, false);
+
+        mStepper.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         noID =  (TextView) v.findViewById(R.id.noID);
         noRekamMedik =  (TextView) v.findViewById(R.id.noRekamMedik);
@@ -221,7 +226,7 @@ public class CheckingData extends AbstractStep {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = "http://api.rspmibogor.or.id/v1/pasien";
+        String url = "http://103.23.22.46:1337/v1/pasien";
 
         JSONObject object = new JSONObject();
         try {
@@ -276,7 +281,7 @@ public class CheckingData extends AbstractStep {
                                 },
                                 1000);
 
-                        Log.d(TAG, "SaveData - Response" +response.toString());
+                        //Log.d(TAG, "SaveData - Response" +response.toString());
                     }
 
                 },
@@ -286,7 +291,7 @@ public class CheckingData extends AbstractStep {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(activity, "Pasien Gagal disimpan", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "SaveData - Error.Response" + String.valueOf(error));
+                        //Log.d(TAG, "SaveData - Error.Response" + String.valueOf(error));
                     }
                 }
         ){

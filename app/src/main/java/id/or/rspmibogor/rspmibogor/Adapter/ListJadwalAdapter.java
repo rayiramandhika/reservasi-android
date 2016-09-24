@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.ListJadwal;
 import id.or.rspmibogor.rspmibogor.PilihPasienActivity;
 import id.or.rspmibogor.rspmibogor.R;
@@ -44,11 +46,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView hari;
-        private final TextView tanggal;
-        private final TextView jam;
-        private final TextView kuota;
-        private final TextView pesan;
+        private final TextView hari, tanggal, jam, kuota, pesan, keterangan;
 
 
 
@@ -61,16 +59,17 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                     ListJadwal listJadwal =  ListJadwal.get(getPosition());
 
                     String status = listJadwal.getJadwal_status();
+                    String hari = listJadwal.getJadwal_hari();
                     if(status.equals("cuti"))
                     {
                         builder.setTitle("Dokter Cuti")
-                                .setMessage("Mohon maaf.\nPada jadwal tersebut dokter sedang cuti.")
+                                .setMessage("Mohon maaf.\nPada hari " + hari + " dokter sedang cuti.")
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
                     }else{
                         if(listJadwal.getJadwal_kuota() == 0){
                             builder.setTitle("Kuota Penuh")
-                                    .setMessage("Mohon maaf.\nPendaftaran via online sudah penuh. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor.")
+                                    .setMessage("Mohon maaf.\nPada hari " + hari + " Pendaftaran via online sudah penuh. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor.")
                                     .setNegativeButton(android.R.string.yes, null).show();
                             return;
                         }
@@ -101,6 +100,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
             jam = (TextView) v.findViewById(R.id.jam);
             kuota = (TextView) v.findViewById(R.id.kuota);
             pesan = (TextView) v.findViewById(R.id.pesan);
+            keterangan = (TextView) v.findViewById(R.id.keterangan);
         }
     }
 
@@ -121,25 +121,30 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
         viewHolder.jam.setText(listJadwal.getJadwal_jamMulai() + " - " + listJadwal.getJadwal_jamTutup());
         viewHolder.kuota.setText("Kuota Tersedia: " + listJadwal.getJadwal_kuota());
 
+        String keterangan = listJadwal.getKeterangan();
+
+        if(keterangan.isEmpty()) viewHolder.keterangan.setText("");
+        else viewHolder.keterangan.setText("( " + listJadwal.getKeterangan() + " )");
+
         int kuota = listJadwal.getJadwal_kuota();
 
         String status = listJadwal.getJadwal_status();
 
         if(status.equals("cuti"))
         {
-            viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+            viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.bagde_oval_soldout));
             viewHolder.pesan.setText("Dokter Cuti");
             viewHolder.pesan.setPadding(16, 5, 16, 5);
 
         }else{
 
             if(kuota == 0){
-                viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+                viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.bagde_oval_soldout));
                 viewHolder.pesan.setText("Pendaftaran via Online Penuh");
 
                 viewHolder.pesan.setPadding(16, 5, 16, 5);
             }else{
-                viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
+                viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.badge_oval));
                 viewHolder.pesan.setText("Daftar");
                 viewHolder.pesan.setPadding(16, 5, 16, 5);
             }

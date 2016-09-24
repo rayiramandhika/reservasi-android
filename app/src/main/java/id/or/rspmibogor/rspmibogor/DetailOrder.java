@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -131,13 +134,13 @@ public class DetailOrder extends AppCompatActivity {
         });
 
 
-        final AlertDialog.Builder builder; builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builderCancelOrder = new AlertDialog.Builder(this);
 
 
         buttonBatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.setTitle("Batalkan Pendaftaran ")
+                builderCancelOrder.setTitle("Batalkan Pendaftaran ")
                         .setMessage("Apa kamu yakin akan membatalkan pendaftaran?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -156,12 +159,14 @@ public class DetailOrder extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(DetailOrder.this);
+
 
             if(confirmed.equals(1)){
 
                 builder.setTitle("Konfirmasi Pendaftaran ")
                         .setMessage("Anda sudah melakukan konfirmasi sebelumnya.")
-                        .setNegativeButton(android.R.string.yes, null).show();
+                        .setPositiveButton(android.R.string.yes, null).show();
 
             }else{
 
@@ -180,7 +185,7 @@ public class DetailOrder extends AppCompatActivity {
 
                         builder.setTitle("Konfirmasi Pendaftaran ")
                                 .setMessage("Mohon maaf Anda sudah melewati batas waktu konfirmasi untuk pendaftaran ini.")
-                                .setNegativeButton(android.R.string.yes, null).show();
+                                .setPositiveButton(android.R.string.yes, null).show();
 
                     }
 
@@ -188,7 +193,7 @@ public class DetailOrder extends AppCompatActivity {
 
                     builder.setTitle("Konfirmasi Pendaftaran ")
                             .setMessage("Mohon maaf Anda hanya dapat melakukan konfirmasi pada hari H.")
-                            .setNegativeButton(android.R.string.yes, null).show();
+                            .setPositiveButton(android.R.string.yes, null).show();
 
                 }
 
@@ -213,7 +218,7 @@ public class DetailOrder extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
 
 
-        String url = "http://api.rspmibogor.or.id/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -229,7 +234,7 @@ public class DetailOrder extends AppCompatActivity {
                             JSONObject data = response.getJSONObject("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - initData - data" + data.toString());
+                            //Log.d(TAG, "onResponse - initData - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -398,7 +403,7 @@ public class DetailOrder extends AppCompatActivity {
     private void cancelOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/order/cancel/" + id;
+        String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
 
         JSONObject object = new JSONObject();
         try {
@@ -421,7 +426,7 @@ public class DetailOrder extends AppCompatActivity {
                         EventBus.getDefault().post(new MessageEvent("cancelOrder", position_list));
                         finish();
 
-                        Log.d("cancelOrder - Response", response.toString());
+                        //Log.d("cancelOrder - Response", response.toString());
                     }
 
                 },
@@ -430,7 +435,7 @@ public class DetailOrder extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getBaseContext(), "Pendaftaran Gagal dibatalkan.", Toast.LENGTH_SHORT).show();
-                        Log.d("cancelOrder - Error.Response", String.valueOf(error));
+                        //Log.d("cancelOrder - Error.Response", String.valueOf(error));
                     }
                 }
         ){
@@ -449,7 +454,7 @@ public class DetailOrder extends AppCompatActivity {
     private void confirmOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/order/" + id;
+        String url = "http://103.23.22.46:1337/v1/order/" + id;
 
         JSONObject object = new JSONObject();
         try {
@@ -479,7 +484,7 @@ public class DetailOrder extends AppCompatActivity {
                         confirmed = 1;
                         confirmedTxt.setText("Sudah Konfirmasi");
 
-                        Log.d("confirmOrder - Response", response.toString());
+                       // Log.d("confirmOrder - Response", response.toString());
                     }
 
                 },
@@ -489,7 +494,7 @@ public class DetailOrder extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         Toast.makeText(getBaseContext(), "Konfirmasi Gagal.", Toast.LENGTH_SHORT).show();
-                        Log.d("confirmOrder - Error.Response", String.valueOf(error));
+                        //Log.d("confirmOrder - Error.Response", String.valueOf(error));
                     }
                 }
         ){
@@ -509,26 +514,16 @@ public class DetailOrder extends AppCompatActivity {
     {
         if(uriFoto.isEmpty())
         {
-            dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+            dokter_foto.setImageDrawable(ContextCompat.getDrawable(DetailOrder.this, R.drawable.noprofile));
         }else {
-            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
-            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    Log.d("Main Activity", "ImageRequest - response" + response);
-
-                    dokter_foto.setImageBitmap(response);
-                }
-            }, 0, 0, null, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
-                }
-            });
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(ir);
+            Glide.with(this)
+                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .centerCrop()
+                    .crossFade()
+                    .override(150, 150)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.noprofile)
+                    .into(dokter_foto);
         }
     }
 }

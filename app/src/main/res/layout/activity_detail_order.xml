@@ -35,7 +35,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp">
 
 
             <LinearLayout
@@ -62,7 +63,8 @@
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="#FFF"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="15dp"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -72,7 +74,8 @@
                     android:layout_gravity="bottom|center"
                     android:textSize="13dp"
                     android:textAlignment="center"
-                    android:textColor="#FFF" />
+                    android:textColor="#FFF"
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -222,10 +225,12 @@
                 android:textColor="#FFF"
                 android:layout_alignParentTop="true"
                 android:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
                 android:clickable="true"
                 android:elegantTextHeight="false"
                 android:elevation="6dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textSize="10dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -236,11 +241,13 @@
                 android:paddingRight="12dp"
                 android:textColor="#FFF"
                 android:layout_alignParentTop="true"
-                android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
                 android:elegantTextHeight="false"
                 android:elevation="6dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:backgroundTint="@color/material_stepper_global"
+                app:backgroundTint="@color/material_stepper_global"
+                android:textSize="10dp" />
 
         </LinearLayout>
 

@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/login";
+        String url = "http://103.23.22.46:1337/v1/login";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 JSONObject data = new JSONObject(body);
                                 message = data.getString("message");
-                                Log.d("login - Error.Response", data.getString("message"));
+                                //Log.d("login - Error.Response", data.getString("message"));
 
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();

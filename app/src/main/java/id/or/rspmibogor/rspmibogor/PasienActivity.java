@@ -157,11 +157,9 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/pasien?sort=id%20DESC";
-        //final ProgressDialog loading = ProgressDialog.show(this ,"Loading Data", "Please wait...",false,false);
+        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -177,12 +175,11 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
@@ -200,19 +197,16 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
 
-    //This method will parse json data
+
     private void parseData(JSONArray array){
 
         if(array.length() > 0) {
 
-            container.setVisibility(View.VISIBLE);
+            //container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
 
             for (int i = 0; i < array.length(); i++) {
@@ -226,11 +220,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         last_id = json.getInt("id");
                         Log.d(TAG, "last_id: " + last_id);
                     }
-
-
-                /*pasien.setPasien_name(json.getString("nama"));
-                pasien.setPasien_id(json.getInt("id"));
-                pasien.setPasien_umur(json.getString("umur") + " Tahun");*/
 
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noID(json.getString("noID"));
@@ -277,7 +266,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void getNewData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
+        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
         Log.d(TAG, "url: " + url);
         spinner.setVisibility(View.VISIBLE);
         Log.d(TAG, "init Data set loaded" );
@@ -294,7 +283,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataNew(data);
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                           // Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -326,7 +315,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         if(array.length() > 0) {
 
             //container.setVisibility(View.VISIBLE);
-            //nodata.setVisibility(View.INVISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
 
             for (int i = 0; i < array.length(); i++) {
 
@@ -340,13 +329,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         last_id = json.getInt("id");
                         Log.d(TAG, "last_id: " + last_id);
                     }
-
-
-                /*pasien.setPasien_name(json.getString("nama"));
-                pasien.setPasien_id(json.getInt("id"));
-                pasien.setPasien_umur(json.getString("umur"));
-                pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
-                pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));*/
 
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noID(json.getString("noID"));
@@ -397,7 +379,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void refreshData()
     {
-        String url = "http://api.rspmibogor.or.id/v1/pasien";
+        String url = "http://103.23.22.46:1337/v1/pasien";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -412,12 +394,11 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataRefresh(data);
-                            Log.d(TAG, "onResponse - data" + data.toString());
+                           // Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        ;
+                        };
                     }
                 },
                 new Response.ErrorListener() {
@@ -443,7 +424,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
         if(array.length() > 0) {
 
-            container.setVisibility(View.VISIBLE);
+            //container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
 
             listPasien.removeAll(listPasien);
@@ -461,12 +442,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         Log.d(TAG, "last_id: " + last_id);
                     }
 
-
-                /*pasien.setPasien_name(json.getString("nama"));
-                pasien.setPasien_id(json.getInt("id"));
-                pasien.setPasien_umur(json.getString("umur"));
-                pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
-                pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));*/
 
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noID(json.getString("noID"));
@@ -506,7 +481,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }

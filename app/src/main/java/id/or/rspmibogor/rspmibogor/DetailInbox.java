@@ -91,7 +91,7 @@ public class DetailInbox extends AppCompatActivity {
 
 
 
-        String url = "http://api.rspmibogor.or.id/v1/inbox/"+ id;
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
         //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -108,7 +108,7 @@ public class DetailInbox extends AppCompatActivity {
                             JSONObject data = response.getJSONObject("data");
                             parseData(data);
 
-                            Log.d(TAG, "onResponse - initData - data" + data.toString());
+                            //Log.d(TAG, "onResponse - initData - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -156,14 +156,14 @@ public class DetailInbox extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://api.rspmibogor.or.id/v1/inbox/"+ id;
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
                         // response
-                        Log.d("updateRead - Response", response.toString());
+                       // Log.d("updateRead - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener()
@@ -171,7 +171,7 @@ public class DetailInbox extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", String.valueOf(error));
+                        //Log.d("Error.Response", String.valueOf(error));
                     }
                 }
         ){
@@ -183,8 +183,6 @@ public class DetailInbox extends AppCompatActivity {
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(putRequest);
     }
 

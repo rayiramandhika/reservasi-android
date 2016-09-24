@@ -203,7 +203,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         Log.d(TAG, "position: "+ position);
 
         RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = "http://api.rspmibogor.or.id/v1/pasien/" + id;
+        String url = "http://103.23.22.46:1337/v1/pasien/" + id;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.DELETE, url,
                 new Response.Listener<JSONObject>()
@@ -218,7 +218,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
 
                         Toast.makeText(activity, "Pasien berhasil dihapus.", Toast.LENGTH_SHORT).show();
-                        Log.d("deleteFromServer - Response", response.toString());
+                        //Log.d("deleteFromServer - Response", response.toString());
                     }
 
                 },
@@ -226,7 +226,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("deleteFromServer - Error.Response", String.valueOf(error));
+                        //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }
         ){

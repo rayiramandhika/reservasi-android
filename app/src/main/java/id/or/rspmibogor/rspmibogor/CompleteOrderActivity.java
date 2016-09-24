@@ -134,7 +134,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         final Activity activity = this;
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/order/new/" + detailjadwal_id;
+        String url = "http://103.23.22.46:1337/v1/order/new/" + detailjadwal_id;
 
         JSONObject object = new JSONObject();
         try {
@@ -163,7 +163,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                         builder.setTitle("Pendaftaran Berhasil")
                         .setCancelable(false)
-                        .setMessage("Anda diminta untuk melakukan konfirmasi pada hari H paling lambat pukul 07.30. \n" +
+                        .setMessage("Anda diminta untuk melakukan konfirmasi pada hari H sebelum pukul 07.30 ( jika jadwal praktek dokter dimulai sebelum jam 15.00) atau sebelum jam 14.30 (jika jadwal praktek dokter dimulai setelah jam 15.00). \n" +
                                 "Silahkan melakukan konfirmasi di halaman detail pendaftaran. \n \nTerima Kasih.")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
@@ -195,7 +195,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                             String body = new String(error.networkResponse.data,"UTF-8");
                             JSONObject data = new JSONObject(body);
                             message = data.getString("message");
-                            Log.d("login - Error.Response", data.getString("message"));
+                            //Log.d("login - Error.Response", data.getString("message"));
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {

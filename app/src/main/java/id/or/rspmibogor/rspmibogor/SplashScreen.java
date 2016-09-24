@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,9 +38,10 @@ import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 public class SplashScreen extends AppCompatActivity {
     private final String Tag = "SplashScreen";
 
-    private static int splashInterval = 3000;
+    private static int splashInterval = 1000;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferencesFirsTime;
     String jwTokenSP;
 
     @Override
@@ -51,40 +53,52 @@ public class SplashScreen extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_screen);
 
+        initBanner();
+
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
+        sharedPreferencesFirsTime = this.getSharedPreferences("IS FIRST TIME", Context.MODE_PRIVATE);
+        Boolean isFirstTime = sharedPreferencesFirsTime.getBoolean("isFirstTime", true);
+
         final Intent i;
-        if(jwTokenSP == null)
-        {
-            i = new Intent(SplashScreen.this, LoginActivity.class);
-        }else
-        {
-            updateFCMToken();
-            refreshingToken();
-            i = new Intent(SplashScreen.this, MainActivity.class);
+        if(isFirstTime.equals(true)){
+
+            i = new Intent(SplashScreen.this, IntroActivity.class);
+            startActivity(i);
+            finish();
+
+        }else{
+
+            if(jwTokenSP == null)
+            {
+                i = new Intent(SplashScreen.this, LoginActivity.class);
+            }else
+            {
+                updateFCMToken();
+                refreshingToken();
+                i = new Intent(SplashScreen.this, MainActivity.class);
+            }
+
+            new Handler().postDelayed(new Runnable() {
+
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+
+
+                    startActivity(i);
+                    this.finish();
+                }
+
+                private void finish() {
+                    // TODO Auto-generated method stub
+
+                }
+            }, splashInterval);
+
         }
-
-        initBanner();
-
-        new Handler().postDelayed(new Runnable() {
-
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-
-
-                startActivity(i);
-                this.finish();
-            }
-
-            private void finish() {
-                // TODO Auto-generated method stub
-
-            }
-        }, splashInterval);
-
     };
 
     @Override
@@ -119,7 +133,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void initBanner()
     {
-        String url =  "http://api.rspmibogor.or.id/v1/banner?show=1";
+        String url =  "http://103.23.22.46:1337/v1/banner?show=1&sort=order%20ASC";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -164,8 +178,8 @@ public class SplashScreen extends AppCompatActivity {
                     json = array.getJSONObject(i);
 
                     final String link = json.getString("link");
-                    final String uri = "http://api.rspmibogor.or.id/v1/getbanner/" + link.toString();
-
+                    final String uri = "http://103.23.22.46:1337/v1/getbanner/" + link.toString();
+                    Log.d(Tag, "uri: " + uri.toString());
                     images.add(uri);
 
                 } catch (JSONException e) {
@@ -174,6 +188,8 @@ public class SplashScreen extends AppCompatActivity {
 
             }
 
+
+
         }else{
 
             Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
@@ -181,14 +197,22 @@ public class SplashScreen extends AppCompatActivity {
 
         }
 
+
+        Log.d(Tag, "images: " + images.toString());
         SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit=prefs.edit();
 
-        Set<String> set = new HashSet<String>();
-        set.addAll(images);
-        edit.putStringSet("listBanner", set);
+        /*Set<String> set = new HashSet<String>();
+        for (int i = 0; i < images.size(); i++) {
+
+            set[i] = images.get(i);
+
+        }*/
+
+        String arrImg = Arrays.toString(images.toArray()).replace("[", "").replace("]", "");
+        edit.putString("listBanner", arrImg);
         edit.commit();
 
-        Log.d(Tag, "prefs banner: " + prefs);
+        //Log.d(Tag, "prefs banner: " + prefs);
     }
 }

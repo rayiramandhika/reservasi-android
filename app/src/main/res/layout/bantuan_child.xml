@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@color/common_google_signin_btn_text_dark_disabled">
+
+    <TextView
+        android:id="@+id/child_isi"
+        android:padding="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="13sp"
+        tools:text="Lorem ipmsum dolor sit amet" />
+
+</LinearLayout>

@@ -96,7 +96,7 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/rating_boo"
+                                android:src="@drawable/rating_boo_small"
                                 android:layout_gravity="center"
                                 android:id="@+id/ratingBoo"
                                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -106,7 +106,7 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/rating_argh"
+                                android:src="@drawable/rating_argh_small"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/ratingArgh"
@@ -116,7 +116,7 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/rating_ok"
+                                android:src="@drawable/rating_ok_small"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/ratingOk"
@@ -126,7 +126,7 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/rating_aha"
+                                android:src="@drawable/rating_aha_small"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/ratingAha"
@@ -136,7 +136,7 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/rating_wow"
+                                android:src="@drawable/rating_wow_small"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/ratingWow"

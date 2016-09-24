@@ -32,12 +32,13 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_margin="5dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:paddingBottom="70dp">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -63,16 +64,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/line"
-                        style="?android:attr/listSeparatorTextViewStyle"
-                        android:paddingTop="5dip"
-                        android:gravity="center_horizontal"
-                        android:layout_below="@+id/connect_help"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorDivider" />
 
                 </LinearLayout>
 
@@ -203,7 +194,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <Button
                 android:layout_width="match_parent"
@@ -216,8 +207,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:elevation="6dp"
-                android:layout_margin="10dp" />
+                android:elevation="6dp" />
 
         </RelativeLayout>
 

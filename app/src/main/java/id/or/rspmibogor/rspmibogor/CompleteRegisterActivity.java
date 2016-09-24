@@ -108,7 +108,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/register/confirm/sendemail?email="+email;
+        String url = "http://103.23.22.46:1337/v1/register/confirm/sendemail?email="+email;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
@@ -119,7 +119,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
                         Toast.makeText(getBaseContext(), "Email telah dikirim ulang", Toast.LENGTH_SHORT).show();
 
-                        Log.d("SendConfirmationCode - Response", response.toString());
+                        //Log.d("SendConfirmationCode - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -161,7 +161,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.rspmibogor.or.id/v1/register/confirm";
+        String url = "http://103.23.22.46:1337/v1/register/confirm";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -177,7 +177,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        Log.d("SendConfirmationCode - Response", response.toString());
+                        //Log.d("SendConfirmationCode - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -195,7 +195,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
                                 JSONObject data = new JSONObject(body);
                                 message = data.getString("message");
-                                Log.d("SendConfirmationCode - Error.Response", data.getString("message"));
+                                //Log.d("SendConfirmationCode - Error.Response", data.getString("message"));
 
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();

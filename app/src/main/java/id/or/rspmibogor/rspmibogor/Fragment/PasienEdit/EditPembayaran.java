@@ -81,7 +81,7 @@ public class EditPembayaran extends AbstractStep {
 
     @Override
     public void onNext() {
-        Log.d(TAG, "onNext");
+       // Log.d(TAG, "onNext");
 
         String jnsPembayaran = jenisPembayaran.getText().toString();
         String nmPenjamin = namaPenjamin.getText().toString();
@@ -102,7 +102,7 @@ public class EditPembayaran extends AbstractStep {
 
     @Override
     public boolean nextIf() {
-        Log.d(TAG, "nextIf");
+       // Log.d(TAG, "nextIf");
 
         Integer i = 0;
 

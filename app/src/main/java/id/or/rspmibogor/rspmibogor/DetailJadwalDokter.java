@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,9 +134,9 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
     private void initData()
     {
-        Log.d(TAG, "init data set");
+        //Log.d(TAG, "init data set");
 
-        String url = "http://api.rspmibogor.or.id/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
+        String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -161,12 +163,11 @@ public class DetailJadwalDokter extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            Log.d(TAG, "onResponse - detailjadwal" + data.toString());
+                           // Log.d(TAG, "onResponse - detailjadwal" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        ;
+                        };
                     }
                 },
                 new Response.ErrorListener() {
@@ -238,6 +239,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setJadwal_tanggal(json.getString("tanggal"));
                     listJadwal.setJadwal_kuota(json.getInt("sisaKuota"));
                     listJadwal.setJadwal_status(json.getString("status"));
+                    listJadwal.setKeterangan(json.getString("keterangan"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -250,28 +252,21 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
     private void initFoto(String uriFoto)
     {
+
+        Log.d(TAG, "uriFoto: " + uriFoto);
         if(uriFoto.isEmpty())
         {
-            dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+            dokter_foto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.noprofile));
         }else {
-            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
-            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    //Log.d("Main Activity", "ImageRequest - response" + response);
 
-                    dokter_foto.setImageBitmap(response);
-                }
-            }, 0, 0, null, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
-                }
-            });
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(ir);
+            Glide.with(this)
+                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .centerCrop()
+                    .crossFade()
+                    .override(150, 150)
+                    .fitCenter()
+                    .error(R.drawable.noprofile)
+                    .into(dokter_foto);
         }
     }
 

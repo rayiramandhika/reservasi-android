@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +69,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
                     b.putInt("id", dokter.getDokter_id());
                     b.putInt("jadwal_id", dokter.getJadwal_id());
 
-                    Log.d(TAG, "dokter_id: " + dokter.getDokter_id());
+                    //Log.d(TAG, "dokter_id: " + dokter.getDokter_id());
 
                     Intent intent = new Intent(activity, DetailJadwalDokter.class);
                     intent.putExtras(b);
@@ -102,26 +105,16 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
 
         if(uriFoto.isEmpty())
         {
-            foto.setImageDrawable(activity.getDrawable(R.drawable.noprofile));
+            foto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.noprofile));
         }else {
-            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + dokter.getDokter_foto();
-            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    Log.d("Main Activity", "ImageRequest - response" + response);
-
-                    foto.setImageBitmap(response);
-                }
-            }, 0, 0, null, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    foto.setImageDrawable(activity.getDrawable(R.drawable.noprofile));
-                }
-            });
-
-            RequestQueue requestQueue = Volley.newRequestQueue(activity);
-            requestQueue.add(ir);
+            Glide.with(activity)
+                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .crossFade()
+                    .override(100, 100)
+                    .error(R.drawable.noprofile)
+                    .into(foto);
         }
 
     }

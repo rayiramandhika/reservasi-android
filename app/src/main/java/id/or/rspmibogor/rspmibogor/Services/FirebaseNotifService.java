@@ -60,8 +60,8 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String id = remoteMessage.getData().get("id");
         String icon = remoteMessage.getNotification().getIcon();
 
-        Log.d(TAG, "click_action: " + activity);
-        Log.d(TAG, "id: " + id);
+        //Log.d(TAG, "click_action: " + activity);
+        //Log.d(TAG, "id: " + id);
 
         PendingIntent mPendingIntent;
         Intent intent;
@@ -143,7 +143,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         if(title != null) setTitle = title;
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setSmallIcon(R.drawable.icon);
+        builder.setSmallIcon(R.drawable.ic_notif);
         builder.setContentTitle(setTitle);
         builder.setContentText(messageBody);
         builder.setAutoCancel(true);

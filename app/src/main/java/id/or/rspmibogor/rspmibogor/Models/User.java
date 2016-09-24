@@ -28,7 +28,7 @@ public class User {
     public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://api.rspmibogor.or.id/v1/user/" + idUser;
+        String url = "http://103.23.22.46:1337/v1/user/" + idUser;
 
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>()
@@ -36,7 +36,7 @@ public class User {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d("updateFCMToken - Response", response);
+                       // Log.d("updateFCMToken - Response", response);
                     }
                 },
                 new Response.ErrorListener()
@@ -44,7 +44,7 @@ public class User {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("updateFCMToken - Error.Response", String.valueOf(error));
+                        //Log.d("updateFCMToken - Error.Response", String.valueOf(error));
                     }
                 }
         ) {
@@ -75,7 +75,7 @@ public class User {
     public void getDataFromToken(final String token, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://api.rspmibogor.or.id/v1/me";
+        String url = "http://103.23.22.46:1337/v1/me";
 
         JSONObject object = new JSONObject();
         try {
@@ -109,7 +109,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        Log.d("getDataFromToken - Response", response.toString());
+                        //Log.d("getDataFromToken - Response", response.toString());
                     }
 
                 },
@@ -118,7 +118,7 @@ public class User {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("getDataFromToken - Error.Response", String.valueOf(error));
+                        //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
                 }
         ){
@@ -138,7 +138,7 @@ public class User {
     public void refreshToken(final String token, final Context context)
     {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://api.rspmibogor.or.id/v1/refreshtoken";
+        String url = "http://103.23.22.46:1337/v1/refreshtoken";
 
         JSONObject object = new JSONObject();
         try {
@@ -162,7 +162,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        Log.d("getDataFromToken - Response", response.toString());
+                        //Log.d("getDataFromToken - Response", response.toString());
                     }
 
                 },
@@ -171,7 +171,7 @@ public class User {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("getDataFromToken - Error.Response", String.valueOf(error));
+                        //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
                 }
         ){

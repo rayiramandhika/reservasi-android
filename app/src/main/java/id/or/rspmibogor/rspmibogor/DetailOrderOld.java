@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,7 +128,7 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingBoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rating.setImageDrawable(getDrawable(R.drawable.rating_boo));
+                rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_boo));
                 Rating = 1;
             }
         });
@@ -133,7 +136,7 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingArgh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rating.setImageDrawable(getDrawable(R.drawable.rating_argh));
+                rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_argh));
                 Rating = 2;
             }
         });
@@ -141,7 +144,7 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rating.setImageDrawable(getDrawable(R.drawable.rating_ok));
+                rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_ok));
                 Rating = 3;
             }
         });
@@ -149,7 +152,7 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingAha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rating.setImageDrawable(getDrawable(R.drawable.rating_aha));
+                rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_aha));
                 Rating = 4;
             }
         });
@@ -157,7 +160,7 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingWow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rating.setImageDrawable(getDrawable(R.drawable.rating_wow));
+                rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_wow));
                 Rating = 5;
             }
         });
@@ -192,7 +195,7 @@ public class DetailOrderOld extends AppCompatActivity {
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
-                String url = "http://api.rspmibogor.or.id/v1/order/" + id;
+                String url = "http://103.23.22.46:1337/v1/order/" + id;
 
                 JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                         new Response.Listener<JSONObject>() {
@@ -214,7 +217,7 @@ public class DetailOrderOld extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Log.d("btnSend - Response", response.toString());
+                                //Log.d("btnSend - Response", response.toString());
                             }
                         },
                         new Response.ErrorListener() {
@@ -255,7 +258,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
 
 
-        String url = "http://api.rspmibogor.or.id/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
@@ -286,19 +289,19 @@ public class DetailOrderOld extends AppCompatActivity {
 
                                 if (rate.equals("1")){
                                     Rating = 1;
-                                    rating.setImageDrawable(getDrawable(R.drawable.rating_boo));
+                                    rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_boo));
                                 }else if(rate.equals("2")){
                                     Rating = 2;
-                                    rating.setImageDrawable(getDrawable(R.drawable.rating_argh));
+                                    rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_argh));
                                 }else if(rate.equals("3")) {
                                     Rating = 3;
-                                    rating.setImageDrawable(getDrawable(R.drawable.rating_ok));
+                                    rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_ok));
                                 }else if(rate.equals("4")) {
                                     Rating = 4;
-                                    rating.setImageDrawable(getDrawable(R.drawable.rating_aha));
+                                    rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_aha));
                                 }else if(rate.equals("5")) {
                                     Rating = 5;
-                                    rating.setImageDrawable(getDrawable(R.drawable.rating_wow));
+                                    rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_wow));
                                 }
 
 
@@ -307,7 +310,7 @@ public class DetailOrderOld extends AppCompatActivity {
                                 saranTextLayout.setVisibility(View.GONE);
                             }
 
-                            Log.d(TAG, "onResponse - initData - data" + data.toString());
+                            //Log.d(TAG, "onResponse - initData - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -362,26 +365,16 @@ public class DetailOrderOld extends AppCompatActivity {
     {
         if(uriFoto.isEmpty())
         {
-            dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
+            dokter_foto.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.noprofile));
         }else {
-            String url = "http://api.rspmibogor.or.id/v1/dokter/foto/" + uriFoto;
-            ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    //Log.d("Main Activity", "ImageRequest - response" + response);
-
-                    dokter_foto.setImageBitmap(response);
-                }
-            }, 0, 0, null, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    dokter_foto.setImageDrawable(getDrawable(R.drawable.noprofile));
-                }
-            });
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(ir);
+            Glide.with(this)
+                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .centerCrop()
+                    .crossFade()
+                    .override(150, 150)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.noprofile)
+                    .into(dokter_foto);
         }
     }
 }

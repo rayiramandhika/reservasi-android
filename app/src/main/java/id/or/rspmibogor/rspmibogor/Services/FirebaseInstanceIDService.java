@@ -30,7 +30,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         //Displaying token on logcat 
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        //Log.d(TAG, "Refreshed token: " + refreshedToken);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         Integer idSP = sharedPreferences.getInt("id", 0);

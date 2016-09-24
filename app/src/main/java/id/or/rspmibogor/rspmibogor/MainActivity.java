@@ -44,6 +44,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -56,6 +57,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +98,6 @@ public class MainActivity extends AppCompatActivity
     String jwTokenSP;
 
     CarouselView carouselView;
-    int[] sliderImage = {R.drawable.csm_laparoskopi_ab6621e110, R.drawable.csm_main_banner_eswl_510b76606f, R.drawable.csm_main_banner_flamboyan2_89df9c8f6d};
     //List<String> images = new ArrayList<>();
 
     @Override
@@ -205,32 +206,49 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
 
-        Set<String> set = prefs.getStringSet("listBanner", null);
-        final List<String> images = new ArrayList<String>(set);
+        //Set<String> set = prefs.getStringSet("listBanner", null);
+        String arrImg = prefs.getString("listBanner", null);
+        final List<String> images = new ArrayList<String>(Arrays.asList(arrImg.split(",")));
+
+        Log.d(TAG, "images: " + images.toString());
+
+        if(images == null)
+        {
+            Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+            images.add(String.valueOf(url));
+        }
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(images.size());
+
+
         carouselView.setImageListener(new ImageListener() {
             @Override
             public void setImageForPosition(final int position, ImageView imageView) {
 
-                Log.d(TAG, "image: " + images.get(position).toString());
+                Log.d(TAG, "image: " + images.get(position));
+                Log.d(TAG, "position: " + position);
+
+                String uri = images.get(position).trim().toString();
 
                 Glide.with(getBaseContext())
-                        .load(images.get(position).toString())
+                        .load(uri)
                         .centerCrop()
+                        .fitCenter()
                         .placeholder(R.drawable.image_placeholder)
                         .into(imageView);
 
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*String imageUrl = images.get(position);
-                        System.out.println("ImageView clicked! " + imageUrl); // outputs the imageUrl registered*/
+                    /*String imageUrl = images.get(position);
+                    System.out.println("ImageView clicked! " + imageUrl); // outputs the imageUrl registered*/
                     }
                 });
             }
         });
+
+
 
     }
 
@@ -285,6 +303,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, JadwalDokterActivity.class);
             startActivity(intent);
 
+        } else if (id == R.id.help) {
+
+            Intent intent = new Intent(this, BantuanActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.logout) {
 
             SharedPreferences preferences = getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
@@ -314,28 +337,6 @@ public class MainActivity extends AppCompatActivity
         emailText.setText(email);
         namaText.setText(nama);
 
-        /*String url = "http://api.rspmibogor.or.id/v1/user/profilepicture/" + profilePicture;
-        ImageRequest ir = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                Log.d("Main Activity", "ImageRequest - response" + response);
-
-                ImageClass imageClass = new ImageClass();
-
-                Bitmap image = imageClass.getRoundedShape(response);
-                imageHeader.setImageBitmap(image);
-            }
-        }, 0, 0, null, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-
-                imageHeader.setImageDrawable(getDrawable(R.drawable.noprofile));
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(ir);*/
     }
 
     private void updateFCMToken()
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity
 
     private void checkingUnreadMessage()
     {
-        String url =  "http://api.rspmibogor.or.id/v1/count/unread";
+        String url =  "http://103.23.22.46:1337/v1/count/unread";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -376,7 +377,7 @@ public class MainActivity extends AppCompatActivity
 
                                 unread.setVisibility(View.VISIBLE);
 
-                                Log.d(TAG, "checkingUnreadMessage: " + String.valueOf(count));
+                                //Log.d(TAG, "checkingUnreadMessage: " + String.valueOf(count));
                             }
 
                         } catch (JSONException e) {
