@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -58,8 +60,10 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
-    RelativeLayout nodata;
+    RelativeLayout nodata, errorLayout;
     LinearLayout container;
+
+    FloatingActionButton btnTryAgain;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -82,6 +86,16 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
 
         nodata = (RelativeLayout) findViewById(R.id.nodata);
         container = (LinearLayout) findViewById(R.id.container);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initDataset();
+            }
+        });
 
         listDokter = new ArrayList<>();
 
@@ -176,11 +190,13 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
 
         String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
         spinner.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        spinner.setVisibility(View.GONE);
+                        spinner.setVisibility(View.INVISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -197,7 +213,8 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.INVISIBLE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
@@ -262,20 +279,17 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
     private void refreshData()
     {
         String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
-                        listDokter.remove(listDokter.size()-1);
                         swipeRefreshLayout.setRefreshing(false);
+                        errorLayout.setVisibility(View.INVISIBLE);
+
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parserRefreshData(data);
-
-                            /*JSONObject metadata = response.getJSONObject("metadata");
-                            numRows = metadata.getInt("numrows");
-                            skip = skip + metadata.getInt("limit");*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -285,7 +299,8 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getBaseContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

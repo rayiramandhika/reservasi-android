@@ -60,8 +60,10 @@ public class DetailJadwalDokter extends AppCompatActivity {
     protected ListJadwalAdapter mAdapter;
 
     ProgressBar spinner;
-    LinearLayout container;
-    RelativeLayout nodata;
+    LinearLayout container, containerData;
+    RelativeLayout nodata, errorLayout;
+
+    FloatingActionButton btnTryAgain;
 
     private List<ListJadwal> listJadwalDokter;
 
@@ -86,7 +88,17 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
         container = (LinearLayout) findViewById(R.id.container);
+        containerData = (LinearLayout) findViewById(R.id.containerData);
         nodata = (RelativeLayout) findViewById(R.id.nodata);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+            }
+        });
 
         Bundle b = getIntent().getExtras();
         dokter_id = b.getInt("id");
@@ -137,13 +149,18 @@ public class DetailJadwalDokter extends AppCompatActivity {
         //Log.d(TAG, "init data set");
 
         String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
+
         spinner.setVisibility(View.VISIBLE);
+        container.setVisibility(View.INVISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                         spinner.setVisibility(View.GONE);
+                        container.setVisibility(View.VISIBLE);
 
                         try {
                             JSONObject data = response.getJSONObject("data");
@@ -173,7 +190,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
@@ -201,7 +219,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
             array = data.getJSONArray("listJadwal");
         } catch (JSONException e) {
             e.printStackTrace();
-            container.setVisibility(View.INVISIBLE);
+            containerData.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
 

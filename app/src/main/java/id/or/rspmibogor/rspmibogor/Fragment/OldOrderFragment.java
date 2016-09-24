@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -58,7 +60,10 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
-    RelativeLayout nodata;
+    RelativeLayout nodata, errorLayout;
+    LinearLayout container;
+
+    FloatingActionButton btnTryAgain;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -88,13 +93,27 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.recylceOldOrder);
         mLayoutManager = new LinearLayoutManager(this.getContext());
+
+        spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
+
         nodata = (RelativeLayout) viewRoot.findViewById(R.id.nodata);
+        container = (LinearLayout) viewRoot.findViewById(R.id.container);
+        errorLayout = (RelativeLayout) viewRoot.findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) viewRoot.findViewById(R.id.btnTryAgain);
+
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initDataset();
+            }
+        });
+
+
         swipeRefreshLayout = (SwipeRefreshLayout) viewRoot.findViewById(R.id.swipe_refresh_layout);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getContext(), R.color.colorPrimary));
-
-        spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
 
         initDataset();
 
@@ -110,6 +129,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         String url = "http://103.23.22.46:1337/v1/getorder/old";
         spinner.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
 
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
@@ -132,7 +152,8 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.INVISIBLE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
@@ -153,6 +174,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         if(array.length() > 0) {
             nodata.setVisibility(View.INVISIBLE);
+
             for (int i = 0; i < array.length(); i++) {
 
                 OldOrder oldOrder = new OldOrder();
@@ -209,6 +231,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onResponse(JSONObject response) {
                         swipeRefreshLayout.setRefreshing(false);
+                        errorLayout.setVisibility(View.INVISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
@@ -224,7 +247,8 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

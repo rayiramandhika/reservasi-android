@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -57,8 +58,10 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     String jwTokenSP;
     Integer user_id;
 
-    RelativeLayout nodata;
+    RelativeLayout nodata, errorLayout;
     LinearLayout container;
+
+    FloatingActionButton btnTryAgain;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -77,6 +80,16 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
         nodata = (RelativeLayout) findViewById(R.id.nodata);
         container = (LinearLayout) findViewById(R.id.container);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+            }
+        });
 
         listPasien = new ArrayList<>();
 
@@ -160,6 +173,8 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
         spinner.setVisibility(View.VISIBLE);
 
+        errorLayout.setVisibility(View.INVISIBLE);
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -186,6 +201,8 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        spinner.setVisibility(View.INVISIBLE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
@@ -267,34 +284,36 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     private void getNewData()
     {
         String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
-        Log.d(TAG, "url: " + url);
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        //loading.dismiss();
                         try {
                             last_updated = response.getString("last_update");
                         } catch (JSONException e) {
 
                         }
                         spinner.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.INVISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataNew(data);
-                           // Log.d(TAG, "onResponse - data" + data.toString());
+                            //Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        spinner.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -379,8 +398,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien";
-
+        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -391,6 +409,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         }
                         swipeRefreshLayout.setRefreshing(false);
+                        errorLayout.setVisibility(View.INVISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataRefresh(data);
@@ -405,6 +424,8 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -424,9 +445,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
         if(array.length() > 0) {
 
-            //container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
-
             listPasien.removeAll(listPasien);
 
             for (int i = 0; i < array.length(); i++) {
@@ -477,7 +496,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                listPasien.add(0, pasien);
+                listPasien.add(pasien);
             }
             mAdapter.notifyDataSetChanged();
         }else{

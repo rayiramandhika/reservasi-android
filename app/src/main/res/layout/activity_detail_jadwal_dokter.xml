@@ -28,72 +28,115 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/bg_pmi"
-            android:id="@+id/linearLayout3">
+            android:id="@+id/container">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="98dp"
-                android:id="@+id/dokter_foto"
-                android:layout_gravity="center" />
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_pmi"
+                android:id="@+id/linearLayout3">
 
-            <TextView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="98dp"
+                    android:id="@+id/dokter_foto"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/dokter_name"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/layanan_name"
+                    android:layout_gravity="center"
+                    android:textSize="13dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:elevation="6dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_below="@+id/linearLayout3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/linearLayout4">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jadwal yang Tersedia"
+                    android:textColor="#FFF"
+                    android:textSize="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical|center|center_horizontal" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/dokter_name"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:textColor="#FFF"
-                android:layout_marginTop="15dp"
-                android:gravity="center" />
+                android:id="@+id/containerData"
+                android:layout_below="@+id/linearLayout4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
-            <TextView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerDetailJadwal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/layanan_name"
-                android:layout_gravity="center"
-                android:textSize="13dp"
-                android:textAlignment="center"
-                android:textColor="#FFF"
-                android:gravity="center" />
+                android:layout_height="match_parent"
+                android:id="@+id/nodata"
+                android:visibility="invisible"
+                android:layout_below="@+id/linearLayout4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:elevation="6dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_below="@+id/linearLayout3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/linearLayout4">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Jadwal yang Tersedia"
-                android:textColor="#FFF"
-                android:textSize="18dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical|center|center_horizontal" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Maaf, Tidak ada jadwal tersedia"
+                    android:gravity="center"
+                    android:textSize="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
 
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/linearLayout4">
+            android:layout_height="match_parent">
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -102,45 +145,38 @@
                 android:layout_centerInParent="true"
                 android:indeterminateTint="@color/colorPrimary"
                 android:indeterminateTintMode="src_atop"
-                android:indeterminate="true"
-                android:visibility="gone"/>
+                android:indeterminate="true"/>
 
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/container"
-            android:layout_below="@+id/linearLayout4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerDetailJadwal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nodata"
-            android:visibility="invisible"
-            android:layout_below="@+id/linearLayout4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:id="@+id/error"
+            android:visibility="invisible">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnTryAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_autorenew_white_24px"
+                app:backgroundTint="@color/colorPrimary"
+                android:layout_centerInParent="true" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Maaf, Tidak ada jadwal tersedia"
+                android:layout_height="wrap_content"
+                android:text="Gagal memuat data, Coba lagi."
                 android:gravity="center"
-                android:textSize="20dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_below="@+id/btnTryAgain" />
+
+
         </RelativeLayout>
+
 
     </RelativeLayout>
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -52,8 +53,10 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     SharedPreferences sharedPreferences;
     String jwTokenSP;
 
-    RelativeLayout nodata;
+    RelativeLayout nodata, errorLayout;
     LinearLayout container;
+
+    FloatingActionButton btnTryAgain;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -76,6 +79,16 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
         nodata = (RelativeLayout) findViewById(R.id.nodata);
         container = (LinearLayout) findViewById(R.id.container);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initDataset();
+            }
+        });
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -111,7 +124,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
+        errorLayout.setVisibility(View.INVISIBLE);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -127,14 +141,14 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        ;
+                        };
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.INVISIBLE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
@@ -154,8 +168,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     //This method will parse json data
     private void parseData(JSONArray array){
         if(array.length() > 0) {
-
-            container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
 
             for (int i = 0; i < array.length(); i++) {
@@ -191,7 +203,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -206,8 +217,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     private void refreshData()
     {
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
-        //spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -215,6 +225,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                         //loading.dismiss();
                         //Log.d(TAG, "onResponse - response" + response.toString());
                         swipeRefreshLayout.setRefreshing(false);
+                        errorLayout.setVisibility(View.INVISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
@@ -230,7 +241,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -250,8 +262,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         if(array.length() > 0) {
 
             listInbox.removeAll(listInbox);
-
-            container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
 
             for (int i = 0; i < array.length(); i++) {
@@ -287,10 +297,11 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
             }
             mAdapter.notifyDataSetChanged();
         }else{
-            //container.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
+
+
 
 
 }

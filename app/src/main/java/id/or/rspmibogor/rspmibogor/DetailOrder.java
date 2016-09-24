@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +79,9 @@ public class DetailOrder extends AppCompatActivity {
     Boolean checkIn;
 
     ProgressBar spinner;
-    LinearLayout container;
+    RelativeLayout nodata, errorLayout, container;
+
+    FloatingActionButton btnTryAgain;
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
@@ -87,8 +91,6 @@ public class DetailOrder extends AppCompatActivity {
     Integer confirm = 0;
     Integer confirmed = 0;
     Integer hariH = 0;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +111,17 @@ public class DetailOrder extends AppCompatActivity {
         buttonConfirm = (Button) findViewById(R.id.btnConfirm);
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
-        container = (LinearLayout) findViewById(R.id.container);
+        container = (RelativeLayout) findViewById(R.id.container);
+        nodata = (RelativeLayout) findViewById(R.id.nodata);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+            }
+        });
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -220,10 +232,10 @@ public class DetailOrder extends AppCompatActivity {
 
         String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
-        container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
+        container.setVisibility(View.INVISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
 
-        Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -245,7 +257,8 @@ public class DetailOrder extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){

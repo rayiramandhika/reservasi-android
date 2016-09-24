@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +73,10 @@ public class DetailOrderOld extends AppCompatActivity {
 
 
     ProgressBar spinner;
-    LinearLayout container;
+    LinearLayout container, containerData;
+    RelativeLayout nodata, errorLayout;
+
+    FloatingActionButton btnTryAgain;
 
     SharedPreferences sharedPreferences;
     String jwTokenSP;
@@ -123,7 +128,17 @@ public class DetailOrderOld extends AppCompatActivity {
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
         container = (LinearLayout) findViewById(R.id.container);
+        containerData = (LinearLayout) findViewById(R.id.containerData);
+        nodata = (RelativeLayout) findViewById(R.id.nodata);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
 
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+            }
+        });
 
         ratingBoo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,8 +275,9 @@ public class DetailOrderOld extends AppCompatActivity {
 
         String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
 
-        container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
+        container.setVisibility(View.INVISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
 
         Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -271,6 +287,7 @@ public class DetailOrderOld extends AppCompatActivity {
                         //loading.dismiss();
                         spinner.setVisibility(View.GONE);
                         container.setVisibility(View.VISIBLE);
+
                         try {
                             JSONObject data = response.getJSONObject("data");
                             parseData(data);
@@ -321,7 +338,8 @@ public class DetailOrderOld extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        spinner.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }
         ){
