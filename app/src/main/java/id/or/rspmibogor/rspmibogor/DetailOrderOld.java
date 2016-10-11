@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class DetailOrderOld extends AppCompatActivity {
     private static final String TAG = "DetailOrderOld";
@@ -79,7 +80,6 @@ public class DetailOrderOld extends AppCompatActivity {
     FloatingActionButton btnTryAgain;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     String id;
 
@@ -181,8 +181,6 @@ public class DetailOrderOld extends AppCompatActivity {
         });
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
 
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
@@ -211,6 +209,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
                 RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
                 String url = "http://103.23.22.46:1337/v1/order/" + id;
+                final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
                 JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                         new Response.Listener<JSONObject>() {
@@ -241,6 +240,13 @@ public class DetailOrderOld extends AppCompatActivity {
                                 // error
                                 progressDialog.dismiss();
 
+                                if(error instanceof AuthFailureError)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+                                }
 
                                 Toast.makeText(getBaseContext(), "Gagal.", Toast.LENGTH_SHORT).show();
 
@@ -274,6 +280,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
 
         String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         spinner.setVisibility(View.VISIBLE);
         container.setVisibility(View.INVISIBLE);
@@ -338,6 +345,15 @@ public class DetailOrderOld extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         spinner.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.VISIBLE);
                     }
@@ -372,7 +388,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
         layanan_name.setText(layanan.getString("nama"));
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
-        jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
+        jam.setText("Pkl. " + detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));
 
 

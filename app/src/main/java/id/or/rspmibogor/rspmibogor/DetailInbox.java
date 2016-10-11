@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +31,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.Models.User;
+
 public class DetailInbox extends AppCompatActivity {
     private static final String TAG = "DetailInbox";
 
@@ -40,9 +43,11 @@ public class DetailInbox extends AppCompatActivity {
 
     ProgressBar spinner;
     LinearLayout container;
+    RelativeLayout errorLayout;
+
+    FloatingActionButton btnTryAgain;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     String id;
 
@@ -51,6 +56,7 @@ public class DetailInbox extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_inbox);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Detail Kotak Masuk");
 
         title = (TextView) findViewById(R.id.judul_inbox);
         tanggal = (TextView) findViewById(R.id.tanggal_inbox);
@@ -58,9 +64,18 @@ public class DetailInbox extends AppCompatActivity {
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
         container = (LinearLayout) findViewById(R.id.content);
+        errorLayout = (RelativeLayout) findViewById(R.id.error);
+
+        btnTryAgain = (FloatingActionButton) findViewById(R.id.btnTryAgain);
+        btnTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+                updateRead();
+            }
+        });
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
@@ -88,37 +103,44 @@ public class DetailInbox extends AppCompatActivity {
     private void initData()
     {
 
-
-
-
         String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
-        //final ProgressDialog loading = ProgressDialog.show(this.getActivity() ,"Loading Data", "Please wait...",false,false);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
-        Log.d(TAG, "init Data set loaded" );
-        //Creating a json array request
+        errorLayout.setVisibility(View.INVISIBLE);
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
+
                         spinner.setVisibility(View.GONE);
                         container.setVisibility(View.VISIBLE);
+
                         try {
                             JSONObject data = response.getJSONObject("data");
                             parseData(data);
 
-                            //Log.d(TAG, "onResponse - initData - data" + data.toString());
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
+                        spinner.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -131,10 +153,7 @@ public class DetailInbox extends AppCompatActivity {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
 
@@ -143,8 +162,6 @@ public class DetailInbox extends AppCompatActivity {
         title.setText(data.getString("title"));
         tanggal.setText(data.getString("tanggal"));
         body.setText(data.getString("body"));
-
-        toolbar.setTitle(data.getString("title"));
 
     }
 
@@ -157,6 +174,8 @@ public class DetailInbox extends AppCompatActivity {
         }
 
         String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                 new Response.Listener<JSONObject>()
                 {
@@ -170,8 +189,13 @@ public class DetailInbox extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
-                        //Log.d("Error.Response", String.valueOf(error));
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
                     }
                 }
         ){

@@ -94,7 +94,6 @@
     <string name="title_activity_bantuan">BantuanActivity</string>
 
 
-
     <string name="next">Selanjutnya</string>
     <string name="skip">SKIP</string>
     <string name="start">SIGN IN</string>
@@ -107,7 +106,6 @@
 
     <string name="slide_3_title">Konfirmasi Pendaftaran</string>
     <string name="slide_3_desc">Lakukan konfirmasi pendaftaran Anda pada hari H di halaman detail pendaftaran. Pendaftaran akan di anggap batal jika Anda tidak melakukan konfirmasi pendaftaran.</string>
-
 
 
 </resources>

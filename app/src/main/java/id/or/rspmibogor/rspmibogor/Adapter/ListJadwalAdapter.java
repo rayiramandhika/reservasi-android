@@ -118,8 +118,8 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
         viewHolder.hari.setText(listJadwal.getJadwal_hari());
         viewHolder.tanggal.setText(listJadwal.getJadwal_tanggal());
-        viewHolder.jam.setText(listJadwal.getJadwal_jamMulai() + " - " + listJadwal.getJadwal_jamTutup());
-        viewHolder.kuota.setText("Kuota Tersedia: " + listJadwal.getJadwal_kuota());
+        viewHolder.jam.setText("Pkl. " + listJadwal.getJadwal_jamMulai() + " - " + listJadwal.getJadwal_jamTutup());
+        viewHolder.kuota.setText("Kuota Tersedia: " + listJadwal.getJadwal_sisaKuota() + " dari " + listJadwal.getJadwal_kuota());
 
         String keterangan = listJadwal.getKeterangan();
 

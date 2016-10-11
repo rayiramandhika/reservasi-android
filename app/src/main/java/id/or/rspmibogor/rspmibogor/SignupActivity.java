@@ -65,7 +65,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
-            onSignupFailed("Register Gagal");
+            onSignupFailed("Sign Up");
             return;
         }
 
@@ -144,8 +144,8 @@ public class SignupActivity extends AppCompatActivity {
         //_signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
-        Toast.makeText(getBaseContext(), "Register Berhasil", Toast.LENGTH_LONG).show();
-        final Intent intent = new Intent(this, CompleteRegisterActivity.class);
+        Toast.makeText(getBaseContext(), "Sign Up Berhasil", Toast.LENGTH_LONG).show();
+        final Intent intent = new Intent(this, LoginActivity.class);
 
         String email = _emailText.getText().toString();
 
@@ -161,7 +161,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupFailed(String message) {
         String msg = null;
-        if(message == null) msg = "Register Gagal";
+        if(message == null) msg = "Sign Up Gagal";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 

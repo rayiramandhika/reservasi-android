@@ -39,6 +39,7 @@ import id.or.rspmibogor.rspmibogor.DetailInbox;
 import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
+import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.PasienEditActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
@@ -62,7 +63,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         this.activity = activity;
 
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
     }
 
 
@@ -200,8 +201,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
     private void deleteFromServer(final Integer id, final Integer position)
     {
-        Log.d(TAG, "position: "+ position);
 
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
         String url = "http://103.23.22.46:1337/v1/pasien/" + id;
 
@@ -226,6 +227,16 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, activity.getBaseContext());
+                            }
+                        }
+
+                        Toast.makeText(activity, "Pasien Gagal dihapus.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }

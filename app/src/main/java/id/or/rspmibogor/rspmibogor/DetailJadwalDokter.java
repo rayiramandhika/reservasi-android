@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -44,6 +45,7 @@ import id.or.rspmibogor.rspmibogor.Class.DividerItemDecoration;
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.ListJadwal;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class DetailJadwalDokter extends AppCompatActivity {
 
@@ -60,15 +62,14 @@ public class DetailJadwalDokter extends AppCompatActivity {
     protected ListJadwalAdapter mAdapter;
 
     ProgressBar spinner;
-    LinearLayout container, containerData;
-    RelativeLayout nodata, errorLayout;
+    LinearLayout containerData;
+    RelativeLayout nodata, errorLayout, container;
 
     FloatingActionButton btnTryAgain;
 
     private List<ListJadwal> listJadwalDokter;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     Toolbar toolbar;
 
@@ -82,12 +83,12 @@ public class DetailJadwalDokter extends AppCompatActivity {
         detailJadwalDokter = this;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Dokter");
+        toolbar.setTitle("Detail Jadwal Dokter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
-        container = (LinearLayout) findViewById(R.id.container);
+        container = (RelativeLayout) findViewById(R.id.container);
         containerData = (LinearLayout) findViewById(R.id.containerData);
         nodata = (RelativeLayout) findViewById(R.id.nodata);
         errorLayout = (RelativeLayout) findViewById(R.id.error);
@@ -118,7 +119,6 @@ public class DetailJadwalDokter extends AppCompatActivity {
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         initData();
 
@@ -148,6 +148,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
     {
         //Log.d(TAG, "init data set");
 
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
 
         spinner.setVisibility(View.VISIBLE);
@@ -168,13 +170,12 @@ public class DetailJadwalDokter extends AppCompatActivity {
                             try {
 
                                 JSONObject layanan = data.getJSONObject("layanan");
-                                toolbar.setTitle(data.getString("nama"));
                                 dokter_name.setText(data.getString("nama"));
                                 layanan_name.setText(layanan.getString("nama"));
 
                                 String uriFoto = data.getString("foto");
                                 initFoto(uriFoto);
-                                parseData(data);
+                                parseData(data, layanan);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -190,6 +191,15 @@ public class DetailJadwalDokter extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         spinner.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.VISIBLE);
                     }
@@ -203,15 +213,11 @@ public class DetailJadwalDokter extends AppCompatActivity {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
 
-    //This method will parse json data
-    private void parseData(JSONObject data) {
+    private void parseData(JSONObject data, JSONObject layanan) {
 
         JSONArray array = new JSONArray();
 
@@ -223,15 +229,6 @@ public class DetailJadwalDokter extends AppCompatActivity {
             nodata.setVisibility(View.VISIBLE);
         }
 
-        JSONObject layanan = new JSONObject();
-
-        try {
-            layanan = data.getJSONObject("layanan");
-            JSONObject jadwalDokter = data.getJSONObject("jadwalDokter");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         if (array.length() > 1) {
             for (int i = 0; i < array.length(); i++) {
 
@@ -240,9 +237,6 @@ public class DetailJadwalDokter extends AppCompatActivity {
                 try {
 
                     json = array.getJSONObject(i);
-
-                    //oldOrder.setFirstAppearance(json.getString(Config.TAG_FIRST_APPEARANCE));
-                    //JSONObject layanan = json.getJSONObject("layanan");
 
                     listJadwal.setDokter_id(data.getInt("id"));
                     listJadwal.setDokter_foto(data.getString("foto"));
@@ -255,11 +249,13 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setJadwal_jamMulai(json.getString("jamMulai"));
                     listJadwal.setJadwal_jamTutup(json.getString("jamTutup"));
                     listJadwal.setJadwal_tanggal(json.getString("tanggal"));
-                    listJadwal.setJadwal_kuota(json.getInt("sisaKuota"));
+                    listJadwal.setJadwal_kuota(json.getInt("kuota"));
+                    listJadwal.setJadwal_sisaKuota(json.getInt("sisaKuota"));
                     listJadwal.setJadwal_status(json.getString("status"));
                     listJadwal.setKeterangan(json.getString("keterangan"));
 
                 } catch (JSONException e) {
+                    Log.d(TAG, "ListJadwal JSONException: " + e.toString());
                     e.printStackTrace();
                 }
                 listJadwalDokter.add(listJadwal);

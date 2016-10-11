@@ -8,10 +8,9 @@
         android:allowBackup="true"
         android:icon="@drawable/logo_apps"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="RS PMI Bogor"
@@ -137,7 +136,8 @@
             android:name=".BantuanActivity"
             android:label="@string/title_activity_bantuan"
             android:theme="@style/AppTheme" />
-        <activity android:name=".IntroActivity"></activity>
+        <activity android:name=".IntroActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ public class ListJadwal {
     private String jadwal_jamMulai;
     private String jadwal_jamTutup;
     private Integer jadwal_kuota;
+    private Integer jadwal_sisaKuota;
     private String dokter_nama;
     private String dokter_foto;
     private Integer dokter_id;
@@ -58,8 +59,15 @@ public class ListJadwal {
     public String getKeterangan() {
         return keterangan;
     }
-
     public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
+    }
+
+    public Integer getJadwal_sisaKuota() {
+        return jadwal_sisaKuota;
+    }
+
+    public void setJadwal_sisaKuota(Integer jadwal_sisaKuota) {
+        this.jadwal_sisaKuota = jadwal_sisaKuota;
     }
 }

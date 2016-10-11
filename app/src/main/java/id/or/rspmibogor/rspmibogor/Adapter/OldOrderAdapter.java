@@ -86,7 +86,7 @@ public class OldOrderAdapter extends RecyclerView.Adapter<OldOrderAdapter.ViewHo
 
         viewHolder.pasien_name.setText(oldOrder.getPasien_name());
         viewHolder.hari.setText(oldOrder.getDetailjadwal_hari());
-        viewHolder.jadwal.setText(oldOrder.getDetailjadwal_jammulai() + " . " + oldOrder.getDetailjadwal_jamtutup());
+        viewHolder.jadwal.setText("Pkl. " + oldOrder.getDetailjadwal_jammulai() + " . " + oldOrder.getDetailjadwal_jamtutup());
         viewHolder.dokter_name.setText(oldOrder.getDokter_name());
         viewHolder.layanan_name.setText(oldOrder.getLayanan_name());
         viewHolder.tanggal.setText(oldOrder.getOrder_tanggal());

@@ -27,6 +27,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.greenrobot.eventbus.EventBus;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -55,7 +57,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
     Button btnNext;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     Intent intent;
 
@@ -69,7 +70,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
@@ -133,8 +133,11 @@ public class CompleteOrderActivity extends AppCompatActivity {
     {
         final Activity activity = this;
 
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/new/" + detailjadwal_id;
+
 
         JSONObject object = new JSONObject();
         try {
@@ -174,6 +177,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                 if(JadwalDokterActivity.getInstance() != null) JadwalDokterActivity.getInstance().finish();
                                 if(DetailJadwalDokter.getInstance() != null) DetailJadwalDokter.getInstance().finish();
                                 if(PilihPasienActivity.getInstance() != null) PilihPasienActivity.getInstance().finish();
+                                if(SearchActivity.getInstance() != null) SearchActivity.getInstance().finish();
                                 finish();
                             }
                         }).show();
@@ -224,10 +228,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     }
-
-    /*static PilihPasienActivity pilihPasienActivity;
-    static JadwalDokterActivity jadwalDokterActivity;
-    static DetailJadwalDokter detailJadwalDokter;*/
 
     @Override
     public void onDestroy() {

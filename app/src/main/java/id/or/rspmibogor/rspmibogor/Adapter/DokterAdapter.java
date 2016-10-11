@@ -63,7 +63,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
 
-                    Dokter dokter =  Dokter.get(getPosition());
+                    Dokter dokter =  Dokter.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
                     b.putInt("id", dokter.getDokter_id());

@@ -57,7 +57,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mohon cek kembali pendaftaran anda"
+                        android:text="Mohon cek kembali pendaftaran (Poliklinik Afiat) Anda"
                         android:id="@+id/textView9"
                         android:gravity="center"
                         android:textSize="20dp"

@@ -61,7 +61,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
 
                     judul.setTypeface(null , Typeface.NORMAL);
                     desk.setTypeface(null , Typeface.NORMAL);
-                    read.setVisibility(View.GONE);
+                    read.setVisibility(View.INVISIBLE);
 
                     Inbox inbox =  Inbox.get(getAdapterPosition());
 
@@ -98,6 +98,8 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
             viewHolder.desc.setTypeface(null , Typeface.BOLD);
             viewHolder.unread.setVisibility(View.VISIBLE);
         }else{
+            viewHolder.title.setTypeface(null , Typeface.NORMAL);
+            viewHolder.desc.setTypeface(null , Typeface.NORMAL);
             viewHolder.unread.setVisibility(View.GONE);
         }
 

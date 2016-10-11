@@ -44,8 +44,9 @@ import java.util.Map;
 import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
-public class JadwalDokterActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,  SwipeRefreshLayout.OnRefreshListener {
+public class JadwalDokterActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {//,  SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "JadwalDokterActivity";
 
@@ -58,7 +59,6 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
     private List<Dokter> listDokter;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     RelativeLayout nodata, errorLayout;
     LinearLayout container;
@@ -80,9 +80,16 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         jadwalDokterActivity = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Dokter - Afiat");
+        toolbar.setTitle("Dokter - Poliklinik Afiat");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JadwalDokterActivity.this.finish();
+            }
+        });
 
         nodata = (RelativeLayout) findViewById(R.id.nodata);
         container = (LinearLayout) findViewById(R.id.container);
@@ -105,7 +112,6 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         initDataset();
 
@@ -114,16 +120,9 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JadwalDokterActivity.this.finish();
-            }
-        });
-
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        /*swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));*/
     }
 
     @Override
@@ -188,7 +187,15 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
 
     private void initDataset() {
 
-        String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
+        Bundle b = getIntent().getExtras();
+
+        String namaDokter = b.getString("dokter_name") == null ? "" : b.getString("dokter_name");
+        String layananId = b.getString("layanan_id") == null ? "" : b.getString("layanan_id");
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
+
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
@@ -213,6 +220,15 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
                     }
@@ -270,7 +286,7 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         }
     }
 
-    @Override
+    /*@Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         refreshData();
@@ -299,6 +315,15 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getBaseContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
                     }
@@ -357,5 +382,5 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         }else{
             nodata.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 }

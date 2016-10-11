@@ -40,11 +40,11 @@ import java.util.Map;
 import id.or.rspmibogor.rspmibogor.Adapter.PasienAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class PasienActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "PasienActivity";
-    private String last_updated;
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PasienAdapter mAdapter;
@@ -55,7 +55,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     private Integer last_id = 0;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
     Integer user_id;
 
     RelativeLayout nodata, errorLayout;
@@ -99,7 +98,6 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
         user_id = sharedPreferences.getInt("id", 0);
 
         initData();
@@ -170,21 +168,17 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData()
     {
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
-        spinner.setVisibility(View.VISIBLE);
 
+        spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
@@ -200,6 +194,15 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
@@ -283,6 +286,8 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void getNewData()
     {
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
         spinner.setVisibility(View.VISIBLE);
 
@@ -290,12 +295,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
 
-                        }
                         spinner.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.INVISIBLE);
                         try {
@@ -311,6 +311,15 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         spinner.setVisibility(View.INVISIBLE);
                         Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
@@ -399,15 +408,13 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     private void refreshData()
     {
         String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
 
-                        }
                         swipeRefreshLayout.setRefreshing(false);
                         errorLayout.setVisibility(View.INVISIBLE);
                         try {
@@ -423,6 +430,15 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();

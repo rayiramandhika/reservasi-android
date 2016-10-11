@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="id.or.rspmibogor.rspmibogor.DetailJadwalDokter">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,101 +22,105 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="id.or.rspmibogor.rspmibogor.DetailJadwalDokter"
-        tools:showIn="@layout/activity_detail_jadwal_dokter"
-        android:orientation="vertical"
-        android:weightSum="1">
+        tools:showIn="@layout/activity_detail_jadwal_dokter">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="180dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:id="@+id/container">
+            android:background="@drawable/bg_pmi"
+            android:id="@+id/linearLayout3">
 
-
-            <LinearLayout
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_pmi"
-                android:id="@+id/linearLayout3">
+                android:layout_height="98dp"
+                android:id="@+id/dokter_foto" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="98dp"
-                    android:id="@+id/dokter_foto"
-                    android:layout_gravity="center" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/dokter_name"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:textColor="#FFF"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/layanan_name"
-                    android:layout_gravity="center"
-                    android:textSize="13dp"
-                    android:textAlignment="center"
-                    android:textColor="#FFF"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:elevation="6dp"
-                android:background="@color/colorPrimaryDark"
-                android:layout_below="@+id/linearLayout3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/linearLayout4">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jadwal yang Tersedia"
-                    android:textColor="#FFF"
-                    android:textSize="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical|center|center_horizontal" />
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/containerData"
-                android:layout_below="@+id/linearLayout4"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/dokter_name"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:layout_marginTop="15dp"
+                android:gravity="center" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerDetailJadwal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/layanan_name"
+                android:layout_gravity="center"
+                android:textSize="13dp"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:gravity="center" />
 
-            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:elevation="6dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout4">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jadwal yang Tersedia (Poliklinik Afiat)"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|center|center_horizontal" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/containerData"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerDetailJadwal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/linearLayout4">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/nodata"
                 android:visibility="invisible"
-                android:layout_below="@+id/linearLayout4"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
@@ -134,20 +136,11 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:indeterminateTint="@color/colorPrimary"
-                android:indeterminateTintMode="src_atop"
-                android:indeterminate="true"/>
 
-        </RelativeLayout>
+    </RelativeLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -174,6 +167,21 @@
                 android:textStyle="bold"
                 android:layout_below="@+id/btnTryAgain" />
 
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminate="true"/>
 
         </RelativeLayout>
 

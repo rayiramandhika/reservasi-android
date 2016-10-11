@@ -40,11 +40,11 @@ import java.util.Map;
 import id.or.rspmibogor.rspmibogor.Adapter.PilihPasienAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class PilihPasienActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private static final String TAG = "PilihPasienActivity";
-    private String last_updated;
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PilihPasienAdapter mAdapter;
@@ -55,7 +55,6 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     private Integer last_id = 0;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
     Integer user_id;
 
     RelativeLayout nodata, errorLayout;
@@ -66,6 +65,15 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     static PilihPasienActivity pilihPasienActivity;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    Integer dokter_id;
+    Integer detailjadwal_id;
+    Integer layanan_id;
+    String tanggal;
+    String hari;
+    String jam;
+    String layanan_name = "";
+    String dokter_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +116,19 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
         user_id = sharedPreferences.getInt("id", 0);
 
-        initData();
-
         Bundle b = getIntent().getExtras();
-        Integer dokter_id = b.getInt("dokter_id");
-        Integer detailjadwal_id = b.getInt("detailjadwal_id");
-        Integer layanan_id = b.getInt("layanan_id");
-        String tanggal = b.getString("tanggal");
-        String hari = b.getString("hari");
-        String jam = b.getString("jam");
-        String layanan_name = b.getString("layanan_name");
-        String dokter_name = b.getString("dokter_name");
+        dokter_id = b.getInt("dokter_id");
+        detailjadwal_id = b.getInt("detailjadwal_id");
+        layanan_id = b.getInt("layanan_id");
+        tanggal = b.getString("tanggal");
+        hari = b.getString("hari");
+        jam = b.getString("jam");
+        layanan_name = b.getString("layanan_name");
+        dokter_name = b.getString("dokter_name");
+
+        initData();
 
         mAdapter = new PilihPasienAdapter(listPasien, this, detailjadwal_id, layanan_id, dokter_id,
                 tanggal, hari, jam, layanan_name, dokter_name);
@@ -174,21 +181,30 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
     private void initData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+
+        String url = null;
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(layanan_name.equals("Kebidanan & Kandungan"))
+        {
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+        }else if(layanan_name.equals("Bedah Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else if(layanan_name.equals("Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else{
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        }
+
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
-        Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
@@ -205,6 +221,15 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
 
                         spinner.setVisibility(View.INVISIBLE);
@@ -246,6 +271,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
                     pasien.setPasien_name(json.getString("nama"));
                     pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
 
 
@@ -268,17 +294,27 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        String url = null;
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(layanan_name.equals("Kebidanan & Kandungan"))
+        {
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+        }else if(layanan_name.equals("Bedah Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else if(layanan_name.equals("Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else{
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        }
+
+
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
 
-                        }
                         swipeRefreshLayout.setRefreshing(false);
                         errorLayout.setVisibility(View.INVISIBLE);
                         try {
@@ -295,6 +331,15 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
@@ -337,6 +382,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
                     pasien.setPasien_name(json.getString("nama"));
                     pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
 
 
@@ -353,18 +399,29 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
     private void getNewData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
+
+        String url = null;
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        if(layanan_name.equals("Kebidanan & Kandungan"))
+        {
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+        }else if(layanan_name.equals("Bedah Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else if(layanan_name.equals("Anak")){
+            url = "http://103.23.22.46:1337/v1/pasien/child";
+        }else{
+            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        }
+
+
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        try {
-                            last_updated = response.getString("last_update");
-                        } catch (JSONException e) {
 
-                        }
                         spinner.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.INVISIBLE);
                         try {
@@ -381,6 +438,15 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         spinner.setVisibility(View.INVISIBLE);
                         Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
@@ -403,6 +469,8 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if (array.length() > 0) {
 
+            nodata.setVisibility(View.INVISIBLE);
+
             for (int i = 0; i < array.length(); i++) {
 
                 Pasien pasien = new Pasien();
@@ -419,6 +487,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
                     pasien.setPasien_name(json.getString("nama"));
                     pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
 
 

@@ -38,9 +38,10 @@ import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String TAG = "InboxFragment";
+    private static final String TAG = "InboxActivity";
 
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -51,7 +52,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     ProgressBar spinner;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     RelativeLayout nodata, errorLayout;
     LinearLayout container;
@@ -95,7 +95,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         listInbox = new ArrayList<>();
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleInbox);
         mLayoutManager = new LinearLayoutManager(this);
@@ -123,6 +122,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     private void initDataset() {
 
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
@@ -147,6 +148,15 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
                     }
@@ -210,13 +220,13 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-
         refreshData();
     }
 
     private void refreshData()
     {
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
@@ -241,6 +251,15 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
                     }

@@ -10,6 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="id.or.rspmibogor.rspmibogor.CompleteRegisterActivity"
         tools:showIn="@layout/activity_complete_register">
@@ -56,6 +57,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Silahkan masukan kode verifikasi yang telah dikirim ke email Anda."/>
+            <TextView
+                android:layout_marginTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="(Jika Anda tidak menerima email , mohon cek di folder spam. atau klik kirim ulang kode verfifikasi)"/>
 
             <EditText
                 android:layout_marginTop="50dp"

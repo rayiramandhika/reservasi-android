@@ -25,7 +25,7 @@ import java.util.Map;
 public class User {
 
 
-    public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, Context context) {
+    public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://103.23.22.46:1337/v1/user/" + idUser;
@@ -43,6 +43,13 @@ public class User {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(token != null){
+                                User user = new User();
+                                user.refreshToken(token, context);
+                            }
+                        }
                         // error
                         //Log.d("updateFCMToken - Error.Response", String.valueOf(error));
                     }
@@ -117,6 +124,13 @@ public class User {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(token != null){
+                                User user = new User();
+                                user.refreshToken(token, context);
+                            }
+                        }
                         // error
                         //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
@@ -170,6 +184,13 @@ public class User {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(token != null){
+                                User user = new User();
+                                user.refreshToken(token, context);
+                            }
+                        }
                         // error
                         //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }

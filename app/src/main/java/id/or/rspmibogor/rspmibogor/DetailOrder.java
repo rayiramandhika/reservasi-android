@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 
 import id.or.rspmibogor.rspmibogor.Class.ImageClass;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class DetailOrder extends AppCompatActivity {
 
@@ -68,6 +69,8 @@ public class DetailOrder extends AppCompatActivity {
     TextView jam;
     TextView pasien_name;
     TextView confirmedTxt;
+
+    private String paramsTanggal;
 
     ImageView dokter_foto;
 
@@ -84,7 +87,6 @@ public class DetailOrder extends AppCompatActivity {
     FloatingActionButton btnTryAgain;
 
     SharedPreferences sharedPreferences;
-    String jwTokenSP;
 
     Integer position_list;
 
@@ -124,7 +126,6 @@ public class DetailOrder extends AppCompatActivity {
         });
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         Bundle b = getIntent().getExtras();
 
@@ -157,7 +158,7 @@ public class DetailOrder extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                cancelOrder(id, tanggal.getText().toString());
+                                cancelOrder(id, paramsTanggal);
                             }})
 
                         .setNegativeButton(android.R.string.no, null).show();
@@ -190,7 +191,7 @@ public class DetailOrder extends AppCompatActivity {
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        confirmOrder(id, tanggal.getText().toString());
+                                        confirmOrder(id, paramsTanggal);
                                     }})
                                 .setNegativeButton(android.R.string.no, null).show();
                     }else{
@@ -229,7 +230,7 @@ public class DetailOrder extends AppCompatActivity {
     {
         Bundle b = getIntent().getExtras();
 
-
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
         spinner.setVisibility(View.VISIBLE);
@@ -240,8 +241,10 @@ public class DetailOrder extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         spinner.setVisibility(View.GONE);
                         container.setVisibility(View.VISIBLE);
+
                         try {
                             JSONObject data = response.getJSONObject("data");
                             parseData(data);
@@ -257,6 +260,15 @@ public class DetailOrder extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         spinner.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.VISIBLE);
                     }
@@ -290,8 +302,10 @@ public class DetailOrder extends AppCompatActivity {
 
         layanan_name.setText(layanan.getString("nama"));
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
-        jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
+        jam.setText("Pkl. " + detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));
+
+        paramsTanggal = data.getString("tanggal");
 
         status = data.getString("status");
         id = data.getInt("id");
@@ -396,27 +410,13 @@ public class DetailOrder extends AppCompatActivity {
 
         }
 
-        Log.d(TAG, "orderDate: " + orderDate);
-        Log.d(TAG, "today: " + today);
-        Log.d(TAG, "jamPraktek: " + jamPraktek);
-        Log.d(TAG, "shiftPagi: " + shiftPagi);
-        Log.d(TAG, "shiftSiang: " + shiftSiang);
-        Log.d(TAG, "timeToday: " + timeToday);
-        Log.d(TAG, "confirm: " + confirm);
-        Log.d(TAG, "hariH: " + hariH);
-
-        Log.d(TAG, "diffDay: " + diffDay);
-        Log.d(TAG, "diffPraktek: " + diffPraktek);
-        Log.d(TAG, "diffTodayPagi: " + diffTodayPagi);
-        Log.d(TAG, "diffTodaySiang: " + diffTodaySiang);
-
-
     }
 
     private void cancelOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JSONObject object = new JSONObject();
         try {
@@ -447,6 +447,15 @@ public class DetailOrder extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         Toast.makeText(getBaseContext(), "Pendaftaran Gagal dibatalkan.", Toast.LENGTH_SHORT).show();
                         //Log.d("cancelOrder - Error.Response", String.valueOf(error));
                     }
@@ -468,6 +477,7 @@ public class DetailOrder extends AppCompatActivity {
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/" + id;
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JSONObject object = new JSONObject();
         try {
@@ -505,6 +515,15 @@ public class DetailOrder extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
                         error.printStackTrace();
                         Toast.makeText(getBaseContext(), "Konfirmasi Gagal.", Toast.LENGTH_SHORT).show();
                         //Log.d("confirmOrder - Error.Response", String.valueOf(error));

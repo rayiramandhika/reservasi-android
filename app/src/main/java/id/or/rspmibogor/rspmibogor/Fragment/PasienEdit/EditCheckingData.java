@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
+import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.R;
 
 /**
@@ -289,6 +290,15 @@ public class EditCheckingData extends AbstractStep {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, mStepper.getBaseContext());
+                            }
+                        }
+
                         progressDialog.dismiss();
                         Toast.makeText(activity, "Pasien Gagal diubah", Toast.LENGTH_SHORT).show();
                        // Log.d("getDataFromToken - Error.Response", String.valueOf(error));

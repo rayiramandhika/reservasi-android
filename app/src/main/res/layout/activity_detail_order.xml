@@ -216,7 +216,6 @@
                     android:backgroundTint="@color/colorPrimary"
                     app:backgroundTint="@color/colorPrimary"
                     android:clickable="true"
-                    android:elegantTextHeight="false"
                     android:elevation="6dp"
                     android:layout_weight="1"
                     android:textSize="10dp" />

@@ -1,27 +1,12 @@
 package id.or.rspmibogor.rspmibogor;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
-import android.telecom.Call;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,46 +14,29 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import id.or.rspmibogor.rspmibogor.Class.ImageClass;
-import id.or.rspmibogor.rspmibogor.Fragment.HomeFragment;
-import id.or.rspmibogor.rspmibogor.Fragment.InboxFragment;
-import id.or.rspmibogor.rspmibogor.Fragment.OrderFragment;
-import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
-import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 
@@ -94,9 +62,6 @@ public class MainActivity extends AppCompatActivity
 
     TextView unread;
 
-
-    String jwTokenSP;
-
     CarouselView carouselView;
     //List<String> images = new ArrayList<>();
 
@@ -108,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         unread = (TextView) findViewById(R.id.unread);
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         Bundle b = getIntent().getExtras();
         Boolean login = false;
@@ -175,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         imageJadwaldokter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), JadwalDokterActivity.class);
+                Intent intent = new Intent(view.getContext(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -300,7 +265,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.jadwaldokter) {
 
-            Intent intent = new Intent(this, JadwalDokterActivity.class);
+            Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.help) {
@@ -342,6 +307,7 @@ public class MainActivity extends AppCompatActivity
     private void updateFCMToken()
     {
         Integer idSP = sharedPreferences.getInt("id", 0);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         if(idSP != 0){
             FirebaseInstanceIDService firebase = new FirebaseInstanceIDService();
@@ -355,13 +321,17 @@ public class MainActivity extends AppCompatActivity
 
     private void refreshingToken()
     {
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         User user = new User();
         user.refreshToken(jwTokenSP, this.getBaseContext());
     }
 
     private void checkingUnreadMessage()
     {
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         String url =  "http://103.23.22.46:1337/v1/count/unread";
+
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -390,6 +360,14 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
                     }
                 }
         ){
