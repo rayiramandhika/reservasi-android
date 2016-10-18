@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.PasienAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
@@ -63,6 +64,10 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     FloatingActionButton btnTryAgain;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Integer skip = 0;
+    private Integer numRows = 0;
+
 
 
     @Override
@@ -106,6 +111,24 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        /*mAdapter.setLoadMoreListener(new PasienAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(skip < numRows)
+                        {
+                            int index = listPasien.size() - 1;
+                            loadMore(index);// a method which requests remote data
+                        }else {
+                            mAdapter.setMoreDataAvailable(false);
+                        }
+                    }
+                });
+            }
+        });*/
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,19 +180,22 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
         if(msg.equals("addPasien"))
         {
-            getNewData();
+            refreshData();
 
         }else if(msg.equals("editPasien"))
         {
             listPasien.removeAll(listPasien);
-            initData();
+            getNewData();
         }
     }
 
     private void initData()
     {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+
+        String url = "http://103.23.22.46:1337/v1/pasien/all";
+
+
 
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
@@ -184,7 +210,10 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            //Log.d(TAG, "onResponse - data" + data.toString());
+                            /*JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -344,6 +373,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
             //container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);
+            skip = skip+1;
 
             for (int i = 0; i < array.length(); i++) {
 
@@ -401,13 +431,12 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-
         refreshData();
     }
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+        String url = "http://103.23.22.46:1337/v1/pasien/all";
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -420,6 +449,12 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataRefresh(data);
+
+                            /*JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");*/
+
                            // Log.d(TAG, "onResponse - data" + data.toString());
 
                         } catch (JSONException e) {
@@ -519,4 +554,121 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
             nodata.setVisibility(View.VISIBLE);
         }
     }
+
+    /*private void loadMore(Integer index)
+    {
+
+        listPasien.add(null);
+        mAdapter.notifyItemInserted(listPasien.size()-1);
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&skip="+skip.toString();
+
+
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+
+                        listPasien.remove(listPasien.size()-1);
+
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseLoadMore(data);
+
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
+                        error.printStackTrace();
+
+                        listPasien.remove(listPasien.size()-1);
+                        mAdapter.notifyDataChanged();
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(req);
+    }
+
+
+    private void parseLoadMore(JSONArray array){
+
+        if(array.length() > 0) {
+
+            for (int i = 0; i < array.length(); i++) {
+
+                Pasien pasien = new Pasien();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    pasien.setPasien_id(json.getInt("id"));
+                    pasien.setPasien_noID(json.getString("noID"));
+                    pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
+                    pasien.setPasien_name(json.getString("nama"));
+                    pasien.setPasien_tempatLahir(json.getString("tempatLahir"));
+                    pasien.setPasien_tanggalLahir(json.getString("tanggalLahir"));
+                    pasien.setPasien_jenisKelamin(json.getString("jenisKelamin"));
+                    pasien.setPasien_umur(json.getString("umur")  + " Tahun");
+                    pasien.setPasien_wargaNegara(json.getString("wargaNegara"));
+                    pasien.setPasien_noTelp(json.getString("noTelp"));
+                    pasien.setPasien_agama(json.getString("agama"));
+                    pasien.setPasien_pendidikan(json.getString("pendidikan"));
+                    pasien.setPasien_pekerjaan(json.getString("pekerjaan"));
+                    pasien.setPasien_golonganDarah(json.getString("golonganDarah"));
+
+                    pasien.setPasien_statusMarital(json.getString("statusMarital"));
+                    pasien.setPasien_namaPasutri(json.getString("namaPasutri"));
+                    pasien.setPasien_namaAyah(json.getString("namaAyah"));
+                    pasien.setPasien_namaIbu(json.getString("namaIbu"));
+
+                    pasien.setPasien_alamat(json.getString("alamat"));
+                    pasien.setPasien_provinsi(json.getString("provinsi"));
+                    pasien.setPasien_kota(json.getString("kota"));
+                    pasien.setPasien_kecamatan(json.getString("kecamatan"));
+                    pasien.setPasien_desa(json.getString("desa"));
+
+                    pasien.setPasien_jenisPembayaran(json.getString("jenisPembayaran"));
+                    pasien.setPasien_namaPenjamin(json.getString("namaPenjamin"));
+                    pasien.setPasien_type(json.getString("type"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listPasien.add(pasien);
+            }
+        }
+
+        mAdapter.notifyDataChanged();
+    }*/
 }

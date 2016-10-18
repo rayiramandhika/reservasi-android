@@ -48,6 +48,7 @@ import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
 import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.LoginActivity;
+import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.R;
 
 
@@ -73,6 +74,8 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     SwipeRefreshLayout swipeRefreshLayout;
 
+    private Integer skip = 0;
+    private Integer numRows = 0;
 
     public NewOrderFragment() {
         // Required empty public constructor
@@ -129,6 +132,24 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setLoadMoreListener(new NewOrderAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(skip < numRows)
+                        {
+                            int index = listNewOrder.size() - 1;
+                            loadMore(index);// a method which requests remote data
+                        }else {
+                            mAdapter.setMoreDataAvailable(false);
+                        }
+                    }
+                });
+            }
+        });
+
         EventBus.getDefault().register(this);
 
         return viewRoot;
@@ -149,7 +170,10 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            //Log.d(TAG, "onResponse - data" + data.toString());
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -162,6 +186,14 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onErrorResponse(VolleyError error) {
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
                     }
                 }
         ){
@@ -269,7 +301,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void refreshData() {
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new";
+        String url = "http://103.23.22.46:1337/v1/getorder/new?limit="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -280,7 +312,10 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
 
-                            //Log.d(TAG, "onResponse - data" + data.toString());
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -292,6 +327,14 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onErrorResponse(VolleyError error) {
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
                     }
                 }
         ){
@@ -355,6 +398,109 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         }else{
             nodata.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void loadMore(Integer index)
+    {
+        listNewOrder.add(null);
+        mAdapter.notifyItemInserted(listNewOrder.size()-1);
+
+        String url = "http://103.23.22.46:1337/v1/getorder/new?skip="+skip.toString();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        listNewOrder.remove(listNewOrder.size()-1);
+                        //mAdapter.setMoreDataAvailable(false);
+
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseLoadMoreData(data);
+
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        };
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        listNewOrder.remove(listNewOrder.size()-1);
+                        mAdapter.notifyDataChanged();
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+        requestQueue.add(req);
+    }
+
+    private void parseLoadMoreData(JSONArray array){
+        if(array.length() > 0) {
+
+            for (int i = 0; i < array.length(); i++) {
+
+                NewOrder newOrder = new NewOrder();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    //Log.d(TAG, "parseData - json" + json);
+
+                    JSONObject pasien = json.getJSONObject("pasien");
+                    JSONObject detailjadwal = json.getJSONObject("detailjadwal");
+                    JSONObject user = json.getJSONObject("user");
+                    JSONObject dokter = json.getJSONObject("dokter");
+                    JSONObject layanan = json.getJSONObject("layanan");
+
+                    newOrder.setPasien_name(pasien.getString("nama"));
+                    newOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
+                    newOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
+                    newOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
+                    newOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
+                    newOrder.setUser_id(user.getInt("id"));
+                    newOrder.setUser_name(user.getString("nama"));
+                    newOrder.setOrder_id(json.getInt("id"));
+                    newOrder.setOrder_noUrut(json.getInt("noUrut"));
+                    newOrder.setDokter_id(dokter.getInt("id"));
+                    newOrder.setDokter_name(dokter.getString("nama"));
+                    newOrder.setLayanan_id(layanan.getInt("id"));
+                    newOrder.setLayanan_name(layanan.getString("nama"));
+                    newOrder.setOrder_tanggal(json.getString("tanggal"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listNewOrder.add(newOrder);
+            }
+            //mAdapter.notifyDataSetChanged();
+        }
+
+        mAdapter.notifyDataChanged();
     }
 
 }

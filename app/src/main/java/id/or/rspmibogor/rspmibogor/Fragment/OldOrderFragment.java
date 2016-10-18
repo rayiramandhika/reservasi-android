@@ -37,9 +37,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.OldOrderAdapter;
+import id.or.rspmibogor.rspmibogor.GetterSetter.NewOrder;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
 import id.or.rspmibogor.rspmibogor.LoginActivity;
+import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.R;
 
 
@@ -67,6 +70,9 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     SwipeRefreshLayout swipeRefreshLayout;
 
+
+    private Integer skip = 0;
+    private Integer numRows = 0;
 
     public OldOrderFragment() {
 
@@ -122,6 +128,26 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setLoadMoreListener(new OldOrderAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    if(skip < numRows)
+                    {
+                        int index = listOldOlder.size() - 1;
+                        loadMore(index);
+                    }else {
+                        mAdapter.setMoreDataAvailable(false);
+                    }
+
+                    }
+                });
+            }
+        });
+
         return viewRoot;
     }
 
@@ -131,7 +157,6 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
-        Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -141,7 +166,10 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                           // Log.d(TAG, "onResponse - data" + data.toString());
+                           JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -154,6 +182,14 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onErrorResponse(VolleyError error) {
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
                     }
                 }
         ){
@@ -225,7 +261,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void refreshData() {
 
-        String url = "http://103.23.22.46:1337/v1/getorder/old";
+        String url = "http://103.23.22.46:1337/v1/getorder/old?limit="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -236,7 +272,10 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
 
-                           // Log.d(TAG, "onResponse - data" + data.toString());
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -249,6 +288,14 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onErrorResponse(VolleyError error) {
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
                     }
                 }
         ){
@@ -311,6 +358,107 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         }else{
             nodata.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void loadMore(Integer index)
+    {
+        listOldOlder.add(null);
+        mAdapter.notifyItemInserted(listOldOlder.size()-1);
+
+        String url = "http://103.23.22.46:1337/v1/getorder/old?skip="+skip.toString();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        listOldOlder.remove(listOldOlder.size()-1);
+                        //mAdapter.setMoreDataAvailable(false);
+
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseLoadMoreData(data);
+
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        };
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        listOldOlder.remove(listOldOlder.size()-1);
+                        mAdapter.notifyDataChanged();
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getContext());
+                            }
+                        }
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+        requestQueue.add(req);
+    }
+
+    private void parseLoadMoreData(JSONArray array){
+        if(array.length() > 0) {
+
+            for (int i = 0; i < array.length(); i++) {
+
+                OldOrder oldOrder = new OldOrder();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    JSONObject pasien = json.getJSONObject("pasien");
+                    JSONObject detailjadwal = json.getJSONObject("detailjadwal");
+                    JSONObject user = json.getJSONObject("user");
+                    JSONObject dokter = json.getJSONObject("dokter");
+                    JSONObject layanan = json.getJSONObject("layanan");
+
+                    oldOrder.setPasien_name(pasien.getString("nama"));
+                    oldOrder.setPasien_norekammedik(pasien.getString("noRekamMedik"));
+                    oldOrder.setDetailjadwal_hari(detailjadwal.getString("hari"));
+                    oldOrder.setDetailjadwal_jammulai(detailjadwal.getString("jamMulai"));
+                    oldOrder.setDetailjadwal_jamtutup(detailjadwal.getString("jamTutup"));
+                    oldOrder.setUser_id(user.getInt("id"));
+                    oldOrder.setUser_name(user.getString("nama"));
+                    oldOrder.setOrder_id(json.getInt("id"));
+                    oldOrder.setOrder_noUrut(json.getString("noUrut"));
+                    oldOrder.setDokter_id(dokter.getInt("id"));
+                    oldOrder.setDokter_name(dokter.getString("nama"));
+                    oldOrder.setLayanan_id(layanan.getInt("id"));
+                    oldOrder.setLayanan_name(layanan.getString("nama"));
+                    oldOrder.setOrder_tanggal(json.getString("tanggal"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listOldOlder.add(oldOrder);
+            }
+            //mAdapter.notifyDataSetChanged();
+        }
+
+        mAdapter.notifyDataChanged();
     }
 
 }

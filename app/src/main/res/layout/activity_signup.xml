@@ -81,7 +81,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="Password"/>
+                    android:hint="Password"
+                    android:singleLine="false"
+                    android:textIsSelectable="false"
+                    android:drawableRight="@drawable/ic_remove_red_eye_black_24dp"/>
+
             </android.support.design.widget.TextInputLayout>
 
             <!-- Signup Button -->
@@ -105,7 +109,8 @@
                 android:layout_marginBottom="24dp"
                 android:text="Sudah Punya Akun? Sign In"
                 android:gravity="center"
-                android:textSize="16dip" />
+                android:textSize="16dip"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 

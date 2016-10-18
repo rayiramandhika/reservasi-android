@@ -4,6 +4,7 @@ package id.or.rspmibogor.rspmibogor.Services;
  * Created by iqbalprabu on 15/08/16.
  */
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -100,7 +101,8 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
                 }
 
-            }else if(activity.equals("open_detail_order_old")){
+            }else if(activity.equals(":" +
+                    "")){
 
                 if(id.equals(0)){
 
@@ -142,12 +144,18 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String setTitle = "RS PMI Bogor";
         if(title != null) setTitle = title;
 
+        Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(
+                getResources(),
+                R.drawable.icon_notif);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+        builder.setLargeIcon(notificationLargeIconBitmap);
         builder.setSmallIcon(R.drawable.ic_icon_notif);
         builder.setContentTitle(setTitle);
         builder.setContentText(messageBody);
         builder.setAutoCancel(true);
         builder.setSound(defaultSoundUri);
+        builder.setPriority(Notification.PRIORITY_HIGH);
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         }

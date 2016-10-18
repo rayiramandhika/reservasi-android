@@ -137,7 +137,10 @@
             android:label="@string/title_activity_bantuan"
             android:theme="@style/AppTheme" />
         <activity android:name=".IntroActivity" />
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".ConfirmResetPasswordActivity" />
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

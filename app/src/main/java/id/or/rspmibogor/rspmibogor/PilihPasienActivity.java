@@ -188,13 +188,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+            url = "http://103.23.22.46:1337/v1/pasien/women";
         }else if(layanan_name.equals("Bedah Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else if(layanan_name.equals("Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else{
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+            url = "http://103.23.22.46:1337/v1/pasien/all";
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -300,13 +300,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+            url = "http://103.23.22.46:1337/v1/pasien/women";
         }else if(layanan_name.equals("Bedah Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else if(layanan_name.equals("Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else{
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+            url = "http://103.23.22.46:1337/v1/pasien/all";
         }
 
 
@@ -406,15 +406,14 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&jenisKelamin=Perempuan";
+            url = "http://103.23.22.46:1337/v1/pasien/women";
         }else if(layanan_name.equals("Bedah Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else if(layanan_name.equals("Anak")){
             url = "http://103.23.22.46:1337/v1/pasien/child";
         }else{
-            url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC";
+            url = "http://103.23.22.46:1337/v1/pasien/all";
         }
-
 
         spinner.setVisibility(View.VISIBLE);
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -470,6 +469,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         if (array.length() > 0) {
 
             nodata.setVisibility(View.INVISIBLE);
+            listPasien.removeAll(listPasien);
 
             for (int i = 0; i < array.length(); i++) {
 
@@ -494,11 +494,8 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (listPasien.size() > 0) {
-                    listPasien.add(0, pasien);
-                } else {
-                    listPasien.add(pasien);
-                }
+
+                listPasien.add(pasien);
             }
             mAdapter.notifyDataSetChanged();
         }

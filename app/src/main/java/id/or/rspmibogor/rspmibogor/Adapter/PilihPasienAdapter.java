@@ -92,7 +92,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
                 @Override
                 public void onClick(View v) {
 
-                    Pasien pasien =  Pasien.get(getPosition());
+                    Pasien pasien =  Pasien.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
                     b.putInt("pasien_id", pasien.getPasien_id());

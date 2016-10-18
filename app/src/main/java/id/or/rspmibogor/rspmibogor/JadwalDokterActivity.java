@@ -42,11 +42,12 @@ import java.util.List;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
+import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.OldOrder;
 import id.or.rspmibogor.rspmibogor.Models.User;
 
-public class JadwalDokterActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {//,  SwipeRefreshLayout.OnRefreshListener {
+public class JadwalDokterActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener {//,  SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "JadwalDokterActivity";
 
@@ -207,6 +208,7 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
+
                             /*JSONObject metadata = response.getJSONObject("metadata");
 
                             numRows = metadata.getInt("numrows");
@@ -348,6 +350,107 @@ public class JadwalDokterActivity extends AppCompatActivity implements SearchVie
         if(array.length() > 0) {
 
             listDokter.removeAll(listDokter);
+
+            container.setVisibility(View.VISIBLE);
+            nodata.setVisibility(View.INVISIBLE);
+
+            for (int i = 0; i < array.length(); i++) {
+
+                Dokter dokter = new Dokter();
+                JSONObject json = null;
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    JSONObject layanan = json.getJSONObject("layanan");
+                    JSONObject dokter_obj = json.getJSONObject("dokter");
+                    JSONObject poliklinik = json.getJSONObject("poliklinik");
+
+                    dokter.setDokter_name(dokter_obj.getString("nama"));
+                    dokter.setDokter_foto(dokter_obj.getString("foto"));
+                    dokter.setDokter_id(dokter_obj.getInt("id"));
+                    dokter.setLayanan_name(layanan.getString("nama"));
+                    dokter.setLayanan_id(layanan.getInt("id"));
+                    dokter.setPoliklinik_name(poliklinik.getString("nama"));
+                    dokter.setPoliklinik_id(poliklinik.getInt("id"));
+                    dokter.setJadwal_id(json.getInt("id"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listDokter.add(dokter);
+            }
+            mAdapter.notifyDataSetChanged();
+        }else{
+            nodata.setVisibility(View.VISIBLE);
+        }
+    }*/
+
+    /*private void loadMore(Integer index) {
+
+        Bundle b = getIntent().getExtras();
+
+        String namaDokter = b.getString("dokter_name") == null ? "" : b.getString("dokter_name");
+        String layananId = b.getString("layanan_id") == null ? "" : b.getString("layanan_id");
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
+
+        spinner.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
+
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        spinner.setVisibility(View.INVISIBLE);
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseLoadMore(data);
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        };
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
+                        listDokter.remove(listDokter.size()-1);
+                        mAdapter.notifyDataChanged();
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(req);
+
+    }
+
+    private void parseLoadMore(JSONArray array){
+
+        if(array.length() > 0) {
 
             container.setVisibility(View.VISIBLE);
             nodata.setVisibility(View.INVISIBLE);

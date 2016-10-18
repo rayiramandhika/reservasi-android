@@ -64,13 +64,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp">
+
                 <EditText android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:hint="Password"
                     android:singleLine="false"
-                    android:textIsSelectable="false" />
+                    android:textIsSelectable="false"
+                    android:drawableRight="@drawable/ic_remove_red_eye_black_24dp"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -91,10 +93,22 @@
             <TextView android:id="@+id/link_signup"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
                 android:text="Tidak Punya Akun ? Buat disini"
                 android:gravity="center"
-                android:textSize="16dip"/>
+                android:textSize="16dip"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/forgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Lupa Password ?"
+                android:gravity="center"
+                android:textSize="16dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 

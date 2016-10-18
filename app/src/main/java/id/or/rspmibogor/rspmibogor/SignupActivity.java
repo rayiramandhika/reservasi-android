@@ -2,9 +2,13 @@ package id.or.rspmibogor.rspmibogor;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +39,8 @@ public class SignupActivity extends AppCompatActivity {
     Button _signupButton;
     TextView _loginLink;
 
+    Integer passwordView = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,36 @@ public class SignupActivity extends AppCompatActivity {
         _passwordText = (EditText) findViewById(R.id.input_password);
         _signupButton = (Button) findViewById(R.id.btn_signup);
         _loginLink = (TextView) findViewById(R.id.link_login);
+
+        final Drawable iconPasswordView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_black_24dp);
+        final Drawable iconTextView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_red_24dp);
+
+
+        _passwordText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (_passwordText.getRight() - _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if(passwordView.equals(1))
+                        {
+                            _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                            _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                            _passwordText.setSelection(_passwordText.getText().length());
+                            passwordView = 0;
+                        }else{
+                            _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                            _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                    InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            _passwordText.setSelection(_passwordText.getText().length());
+                            passwordView = 1;
+                        }
+                    }
+                }
+                return false;
+            }
+        });
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +109,7 @@ public class SignupActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
          progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
          progressDialog.setMessage("Loading...");
          progressDialog.show();
 
@@ -145,7 +182,7 @@ public class SignupActivity extends AppCompatActivity {
         setResult(RESULT_OK, null);
 
         Toast.makeText(getBaseContext(), "Sign Up Berhasil", Toast.LENGTH_LONG).show();
-        final Intent intent = new Intent(this, LoginActivity.class);
+        final Intent intent = new Intent(this, CompleteRegisterActivity.class);
 
         String email = _emailText.getText().toString();
 

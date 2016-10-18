@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:theme="@style/AppTheme.LoginTheme">
+    tools:context=".CompleteRegisterActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,33 +32,12 @@
         tools:context="id.or.rspmibogor.rspmibogor.CompleteRegisterActivity"
         tools:showIn="@layout/activity_complete_register">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/bg_pmi"
-            android:gravity="center"
-            android:id="@+id/relativeLayout2">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:text="Register Berhasil"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textColor="#FFF" />
-        </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/linearLayout5"
-            android:layout_below="@+id/relativeLayout2"
             android:layout_margin="10dp">
 
             <ImageView
@@ -58,11 +54,12 @@
                 android:gravity="center"
                 android:text="Silahkan masukan kode verifikasi yang telah dikirim ke email Anda."/>
             <TextView
-                android:layout_marginTop="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="(Jika Anda tidak menerima email , mohon cek di folder spam. atau klik kirim ulang kode verfifikasi)"/>
+                android:text="(Jika Anda tidak menerima email , mohon cek di folder spam. atau klik kirim ulang kode verfifikasi)"
+                android:textSize="12dp"
+                android:padding="10dp" />
 
             <EditText
                 android:layout_marginTop="50dp"
@@ -81,20 +78,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="kirim ulang kode verfikasi"
+                android:text="Kirim ulang kode verfikasi ?"
                 android:id="@+id/txtKirimUlang"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Login ? "
                 android:id="@+id/txtLogin"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 
     </RelativeLayout>
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>

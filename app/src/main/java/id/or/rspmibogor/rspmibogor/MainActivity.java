@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity
 
         }
 
+        if(login == true)
+        {
+            updateFCMToken();
+        }
+
         /*if(jwTokenSP != null){
             updateFCMToken();
             //refreshingToken();

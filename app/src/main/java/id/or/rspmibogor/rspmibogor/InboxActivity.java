@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.Adapter.InboxAdapter;
+import id.or.rspmibogor.rspmibogor.Adapter.NewOrderAdapter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.Models.User;
 
@@ -59,6 +60,9 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     FloatingActionButton btnTryAgain;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Integer skip = 0;
+    private Integer numRows = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +112,24 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setLoadMoreListener(new InboxAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(skip < numRows)
+                        {
+                            int index = listInbox.size() - 1;
+                            loadMore(index);// a method which requests remote data
+                        }else {
+                            mAdapter.setMoreDataAvailable(false);
+                        }
+                    }
+                });
+            }
+        });
+
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));
@@ -131,14 +153,16 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //loading.dismiss();
-                        //Log.d(TAG, "onResponse - response" + response.toString());
+
                         spinner.setVisibility(View.GONE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
 
-                            //Log.d(TAG, "onResponse - data" + data.toString());
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -225,7 +249,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC&limit="+skip.toString();
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -320,7 +344,105 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         }
     }
 
+    private void loadMore(Integer index) {
 
+        listInbox.add(null);
+        mAdapter.notifyItemInserted(listInbox.size()-1);
+
+        String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC&skip="+skip.toString();
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        listInbox.remove(listInbox.size()-1);
+
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseLoadMore(data);
+
+                            JSONObject metadata = response.getJSONObject("metadata");
+
+                            numRows = metadata.getInt("numrows");
+                            skip = skip + metadata.getInt("limit");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        };
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+
+                        listInbox.remove(listInbox.size()-1);
+                        mAdapter.notifyDataChanged();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+
+    //This method will parse json data
+    private void parseLoadMore(JSONArray array){
+        if(array.length() > 0) {
+
+            for (int i = 0; i < array.length(); i++) {
+
+                Inbox inbox = new Inbox();
+                JSONObject json = null;
+                String desc = "";
+                String desc2 = "";
+                try {
+
+                    json = array.getJSONObject(i);
+
+                    desc = json.getString("body");
+                    if (desc.length() > 100) {
+                        desc2 = desc.substring(0, 100) + " ......";
+                    } else {
+                        desc2 = desc;
+                    }
+
+                    inbox.setTitle(json.getString("title"));
+                    inbox.setDesc(desc2);
+                    inbox.setBody(json.getString("body"));
+                    inbox.setTanggal(json.getString("tanggal"));
+                    inbox.setRead(json.getBoolean("read"));
+                    inbox.setId(json.getInt("id"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listInbox.add(inbox);
+            }
+            //mAdapter.notifyDataSetChanged();
+        }
+
+        mAdapter.notifyDataChanged();
+    }
 
 
 }

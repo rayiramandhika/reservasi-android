@@ -5,12 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.net.Uri;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     Button  _loginButton;
     TextView _signupLink;
+    TextView _forgotPassword;
+
+    Integer passwordView = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +64,37 @@ public class LoginActivity extends AppCompatActivity {
         _passwordText = (EditText) findViewById(R.id.input_password);
         _loginButton = (Button) findViewById(R.id.btn_login);
         _signupLink = (TextView) findViewById(R.id.link_signup);
+        _forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 
 
+        final Drawable iconPasswordView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_black_24dp);
+        final Drawable iconTextView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_red_24dp);
+
+        _passwordText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (_passwordText.getRight() - _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                       if(passwordView.equals(1))
+                       {
+                           _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                           _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                           _passwordText.setSelection(_passwordText.getText().length());
+                           passwordView = 0;
+                       }else{
+                           _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                           _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                   InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                           _passwordText.setSelection(_passwordText.getText().length());
+                           passwordView = 1;
+                       }
+                    }
+                }
+                return false;
+            }
+        });
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -76,6 +112,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+        _forgotPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void login() {
@@ -90,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 

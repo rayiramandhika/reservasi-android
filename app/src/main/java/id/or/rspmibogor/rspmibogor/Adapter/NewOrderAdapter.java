@@ -24,24 +24,69 @@ import id.or.rspmibogor.rspmibogor.R;
 /**
  * Created by iqbalprabu on 18/08/16.
  */
-public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHolder> {
-    private static final String TAG = "NewOrderAdpater";
+public class NewOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    public final int TYPE_MOVIE = 0;
+    public final int TYPE_LOAD = 1;
+
+    static Context context;
+    List<NewOrder> newOrders;
+    OnLoadMoreListener loadMoreListener;
+    boolean isLoading = false, isMoreDataAvailable = true;
+
+    /*
+    * isLoading - to set the remote loading and complete status to fix back to back load more call
+    * isMoreDataAvailable - to set whether more data from server available or not.
+    * It will prevent useless load more request even after all the server data loaded
+    * */
 
 
-    List<NewOrder> NewOrder;
-
-    public NewOrderAdapter(List<NewOrder> newOrder, Context context)
-    {
-        super();
-        this.NewOrder = newOrder;
+    public NewOrderAdapter(List<NewOrder> newOrders, Context context) {
         this.context = context;
-
+        this.newOrders = newOrders;
     }
 
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        if(viewType==TYPE_MOVIE){
+            return new MovieHolder(inflater.inflate(R.layout.new_order_cardview,parent,false));
+        }else{
+            return new LoadHolder(inflater.inflate(R.layout.progress_item,parent,false));
+        }
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if(position>=getItemCount()-1 && isMoreDataAvailable && !isLoading && loadMoreListener!=null){
+            isLoading = true;
+            loadMoreListener.onLoadMore();
+        }
+
+        if(getItemViewType(position)==TYPE_MOVIE){
+            ((MovieHolder)holder).bindData(newOrders.get(position));
+        }
+        //No else part needed as load holder doesn't bind any data
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(newOrders.get(position) != null){
+            return TYPE_MOVIE;
+        }else{
+            return TYPE_LOAD;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return newOrders.size();
+    }
+
+    /* VIEW HOLDERS */
+
+    class MovieHolder extends RecyclerView.ViewHolder{
 
         private final TextView pasien_name;
         private final TextView dokter_name;
@@ -50,16 +95,14 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
         private final TextView jadwal;
         private final TextView tanggal;
 
-
-
-
-        public ViewHolder(View v) {
+        public MovieHolder(View v) {
             super(v);
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    NewOrder newOrder = NewOrder.get(getAdapterPosition());
+                    NewOrder newOrder = newOrders.get(getAdapterPosition());
 
                     Bundle b = new Bundle();
                     b.putString("id", newOrder.getOrder_id().toString());
@@ -71,6 +114,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
 
                 }
             });
+
             pasien_name = (TextView) v.findViewById(R.id.name_pasien);
             dokter_name = (TextView) v.findViewById(R.id.name_dokter);
             layanan_name = (TextView) v.findViewById(R.id.name_layanan);
@@ -79,32 +123,41 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ViewHo
             tanggal = (TextView) v.findViewById(R.id.tanggal);
         }
 
+        void bindData(NewOrder newOrder){
 
+            pasien_name.setText(newOrder.getPasien_name());
+            hari.setText(newOrder.getDetailjadwal_hari());
+            jadwal.setText("Pkl. " + newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
+            dokter_name.setText(newOrder.getDokter_name());
+            layanan_name.setText(newOrder.getLayanan_name());
+            tanggal.setText(newOrder.getOrder_tanggal());
+        }
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.new_order_cardview, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+    static class LoadHolder extends RecyclerView.ViewHolder{
+        public LoadHolder(View itemView) {
+            super(itemView);
+        }
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        NewOrder newOrder =  NewOrder.get(position);
-
-        viewHolder.pasien_name.setText(newOrder.getPasien_name());
-        viewHolder.hari.setText(newOrder.getDetailjadwal_hari());
-        viewHolder.jadwal.setText("Pkl. " + newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
-        viewHolder.dokter_name.setText(newOrder.getDokter_name());
-        viewHolder.layanan_name.setText(newOrder.getLayanan_name());
-        viewHolder.tanggal.setText(newOrder.getOrder_tanggal());
+    public void setMoreDataAvailable(boolean moreDataAvailable) {
+        isMoreDataAvailable = moreDataAvailable;
     }
 
-    @Override
-    public int getItemCount() {
-        return NewOrder.size();
+    /* notifyDataSetChanged is final method so we can't override it
+         call adapter.notifyDataChanged(); after update the list
+         */
+    public void notifyDataChanged(){
+        notifyDataSetChanged();
+        isLoading = false;
     }
 
+
+    public interface OnLoadMoreListener{
+        void onLoadMore();
+    }
+
+    public void setLoadMoreListener(OnLoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
+    }
 }

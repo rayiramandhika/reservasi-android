@@ -1,12 +1,9 @@
 package id.or.rspmibogor.rspmibogor;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,14 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -39,11 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.or.rspmibogor.rspmibogor.Adapter.DokterAdapter;
 import id.or.rspmibogor.rspmibogor.Adapter.ListJadwalAdapter;
 import id.or.rspmibogor.rspmibogor.Class.DividerItemDecoration;
-import id.or.rspmibogor.rspmibogor.Class.ImageClass;
-import id.or.rspmibogor.rspmibogor.GetterSetter.Dokter;
 import id.or.rspmibogor.rspmibogor.GetterSetter.ListJadwal;
 import id.or.rspmibogor.rspmibogor.Models.User;
 

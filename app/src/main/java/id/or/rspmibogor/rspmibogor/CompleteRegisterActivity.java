@@ -15,9 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -46,8 +48,21 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         txtSendEmail = (TextView)  findViewById(R.id.txtKirimUlang);
         txtLogin =  (TextView) findViewById(R.id.txtLogin);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Konfirmasi Registrasi");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
 
 
@@ -100,13 +115,6 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
         String email = b.getString("email");
 
-        JSONObject object = new JSONObject();
-        try {
-            object.put("email", email);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/register/confirm/sendemail?email="+email;
 
@@ -115,7 +123,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
 
                         Toast.makeText(getBaseContext(), "Email telah dikirim ulang", Toast.LENGTH_SHORT).show();
 
@@ -126,11 +134,15 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Email gagal dikirim ulang", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
+        int socketTimeOut = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
     }
 
@@ -207,6 +219,10 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     }
                 }
         );
+        int socketTimeOut = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
 
 
