@@ -315,7 +315,8 @@ public class DetailOrder extends AppCompatActivity {
         Log.d(TAG, "status: " + status);
         if(status.toString() == "Dibatalkan Oleh User")
         {
-            buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
+            //buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
+            buttonBatal.setBackgroundResource(R.drawable.badge_oval_gray);
             buttonBatal.setEnabled(false);
             buttonBatal.setClickable(false);
             buttonBatal.setText("Telah dibatalkan");
@@ -324,7 +325,7 @@ public class DetailOrder extends AppCompatActivity {
 
         //init konfirmasi
         DateTimeZone timezone = DateTimeZone.forID("Asia/Jakarta");
-        DateTimeFormatter df = DateTimeFormat.forPattern("dd-MMM-yyyy");
+        DateTimeFormatter df = DateTimeFormat.forPattern("dd-MM-yyyy");
         DateTimeFormatter tf = DateTimeFormat.forPattern("HH:mm");
 
         DateTime orderDate = null;

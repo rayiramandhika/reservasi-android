@@ -132,19 +132,19 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
         if(status.equals("cuti"))
         {
-            viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.bagde_oval_soldout));
+            viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
             viewHolder.pesan.setText("Dokter Cuti");
             viewHolder.pesan.setPadding(16, 5, 16, 5);
 
         }else{
 
             if(kuota == 0){
-                viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.bagde_oval_soldout));
+                viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
                 viewHolder.pesan.setText("Pendaftaran via Online Penuh");
 
                 viewHolder.pesan.setPadding(16, 5, 16, 5);
             }else{
-                viewHolder.pesan.setBackground(ContextCompat.getDrawable(activity, R.drawable.badge_oval));
+                viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
                 viewHolder.pesan.setText("Daftar");
                 viewHolder.pesan.setPadding(16, 5, 16, 5);
             }

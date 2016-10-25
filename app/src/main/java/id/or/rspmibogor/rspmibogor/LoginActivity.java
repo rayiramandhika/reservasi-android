@@ -255,8 +255,14 @@ public class LoginActivity extends AppCompatActivity {
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
 
-        _loginButton.setEnabled(true);
 
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        _loginButton.setEnabled(true);
+                    }
+                },
+                2000);
     }
 
     public boolean validate() {

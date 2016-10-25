@@ -85,15 +85,12 @@ public class SplashScreen extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
-
-
+                    
                     startActivity(i);
                     this.finish();
                 }
 
                 private void finish() {
-                    // TODO Auto-generated method stub
 
                 }
             }, splashInterval);
