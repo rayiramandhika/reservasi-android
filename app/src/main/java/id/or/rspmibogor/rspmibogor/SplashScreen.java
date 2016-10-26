@@ -85,7 +85,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    
+
                     startActivity(i);
                     this.finish();
                 }

@@ -185,7 +185,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         }else if(msg.equals("editPasien"))
         {
             listPasien.removeAll(listPasien);
-            getNewData();
+            initData();
         }
     }
 
