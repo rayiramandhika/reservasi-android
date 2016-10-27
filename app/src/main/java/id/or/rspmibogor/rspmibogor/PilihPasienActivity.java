@@ -273,6 +273,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
+                    pasien.setPasien_jenisKelamin(json.getString("jenisKelamin"));
 
 
                 } catch (JSONException e) {
@@ -384,6 +385,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
+                    pasien.setPasien_jenisKelamin(json.getString("jenisKelamin"));
 
 
                 } catch (JSONException e) {
@@ -489,6 +491,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     pasien.setPasien_id(json.getInt("id"));
                     pasien.setPasien_noRekamMedik(json.getString("noRekamMedik"));
                     pasien.setPasien_umur(json.getString("umur") + " Tahun");
+                    pasien.setPasien_jenisKelamin(json.getString("jenisKelamin"));
 
 
                 } catch (JSONException e) {

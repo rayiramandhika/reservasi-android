@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -85,6 +86,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         private final TextView pasien_noRekamMedik;
         private final TextView pasien_umur;
         private final ImageView menuMore;
+        private final ImageView pasienFoto;
 
         public ViewHolder(View v) {
             super(v);
@@ -117,6 +119,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
             pasien_noRekamMedik = (TextView) v.findViewById(R.id.pasien_noRekamMedik);
             pasien_umur = (TextView) v.findViewById(R.id.pasien_umur);
             menuMore = (ImageView) v.findViewById(R.id.menu_pasien);
+            pasienFoto = (ImageView) v.findViewById(R.id.pasien_foto);
         }
     }
 
@@ -136,6 +139,13 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
         viewHolder.menuMore.setVisibility(View.GONE);
+
+        String jenisKelamin = pasien.getPasien_jenisKelamin();
+
+        if(jenisKelamin == null) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));
+        else if(jenisKelamin.equals("Laki-laki")) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));
+        else viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_wanita));
+
 
 
     }
