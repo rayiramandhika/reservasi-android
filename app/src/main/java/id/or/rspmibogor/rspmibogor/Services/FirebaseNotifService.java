@@ -150,7 +150,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setLargeIcon(notificationLargeIconBitmap);
-        builder.setSmallIcon(R.drawable.ic_icon_notif);
+        builder.setSmallIcon(R.drawable.ic_notif_icons);
         builder.setContentTitle(setTitle);
         builder.setContentText(messageBody);
         builder.setAutoCancel(true);
