@@ -124,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Telp. 0251–832 4080"/>
+                        android:text="0251–832 4080"/>
 
                 </LinearLayout>
 
@@ -146,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Fax. 0251-832 4709"/>
+                        android:text="(Fax) 0251-832 4709"/>
 
                 </LinearLayout>
 
@@ -169,7 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Email:  rspmibogor@yahoo.com"/>
+                        android:text="admin@rspmibogor.or.id"/>
 
 
                 </LinearLayout>
@@ -192,7 +192,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Web:  www.rspmibogor.or.id"/>
+                        android:text="www.rspmibogor.or.id"/>
 
 
                 </LinearLayout>
