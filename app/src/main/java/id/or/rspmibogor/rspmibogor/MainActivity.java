@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
         if(images == null)
         {
-            Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+            Uri url = Uri.parse("android.resource://"+this.getPackageName()+"/drawable/ic_slider_default");
             images.add(String.valueOf(url));
         }
 
@@ -278,7 +278,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, BantuanActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.logout) {
+        } else if (id == R.id.tentang) {
+
+            Intent intent = new Intent(this, TentangActivity.class);
+            startActivity(intent);
+
+        }  else if (id == R.id.logout) {
 
             SharedPreferences preferences = getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();

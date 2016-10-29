@@ -40,6 +40,11 @@
                 android:title="Bantuan"/>
 
             <item
+                android:id="@+id/tentang"
+                android:icon="@drawable/ic_error_black_24dp"
+                android:title="Tentang"/>
+
+            <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="Logout" />

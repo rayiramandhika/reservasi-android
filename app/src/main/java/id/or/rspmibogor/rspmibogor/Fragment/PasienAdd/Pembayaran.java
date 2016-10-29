@@ -26,12 +26,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.fcannizzaro.materialstepper.AbstractStep;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,10 +49,13 @@ public class Pembayaran extends AbstractStep {
 
     private TextView namaPenjamin;
     private MaterialBetterSpinner jenisPembayaran;
+    private SearchableSpinner spinnerAsuransi;
 
+    ArrayList<String> listAsuransi;
+    ArrayList<String> listAsuransiId;
 
-
-
+    String nmPenjamin = "";
+    private TextView error_asuransi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +63,12 @@ public class Pembayaran extends AbstractStep {
         View v = inflater.inflate(R.layout.identitas_jenispembayaran, container, false);
 
         jenisPembayaran = (MaterialBetterSpinner) v.findViewById(R.id.jenisPembayaran);
-        namaPenjamin = (TextView) v.findViewById(R.id.namaPenjamin);
+        //namaPenjamin = (TextView) v.findViewById(R.id.namaPenjamin);
+        error_asuransi = (TextView) v.findViewById(R.id.error_asuransi);
+        spinnerAsuransi = (SearchableSpinner) v.findViewById(R.id.spinnerAsuransi);
+        spinnerAsuransi.setTitle("Pilih Asuransi");
+
+        listAsuransiId = getArguments().getStringArrayList("idAsuransi");
 
         initSpinner();
 
@@ -83,14 +93,20 @@ public class Pembayaran extends AbstractStep {
     public void onNext() {
        // Log.d(TAG, "onNext");
 
+        String idAsuransi = null;
         String jnsPembayaran = jenisPembayaran.getText().toString();
-        String nmPenjamin = namaPenjamin.getText().toString();
+        if(spinnerAsuransi.getSelectedItemPosition() >= 0){
+            nmPenjamin = listAsuransi.get(spinnerAsuransi.getSelectedItemPosition());
+            idAsuransi = listAsuransiId.get(spinnerAsuransi.getSelectedItemPosition());
+        }
+
 
         int poss = this.getArguments().getInt("position");
         Bundle b = getStepDataFor(poss);
 
         b.putString("jenisPembayaran", jnsPembayaran);
         b.putString("namaPenjamin", nmPenjamin);
+        b.putString("asuransi_id", idAsuransi);
 
     }
 
@@ -106,8 +122,9 @@ public class Pembayaran extends AbstractStep {
         Integer i = 0;
 
         String jnsPembayaran = jenisPembayaran.getText().toString();
-        String nmPenjamin = namaPenjamin.getText().toString();
-
+        if(spinnerAsuransi.getSelectedItemPosition() > 0){
+            nmPenjamin = listAsuransi.get(spinnerAsuransi.getSelectedItemPosition());
+        }
 
         if(jnsPembayaran.isEmpty()){
             jenisPembayaran.setError("Jenis Pembayaran harus dipilih");
@@ -117,10 +134,10 @@ public class Pembayaran extends AbstractStep {
         }
 
         if(nmPenjamin.isEmpty() && jnsPembayaran.equals("Asuransi")){
-            namaPenjamin.setError("Jenis Pembayaran harus diisi");
+            error_asuransi.setVisibility(View.VISIBLE);
             i++;
         } else {
-            namaPenjamin.setError(null);
+            error_asuransi.setVisibility(View.INVISIBLE);
         }
 
 
@@ -139,6 +156,12 @@ public class Pembayaran extends AbstractStep {
                 R.array.jenisPembayaran, android.R.layout.simple_dropdown_item_1line);
         jsPembayaranAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         jenisPembayaran.setAdapter(jsPembayaranAdapter);
+
+         listAsuransi = getArguments().getStringArrayList("asuransi");
+
+        ArrayAdapter<String> layanan = new ArrayAdapter<String>(getContext(),
+                R.layout.support_simple_spinner_dropdown_item, listAsuransi);
+        spinnerAsuransi.setAdapter(layanan);
 
     }
 

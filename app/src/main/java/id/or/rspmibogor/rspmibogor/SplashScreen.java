@@ -168,7 +168,7 @@ public class SplashScreen extends AppCompatActivity {
 
                             }else{
 
-                                Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+                                Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
                                 images.add(String.valueOf(url));
 
                             }
@@ -178,7 +178,7 @@ public class SplashScreen extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+                            Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
                             images.add(String.valueOf(url));
 
                             parseBanner(images);
@@ -191,7 +191,7 @@ public class SplashScreen extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
 
-                        Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/csm_laparoskopi_ab6621e110");
+                        Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
                         images.add(String.valueOf(url));
 
                         parseBanner(images);

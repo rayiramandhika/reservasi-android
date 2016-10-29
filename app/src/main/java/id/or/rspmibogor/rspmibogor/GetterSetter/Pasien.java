@@ -35,6 +35,7 @@ public class Pasien {
     private String pasien_type;
     private String pasien_jenisPembayaran;
     private String pasien_namaPenjamin;
+    private String asuransi_id;
 
     public String getPasien_name() {
         return pasien_name;
@@ -242,6 +243,14 @@ public class Pasien {
 
     public void setPasien_namaPenjamin(String pasien_namaPenjamin) {
         this.pasien_namaPenjamin = pasien_namaPenjamin;
+    }
+
+    public String getAsuransi_id() {
+        return asuransi_id;
+    }
+
+    public void setAsuransi_id(String asuransi_id) {
+        this.asuransi_id = asuransi_id;
     }
 
 

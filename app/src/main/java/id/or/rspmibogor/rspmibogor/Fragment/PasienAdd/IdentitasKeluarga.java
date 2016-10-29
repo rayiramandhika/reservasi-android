@@ -113,7 +113,7 @@ public class IdentitasKeluarga  extends AbstractStep {
          String nmAyah = namaAyah.getText().toString();
          String nmIbu = namaIbu.getText().toString();
 
-         if (marital.isEmpty()){
+         /*if (marital.isEmpty()){
              statusMarital.setError("Status Marital harus dipilih");
              i++;
          } else {
@@ -139,7 +139,7 @@ public class IdentitasKeluarga  extends AbstractStep {
              i++;
          } else{
              namaIbu.setError(null);
-         }
+         }*/
 
          if(i == 0) return true;
          return false;

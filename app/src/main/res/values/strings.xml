@@ -106,6 +106,7 @@
 
     <string name="slide_3_title">Konfirmasi Pendaftaran</string>
     <string name="slide_3_desc">Lakukan konfirmasi pendaftaran Anda pada hari H di halaman detail pendaftaran. Pendaftaran akan di anggap batal jika Anda tidak melakukan konfirmasi pendaftaran.</string>
+    <string name="title_activity_tentang">TentangActivity</string>
 
 
 </resources>

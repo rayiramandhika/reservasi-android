@@ -184,13 +184,14 @@ public class User {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error instanceof AuthFailureError)
+
+                        /*if(error instanceof AuthFailureError)
                         {
                             if(token != null){
                                 User user = new User();
                                 user.refreshToken(token, context);
                             }
-                        }
+                        }*/
                         // error
                         //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }

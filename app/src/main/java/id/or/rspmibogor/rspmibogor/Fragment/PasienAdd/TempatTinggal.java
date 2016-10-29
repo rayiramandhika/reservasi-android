@@ -118,7 +118,7 @@ public class TempatTinggal extends AbstractStep {
         String kecTxt = kecamatan.getText().toString();
         String desaTxt = desa.getText().toString();
 
-        if(alamatTxt.isEmpty()){
+        /*if(alamatTxt.isEmpty()){
             alamat.setError("Alamat harus diisi");
             i++;
         } else {
@@ -151,7 +151,7 @@ public class TempatTinggal extends AbstractStep {
             i++;
         } else {
             desa.setError(null);
-        }
+        }*/
 
         if(i == 0) return true;
         return false;

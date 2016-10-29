@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +85,9 @@ public class PasienEditActivity extends DotStepper {
     private String pasien_jenisPembayaran;
     private String pasien_namaPenjamin;
 
+    ArrayList<String> listAsuransi;
+    ArrayList<String> listAsuransiId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -118,6 +122,12 @@ public class PasienEditActivity extends DotStepper {
         pasien_namaPenjamin = b.getString("namaPenjamin");
         pasien_type = b.getString("type");
 
+        listAsuransi = new ArrayList<String>();
+        listAsuransiId = new ArrayList<String>();
+
+        listAsuransi = b.getStringArrayList("asuransi");
+        listAsuransiId = b.getStringArrayList("idAsuransi");
+
 
         setErrorTimeout(1500);
         setTitle("Ubah Pasien");
@@ -138,7 +148,7 @@ public class PasienEditActivity extends DotStepper {
 
 
     private AbstractStep createFragment(AbstractStep fragment) {
-        Log.d(TAG, "fragment: " + fragment);
+        //Log.d(TAG, "fragment: " + fragment);
         Bundle b = new Bundle();
 
         b.putInt("position", i++);
@@ -177,6 +187,9 @@ public class PasienEditActivity extends DotStepper {
         b.putString("namaPenjamin", pasien_namaPenjamin);
         b.putString("type", pasien_type);
 
+        b.putStringArrayList("asuransi", listAsuransi);
+        b.putStringArrayList("idAsuransi", listAsuransiId);
+
         fragment.setArguments(b);
         return fragment;
     }
@@ -199,3 +212,4 @@ public class PasienEditActivity extends DotStepper {
 
 
 }
+

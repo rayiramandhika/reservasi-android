@@ -222,6 +222,7 @@ public class CheckingData extends AbstractStep {
         String desa = identitas_alamat.getString("desa");
         String jenisPembayaran = identitas_jenisPembayaran.getString("jenisPembayaran");
         String namaPenjamin = identitas_jenisPembayaran.getString("namaPenjamin");
+        String asuransi_id = identitas_jenisPembayaran.getString("asuransi_id");
 
         SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -255,6 +256,7 @@ public class CheckingData extends AbstractStep {
             object.put("alamat", alamat);
             object.put("jenisPembayaran", jenisPembayaran);
             object.put("namaPenjamin", namaPenjamin);
+            object.put("asuransi_id", asuransi_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

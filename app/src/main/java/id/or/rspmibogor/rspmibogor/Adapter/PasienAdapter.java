@@ -1,18 +1,16 @@
 package id.or.rspmibogor.rspmibogor.Adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,23 +20,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.or.rspmibogor.rspmibogor.DetailInbox;
-import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
-import id.or.rspmibogor.rspmibogor.GetterSetter.Inbox;
 import id.or.rspmibogor.rspmibogor.GetterSetter.Pasien;
 import id.or.rspmibogor.rspmibogor.Models.User;
 import id.or.rspmibogor.rspmibogor.PasienEditActivity;
@@ -56,6 +55,9 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     String jwTokenSP;
 
     final List<Pasien> Pasien;
+    private ProgressDialog progressDialog;
+    final ArrayList<String> listAsuransi;
+    final ArrayList<String> listAsuransiId;
 
     public PasienAdapter(List<Pasien> pasien, Activity activity)
     {
@@ -63,6 +65,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         this.Pasien = pasien;
         this.activity = activity;
 
+        listAsuransi = new ArrayList<String>();
+        listAsuransiId = new ArrayList<String>();
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
 
     }
@@ -171,9 +175,101 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    private void editPasien(Pasien pasien)
+    private void editPasien(final Pasien pasien)
     {
-        Bundle b = new Bundle();
+
+        progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Sedang memuat data...");
+        progressDialog.show();
+
+        listAsuransi.removeAll(listAsuransi);
+        listAsuransiId.removeAll(listAsuransiId);
+
+        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        RequestQueue queue = Volley.newRequestQueue(activity);
+        String url = "http://103.23.22.46:1337/v1/asuransi";
+
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.hide();
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseDataAsuransi(data, pasien);
+                        } catch (JSONException e) {
+                            Toast.makeText(activity, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
+                        progressDialog.hide();
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, activity.getBaseContext());
+                            }
+                        }
+
+                        Toast.makeText(activity, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
+        queue.add(putRequest);
+    }
+
+    private void parseDataAsuransi(JSONArray data, Pasien pasien) {
+
+        listAsuransi.add(0, "");
+        listAsuransiId.add(0, "");
+
+        if(data.length() > 0)
+        {
+            for (int i = 0; i < data.length(); i++) {
+
+                JSONObject json = null;
+                try {
+
+                    json = data.getJSONObject(i);
+                    Integer idx = json.getInt("id");
+                    String nama = json.getString("nama");
+
+                    listAsuransi.add(nama);
+                    listAsuransiId.add(idx.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //Log.d(TAG, "listAsuransi: " + listAsuransi.toString());
+
+        final Bundle b = new Bundle();
         b.putInt("id", pasien.getPasien_id());
         b.putString("noID", pasien.getPasien_noID());
         b.putString("noRekamMedik", pasien.getPasien_noRekamMedik());
@@ -203,6 +299,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         b.putString("jenisPembayaran", pasien.getPasien_jenisPembayaran());
         b.putString("namaPenjamin", pasien.getPasien_namaPenjamin());
         b.putString("type", pasien.getPasien_type());
+        b.putStringArrayList("asuransi", listAsuransi);
+        b.putStringArrayList("idAsuransi", listAsuransiId);
 
         Intent intent = new Intent(activity, PasienEditActivity.class);
         intent.putExtras(b);

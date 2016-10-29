@@ -13,6 +13,8 @@ import com.github.fcannizzaro.materialstepper.style.TabStepper;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.CheckingData;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasKeluarga;
 import id.or.rspmibogor.rspmibogor.Fragment.PasienAdd.IdentitasPasien;
@@ -25,12 +27,23 @@ public class PasienAddActivity extends DotStepper {
     private final String TAG = "PasienAddActivity";
     int i = 1;
 
+    ArrayList<String> listAsuransi;
+    ArrayList<String> listAsuransiId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         setErrorTimeout(1500);
         setTitle("Tambah Pasien");
         setStateAdapter();
+
+        Bundle b = getIntent().getExtras();
+        listAsuransi = new ArrayList<String>();
+        listAsuransiId = new ArrayList<String>();
+
+        listAsuransi = b.getStringArrayList("asuransi");
+        listAsuransiId = b.getStringArrayList("idAsuransi");
+
 
         addStep(createFragment(new IdentitasPasien()));
         addStep(createFragment(new IdentitasKeluarga()));
@@ -44,9 +57,14 @@ public class PasienAddActivity extends DotStepper {
     }
 
     private AbstractStep createFragment(AbstractStep fragment) {
-        Log.d(TAG, "fragment: " + fragment.name());
+        //Log.d(TAG, "fragment: " + fragment.name());
+
         Bundle b = new Bundle();
         b.putInt("position", i++);
+
+        b.putStringArrayList("asuransi", listAsuransi);
+        b.putStringArrayList("idAsuransi", listAsuransiId);
+
         fragment.setArguments(b);
         return fragment;
     }

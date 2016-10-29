@@ -27,7 +27,7 @@
                 app:met_floatingLabel="normal"
                 android:layout_margin="12dp"/>
 
-            <android.support.design.widget.TextInputLayout
+            <!--<android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp">
@@ -41,7 +41,31 @@
                     android:elegantTextHeight="false"
                     android:maxLines="1" />
 
-            </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="Pilih Asuransi"/>
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinnerAsuransi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/error_asuransi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Asuransi harus dipilih"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

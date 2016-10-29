@@ -242,7 +242,7 @@ public class IdentitasPasien extends AbstractStep {
         String gdTxt = golonganDarah.getText().toString();
 
 
-        if (namaTxt.isEmpty()){
+        /*if (namaTxt.isEmpty()){
             nama.setError("Nama Harus diisi");
             i++;
         } else {
@@ -324,7 +324,7 @@ public class IdentitasPasien extends AbstractStep {
             i++;
         } else {
             golonganDarah.setError(null);
-        }
+        }*/
 
 
         if(i == 0) return true;

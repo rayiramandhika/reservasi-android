@@ -143,7 +143,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 30000;
+        int socketTimeOut = 10000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
@@ -200,7 +200,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 30000;
+        int socketTimeOut = 10000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
