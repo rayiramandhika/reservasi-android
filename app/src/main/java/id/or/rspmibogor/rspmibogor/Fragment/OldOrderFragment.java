@@ -174,7 +174,6 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
@@ -280,7 +279,6 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {

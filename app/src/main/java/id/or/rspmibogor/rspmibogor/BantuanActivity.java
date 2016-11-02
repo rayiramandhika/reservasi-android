@@ -38,7 +38,6 @@ public class BantuanActivity extends AppCompatActivity {
 
         expandableListView = (ExpandableListView) findViewById(R.id.simple_expandable_listview);
 
-        // Setting group indicator null for custom indicator
         expandableListView.setGroupIndicator(null);
 
         setItems();
@@ -47,7 +46,6 @@ public class BantuanActivity extends AppCompatActivity {
 
     }
 
-    // Setting headers and childs to expandable listview
     void setItems() {
 
         ArrayList<String> header = new ArrayList<String>();

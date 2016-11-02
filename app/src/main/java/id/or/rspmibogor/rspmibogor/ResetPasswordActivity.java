@@ -135,7 +135,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("resetPassword - Response", response.toString());
+                        //Log.d("resetPassword - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {

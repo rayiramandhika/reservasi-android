@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="preferExternal"
     package="id.or.rspmibogor.rspmibogor">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,6 +12,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3cda2fee8535f3306fc7e7a0ed80398de054a89a"
+            />
+
         <activity
             android:name=".MainActivity"
             android:label="RS PMI Bogor"
@@ -88,7 +95,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="open_detail_old_order" />
+                <action android:name="open_detail_order_old" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

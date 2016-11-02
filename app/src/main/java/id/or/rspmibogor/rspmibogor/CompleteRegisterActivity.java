@@ -139,7 +139,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
@@ -219,7 +219,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
@@ -233,7 +233,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
         final String jwtToken = token;
 
-        Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);
+        //Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);
 
         User user = new User();
         user.getDataFromToken(jwtToken, this);

@@ -169,7 +169,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
     @Subscribe
     public void onEvent(MessageEvent event){
-        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+        //Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
 
         String msg = event.getPesan().toString();
 
@@ -215,7 +215,6 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
@@ -265,7 +264,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     json = array.getJSONObject(i);
                     if (i == 0) {
                         last_id = json.getInt("id");
-                        Log.d(TAG, "last_id: " + last_id);
+                        //Log.d(TAG, "last_id: " + last_id);
                     }
 
 
@@ -326,7 +325,6 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {

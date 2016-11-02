@@ -83,14 +83,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                         onSuccess(response);
-                        Log.d("sendForgotPassword - Response", response.toString());
+                        //Log.d("sendForgotPassword - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Log.d("sendForgotPassword - Response", error.toString());
+                        //Log.d("sendForgotPassword - Response", error.toString());
 
                         progressDialog.dismiss();
 
@@ -117,7 +117,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);

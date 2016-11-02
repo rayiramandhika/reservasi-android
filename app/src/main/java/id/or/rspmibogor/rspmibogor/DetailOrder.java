@@ -1,5 +1,6 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -88,6 +89,8 @@ public class DetailOrder extends AppCompatActivity {
         setContentView(R.layout.activity_detail_order);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Detail Pendaftaran");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         dokter_foto = (ImageView) findViewById(R.id.dokter_foto);
@@ -116,16 +119,9 @@ public class DetailOrder extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
 
         Bundle b = getIntent().getExtras();
-
         position_list = b.getInt("position_list");
 
         initData();
-
-
-        //toolbar.setTitle("Dokter");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +129,6 @@ public class DetailOrder extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
 
         final AlertDialog.Builder builderCancelOrder = new AlertDialog.Builder(this);
 
@@ -407,6 +402,11 @@ public class DetailOrder extends AppCompatActivity {
         String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Batalkan Pendaftaran");
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         JSONObject object = new JSONObject();
         try {
             object.put("order_id", id);
@@ -422,6 +422,7 @@ public class DetailOrder extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        progressDialog.dismiss();
 
                         Toast.makeText(getBaseContext(), "Pendaftaran berhasil dibatalkan.", Toast.LENGTH_SHORT).show();
 
@@ -436,6 +437,7 @@ public class DetailOrder extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
 
                         if(error instanceof AuthFailureError)
                         {
@@ -468,6 +470,11 @@ public class DetailOrder extends AppCompatActivity {
         String url = "http://103.23.22.46:1337/v1/order/" + id;
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Konfirmasi Pendaftaran");
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         JSONObject object = new JSONObject();
         try {
             object.put("confirmed", true);
@@ -483,11 +490,7 @@ public class DetailOrder extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-
-                        /*Toast.makeText(getBaseContext(), "Konfirmasi berhasil.", Toast.LENGTH_SHORT).show();*/
-
-                        /*EventBus.getDefault().post(new MessageEvent("cancelOrder", position_list));
-                        finish();*/
+                        progressDialog.dismiss();
 
                         builder.setTitle("Konfirmasi Berhasil ")
                                 .setMessage("Terima Kasih. Anda telah berhasil melakukan konfirmasi. \nMohon untuk menunjukan detail pendaftaran ini pada bagian pendaftaran di RS PMI Bogor.")
@@ -505,6 +508,8 @@ public class DetailOrder extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        progressDialog.dismiss();
+
                         if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
@@ -515,7 +520,7 @@ public class DetailOrder extends AppCompatActivity {
 
                         error.printStackTrace();
                         Toast.makeText(getBaseContext(), "Konfirmasi Gagal.", Toast.LENGTH_SHORT).show();
-                        //Log.d("confirmOrder - Error.Response", String.valueOf(error));
+
                     }
                 }
         ){

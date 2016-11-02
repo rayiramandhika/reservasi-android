@@ -178,7 +178,6 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
                     }
                 },
                 new Response.ErrorListener() {
@@ -295,7 +294,6 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-
         refreshData();
     }
 
@@ -319,7 +317,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        };
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -425,7 +423,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        };
+                        }
                     }
                 },
                 new Response.ErrorListener() {

@@ -97,7 +97,6 @@ public class DetailOrderOld extends AppCompatActivity {
             }
         });
 
-
         //init
         btnSend = (ImageView) findViewById(R.id.btnSend);
 
@@ -273,16 +272,14 @@ public class DetailOrderOld extends AppCompatActivity {
     private void initData()
     {
 
-
-
-        String url = "http://103.23.22.46:1337/v1/order/"+  id +"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = "http://103.23.22.46:1337/v1/order/"+ id +"?populate=pasien,dokter,layanan,detailjadwal";
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         spinner.setVisibility(View.VISIBLE);
         container.setVisibility(View.INVISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
-        Log.d(TAG, "init Data set loaded" );
+        //Log.d(TAG, "init Data set loaded" );
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -363,10 +360,7 @@ public class DetailOrderOld extends AppCompatActivity {
             }
         };
 
-        //Creating request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
         requestQueue.add(req);
     }
 
@@ -386,8 +380,6 @@ public class DetailOrderOld extends AppCompatActivity {
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
         jam.setText("Pkl. " + detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));
-
-
 
     }
 

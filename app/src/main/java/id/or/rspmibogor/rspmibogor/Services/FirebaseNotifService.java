@@ -43,9 +43,7 @@ import id.or.rspmibogor.rspmibogor.MainActivity;
 import id.or.rspmibogor.rspmibogor.PendaftaranActivity;
 import id.or.rspmibogor.rspmibogor.R;
 
-/**
- * Created by Belal on 5/27/2016.
- */
+
 
 public class FirebaseNotifService extends FirebaseMessagingService {
 
@@ -59,9 +57,8 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String body = remoteMessage.getNotification().getBody();
         String activity = remoteMessage.getNotification().getClickAction();
         String id = remoteMessage.getData().get("id");
-        String icon = remoteMessage.getNotification().getIcon();
 
-        //Log.d(TAG, "click_action: " + activity);
+        Log.d(TAG, "click_action: " + activity);
         //Log.d(TAG, "id: " + id);
 
         PendingIntent mPendingIntent;
@@ -101,8 +98,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
 
                 }
 
-            }else if(activity.equals(":" +
-                    "")){
+            }else if(activity.equals("open_detail_order_old")){
 
                 if(id.equals(0)){
 
@@ -132,11 +128,11 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         mPendingIntent = PendingIntent.getActivities(getApplicationContext(), 100,
                 new Intent[]{intent}, PendingIntent.FLAG_ONE_SHOT);
 
-        sendNotification(body, title, icon, mPendingIntent);
+        sendNotification(body, title, mPendingIntent);
     }
 
 
-    private void sendNotification(String messageBody, String title, String icon,  @Nullable PendingIntent pendingIntent) {
+    private void sendNotification(String messageBody, String title, @Nullable PendingIntent pendingIntent) {
 
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -144,12 +140,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String setTitle = "RS PMI Bogor";
         if(title != null) setTitle = title;
 
-        Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(
-                getResources(),
-                R.drawable.icon_notif);
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setLargeIcon(notificationLargeIconBitmap);
         builder.setSmallIcon(R.drawable.ic_notif_icons);
         builder.setContentTitle(setTitle);
         builder.setContentText(messageBody);

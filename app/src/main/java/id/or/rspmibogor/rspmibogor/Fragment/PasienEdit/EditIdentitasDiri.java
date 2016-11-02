@@ -89,7 +89,7 @@ public class EditIdentitasDiri extends AbstractStep {
         super.onCreate(savedInstace);
         toolbar = mStepper.getToolbar();
         if(toolbar==null){
-            Log.d("toolbar","null");
+            //Log.d("toolbar","null");
         }
         else{
             toolbar = mStepper.getToolbar();
@@ -262,7 +262,7 @@ public class EditIdentitasDiri extends AbstractStep {
 
         String tanggalLahir =  thnLahirTxt + '-' + blnLahirTxt + '-' + tglLahirTxt;
 
-        Log.d(TAG,"jnsKelamin: " + jlTxt);
+       // Log.d(TAG,"jnsKelamin: " + jlTxt);
 
         b.putInt("position", poss);
         b.putString("nama", namaTxt);

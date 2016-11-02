@@ -155,15 +155,15 @@ public class EditCheckingData extends AbstractStep {
 
         Bundle identitas_jenisPembayaran = getStepDataFor(4);
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
-        namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        if(identitas_jenisPembayaran.getString("jenisPembayaran").equals("Asuransi")) {
+            namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        }
 
     }
 
     @Override
     public void onNext() {
         //Log.d(TAG, "onNext");
-
-
         saveData();
     }
 

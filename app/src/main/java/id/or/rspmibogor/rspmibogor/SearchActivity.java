@@ -97,8 +97,8 @@ public class SearchActivity extends AppCompatActivity {
                 String dokterNama = dokter_name.getText().toString().trim();
                 Integer layananId = listIdLayanan.get(spinnerLayanan.getSelectedItemPosition());
 
-                Log.d(TAG, "dokterName: " + dokterNama);
-                Log.d(TAG, "layananId: " + layananId);
+                //Log.d(TAG, "dokterName: " + dokterNama);
+                //Log.d(TAG, "layananId: " + layananId);
 
                 Bundle b = new Bundle();
                 b.putString("dokter_name", dokterNama);

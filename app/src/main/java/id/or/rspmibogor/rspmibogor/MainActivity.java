@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         String arrImg = prefs.getString("listBanner", null);
         final List<String> images = new ArrayList<String>(Arrays.asList(arrImg.split(",")));
 
-        Log.d(TAG, "images: " + images.toString());
+        //Log.d(TAG, "images: " + images.toString());
 
         if(images == null)
         {
@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void setImageForPosition(final int position, ImageView imageView) {
 
-                Log.d(TAG, "image: " + images.get(position));
-                Log.d(TAG, "position: " + position);
+                //Log.d(TAG, "image: " + images.get(position));
+                //Log.d(TAG, "position: " + position);
 
                 String uri = images.get(position).trim().toString();
 

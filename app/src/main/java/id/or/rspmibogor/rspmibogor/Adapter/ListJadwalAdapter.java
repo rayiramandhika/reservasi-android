@@ -67,7 +67,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
                     }else{
-                        if(listJadwal.getJadwal_kuota() == 0){
+                        if(listJadwal.getJadwal_sisaKuota().equals(0)){
                             builder.setTitle("Kuota Penuh")
                                     .setMessage("Mohon maaf.\nPada hari " + hari + " Pendaftaran via online sudah penuh. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor.")
                                     .setNegativeButton(android.R.string.yes, null).show();
@@ -91,7 +91,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                     Intent intent = new Intent(activity, PilihPasienActivity.class);
                     intent.putExtras(b);
                     activity.startActivity(intent);
-                    Log.d(TAG, "Element " + getPosition() + " clicked.");
+                    //Log.d(TAG, "Element " + getPosition() + " clicked.");
 
                 }
             });
@@ -126,7 +126,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
         if(keterangan.isEmpty()) viewHolder.keterangan.setText("");
         else viewHolder.keterangan.setText("( " + listJadwal.getKeterangan() + " )");
 
-        int kuota = listJadwal.getJadwal_kuota();
+        int kuota = listJadwal.getJadwal_sisaKuota();
 
         String status = listJadwal.getJadwal_status();
 

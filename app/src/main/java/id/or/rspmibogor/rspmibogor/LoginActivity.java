@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
-        Log.d(TAG, "Login");
+        //Log.d(TAG, "Login");
 
         if (!validate()) {
             onLoginFailed("Sign In Gagal");
@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("login - Response", response.toString());
+                        //Log.d("login - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -222,8 +222,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final String jwtToken = data.getString("token");
 
-        Log.d(TAG, "onLoginSuccess data: " + data.toString());
-        Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);
+        //Log.d(TAG, "onLoginSuccess data: " + data.toString());
+        //Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);
 
         User user = new User();
         user.getDataFromToken(jwtToken, this);

@@ -132,8 +132,10 @@ public class CheckingData extends AbstractStep {
         kecamatan.setText(identitas_alamat.getString("kecamatan"));
         desa.setText(identitas_alamat.getString("desa"));
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
-        namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
-
+        if(identitas_jenisPembayaran.getString("jenisPembayaran").equals("Asuranso"))
+        {
+            namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        }
         return v;
     }
 
@@ -164,9 +166,7 @@ public class CheckingData extends AbstractStep {
 
     @Override
     public void onNext() {
-        Log.d(TAG, "onNext");
-
-
+        //Log.d(TAG, "onNext");
         saveData();
     }
 

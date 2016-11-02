@@ -111,7 +111,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("sendConfirmation - Response", response.toString());
+                        //Log.d("sendConfirmation - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -143,7 +143,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
@@ -188,7 +188,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Email berhasil dikirim.", Toast.LENGTH_LONG).show();
-                        Log.d("sendResetCode - Response", response.toString());
+                        //Log.d("sendResetCode - Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -196,11 +196,11 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Email gagal dikirim.", Toast.LENGTH_LONG).show();
-                        Log.d("sendResetCode - Response", error.toString());
+                        //Log.d("sendResetCode - Response", error.toString());
                     }
                 }
         );
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);

@@ -54,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/noID"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -85,7 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/typePasien"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -116,7 +114,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/noRekamMedik"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -147,7 +144,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/nama"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -178,7 +174,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/tempatLahir"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -209,7 +204,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/tanggalLahir"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -240,7 +234,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/jenisKelamin"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -271,7 +264,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/wargaNegara"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -302,7 +294,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/noTelp"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -333,7 +324,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/agama"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -364,7 +354,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/pendidikan"
-                    android:text="No. Id"
                     android:textSize="15dp"/>
 
 
@@ -395,7 +384,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/pekerjaan"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -426,7 +414,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/golonganDarah"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -457,7 +444,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/statusMarital"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -488,7 +474,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/namaPasutri"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -519,7 +504,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/namaAyah"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -550,7 +534,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/namaIbu"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -581,7 +564,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/alamat"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -612,7 +594,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/desa"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -643,7 +624,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/kecamatan"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -674,7 +654,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/kota"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -705,7 +684,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/provinsi"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -736,7 +714,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/jenisPembayaran"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 
@@ -767,7 +744,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:id="@+id/namaPenjamin"
-                    android:text="No. ID"
                     android:textSize="15dp"/>
 
 

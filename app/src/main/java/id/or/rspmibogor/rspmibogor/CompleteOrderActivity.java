@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -61,6 +62,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     Intent intent;
+    private String TAG = "CompleteOrder - Response";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        final RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/new/" + detailjadwal_id;
 
 
@@ -156,6 +158,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
@@ -186,9 +189,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                             }
                         }).show();
 
-
-
-                        Log.d("cancelOrder - Response", response.toString());
+                        //Log.d(TAG, response.toString());
                     }
 
                 },
@@ -199,15 +200,18 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         String message = null;
                         progressDialog.dismiss();
 
-                        try {
-                            String body = new String(error.networkResponse.data,"UTF-8");
-                            JSONObject data = new JSONObject(body);
-                            message = data.getString("message");
-                            //Log.d("login - Error.Response", data.getString("message"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if(error.networkResponse != null && error.networkResponse.data != null)
+                        {
+                            try {
+                                String body = new String(error.networkResponse.data,"UTF-8");
+                                JSONObject data = new JSONObject(body);
+                                message = data.getString("message");
+                                //Log.d("login - Error.Response", data.getString("message"));
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         onOrderFailed(message);
@@ -223,11 +227,12 @@ public class CompleteOrderActivity extends AppCompatActivity {
             }
         };
 
-        int socketTimeOut = 10000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
+
     }
 
     public void onOrderFailed(String message) {

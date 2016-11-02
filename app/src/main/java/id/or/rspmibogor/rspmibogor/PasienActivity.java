@@ -183,7 +183,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     @Subscribe
     public void onEvent(MessageEvent event){
-        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan());
+        //Log.d(TAG, "onEvent - loaded - event: " + event.getPesan());
 
         String msg = event.getPesan();
 
@@ -276,7 +276,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     json = array.getJSONObject(i);
                     if (i == 0) {
                         last_id = json.getInt("id");
-                        Log.d(TAG, "last_id: " + last_id);
+                        //Log.d(TAG, "last_id: " + last_id);
                     }
 
                     pasien.setPasien_id(json.getInt("id"));
@@ -394,7 +394,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     Integer aLength = array.length();
                     if (i == (aLength - 1)) {
                         last_id = json.getInt("id");
-                        Log.d(TAG, "last_id: " + last_id);
+                        //Log.d(TAG, "last_id: " + last_id);
                     }
 
                     pasien.setPasien_id(json.getInt("id"));
@@ -468,7 +468,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        };
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -518,7 +518,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     Integer aLength = array.length();
                     if (i == (aLength - 1)) {
                         last_id = json.getInt("id");
-                        Log.d(TAG, "last_id: " + last_id);
+                        //Log.d(TAG, "last_id: " + last_id);
                     }
 
 
