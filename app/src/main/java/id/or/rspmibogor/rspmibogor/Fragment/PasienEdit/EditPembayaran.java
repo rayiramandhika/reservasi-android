@@ -77,7 +77,7 @@ public class EditPembayaran extends AbstractStep {
 
         String nmAsuransi = getArguments().getString("namaPenjamin");
         //Log.d(TAG, "nmAsuransi: " + nmAsuransi);
-        if(nmAsuransi != null)
+        if(getArguments().getString("jenisPembayaran").equals("Asuransi"))
         {
             Integer idx = listAsuransi.indexOf(nmAsuransi);
             //Log.d(TAG, "idx.asuransi: " + idx);
