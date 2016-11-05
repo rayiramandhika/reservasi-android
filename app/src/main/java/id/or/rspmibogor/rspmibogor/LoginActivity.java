@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView _forgotPassword;
 
     Integer passwordView = 1;
+    private Drawable iconPasswordView;
+    private Drawable iconTextView;
+    private Drawable getCompoundDrawables;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,32 +73,56 @@ public class LoginActivity extends AppCompatActivity {
         _forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 
 
-        final Drawable iconPasswordView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_black_24dp);
-        final Drawable iconTextView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_red_24dp);
+        iconPasswordView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_black_24dp);
+        iconTextView = ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_remove_red_eye_red_24dp);
 
         _passwordText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 final int DRAWABLE_RIGHT = 2;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (_passwordText.getRight() - _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                       if(passwordView.equals(1))
-                       {
-                           _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
-                           _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
-                           _passwordText.setSelection(_passwordText.getText().length());
-                           passwordView = 0;
-                       }else{
-                           _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
-                           _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
-                                   InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                           _passwordText.setSelection(_passwordText.getText().length());
-                           passwordView = 1;
-                       }
+                getCompoundDrawables = _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT];
+                Log.d(TAG, "getCompoundDrawables: " + getCompoundDrawables);
+
+                if(getCompoundDrawables != null)
+                {
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+
+                        final int width = _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width();
+                        final int right = _passwordText.getRight();
+
+                        if(event.getRawX() >= (right - width)) {
+                            if(passwordView.equals(1))
+                            {
+                                _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                                _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                                _passwordText.setSelection(_passwordText.getText().length());
+                                passwordView = 0;
+                            }else{
+                                _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                                _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                _passwordText.setSelection(_passwordText.getText().length());
+                                passwordView = 1;
+                            }
+                            return true;
+                        }
                     }
+                    return false;
+                }else{
+                    if(passwordView.equals(1))
+                    {
+                        _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                        _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        _passwordText.setSelection(_passwordText.getText().length());
+                    }else{
+                        _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                        _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        _passwordText.setSelection(_passwordText.getText().length());
+                    }
+                    return false;
                 }
-                return false;
             }
         });
 
@@ -126,12 +156,16 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         //Log.d(TAG, "Login");
 
+        _emailText.clearFocus();
+        _passwordText.clearFocus();
+
         if (!validate()) {
             onLoginFailed("Sign In Gagal");
             return;
         }
 
         _loginButton.setEnabled(false);
+
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
@@ -205,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
                 this.finish();
             }
         }
@@ -213,7 +246,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         moveTaskToBack(true);
     }
 
@@ -232,9 +264,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Bundle b = new Bundle();
         b.putBoolean("loginSuccess", true);
-
         intent.putExtras(b);
-
         Toast.makeText(getBaseContext(), "Sign In Berhasil", Toast.LENGTH_SHORT).show();
 
         new android.os.Handler().postDelayed(
@@ -254,7 +284,6 @@ public class LoginActivity extends AppCompatActivity {
         if(message == null) msg = "Sign In Gagal";
         else msg = message;
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

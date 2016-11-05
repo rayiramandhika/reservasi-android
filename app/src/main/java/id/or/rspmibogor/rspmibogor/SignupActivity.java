@@ -40,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
     TextView _loginLink;
 
     Integer passwordView = 1;
+    private Drawable getCompoundDrawables;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,24 +62,48 @@ public class SignupActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent event) {
                 final int DRAWABLE_RIGHT = 2;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (_passwordText.getRight() - _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        if(passwordView.equals(1))
-                        {
-                            _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
-                            _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
-                            _passwordText.setSelection(_passwordText.getText().length());
-                            passwordView = 0;
-                        }else{
-                            _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
-                            _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
-                                    InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            _passwordText.setSelection(_passwordText.getText().length());
-                            passwordView = 1;
+                getCompoundDrawables = _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT];
+                //Log.d(TAG, "getCompoundDrawables: " + getCompoundDrawables);
+
+                if(getCompoundDrawables != null)
+                {
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+
+                        final int width = _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width();
+                        final int right = _passwordText.getRight();
+
+                        if(event.getRawX() >= (right - width)) {
+                            if(passwordView.equals(1))
+                            {
+                                _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                                _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                                _passwordText.setSelection(_passwordText.getText().length());
+                                passwordView = 0;
+                            }else{
+                                _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                                _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                _passwordText.setSelection(_passwordText.getText().length());
+                                passwordView = 1;
+                            }
+                            return true;
                         }
                     }
+                    return false;
+                }else{
+                    if(passwordView.equals(1))
+                    {
+                        _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
+                        _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        _passwordText.setSelection(_passwordText.getText().length());
+                    }else{
+                        _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
+                        _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        _passwordText.setSelection(_passwordText.getText().length());
+                    }
+                    return false;
                 }
-                return false;
             }
         });
 
@@ -99,6 +124,9 @@ public class SignupActivity extends AppCompatActivity {
 
     public void signup() {
         //Log.d(TAG, "Signup");
+
+        _emailText.clearFocus();
+        _passwordText.clearFocus();
 
         if (!validate()) {
             onSignupFailed("Sign Up");
