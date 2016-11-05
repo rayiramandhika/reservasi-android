@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -159,7 +160,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Pendaftaran Anda sedang di proses..");
         progressDialog.show();
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
@@ -213,8 +215,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-
                         onOrderFailed(message);
+
                     }
                 }
         ){
@@ -227,8 +229,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
             }
         };
 
-        int socketTimeOut = 30000;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+        int socketTimeOut = 120000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
         queue.add(putRequest);

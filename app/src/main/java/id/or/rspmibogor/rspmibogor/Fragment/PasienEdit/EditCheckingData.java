@@ -128,7 +128,6 @@ public class EditCheckingData extends AbstractStep {
         kecamatan.setText(identitas_alamat.getString("kecamatan"));
         desa.setText(identitas_alamat.getString("desa"));
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
-        namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
 
 
         return v;

@@ -132,10 +132,8 @@ public class CheckingData extends AbstractStep {
         kecamatan.setText(identitas_alamat.getString("kecamatan"));
         desa.setText(identitas_alamat.getString("desa"));
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
-        if(identitas_jenisPembayaran.getString("jenisPembayaran").equals("Asuranso"))
-        {
-            namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
-        }
+        namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+
         return v;
     }
 
@@ -160,7 +158,10 @@ public class CheckingData extends AbstractStep {
 
         Bundle identitas_jenisPembayaran = getStepDataFor(4);
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
-        namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        if(identitas_jenisPembayaran.getString("jenisPembayaran").equals("Asuransi"))
+        {
+            namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        }
 
     }
 
