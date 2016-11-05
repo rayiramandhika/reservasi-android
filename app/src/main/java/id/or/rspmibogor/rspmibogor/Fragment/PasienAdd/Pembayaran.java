@@ -68,6 +68,7 @@ public class Pembayaran extends AbstractStep {
         spinnerAsuransi = (SearchableSpinner) v.findViewById(R.id.spinnerAsuransi);
         spinnerAsuransi.setTitle("Pilih Asuransi");
 
+        listAsuransi = getArguments().getStringArrayList("asuransi");
         listAsuransiId = getArguments().getStringArrayList("idAsuransi");
 
         initSpinner();
@@ -155,8 +156,6 @@ public class Pembayaran extends AbstractStep {
                 R.array.jenisPembayaran, android.R.layout.simple_dropdown_item_1line);
         jsPembayaranAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         jenisPembayaran.setAdapter(jsPembayaranAdapter);
-
-         listAsuransi = getArguments().getStringArrayList("asuransi");
 
         ArrayAdapter<String> layanan = new ArrayAdapter<String>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, listAsuransi);

@@ -68,12 +68,13 @@ public class EditPembayaran extends AbstractStep {
         spinnerAsuransi = (SearchableSpinner) v.findViewById(R.id.spinnerAsuransi);
         spinnerAsuransi.setTitle("Pilih Asuransi");
 
-        initSpinner();
-
         jenisPembayaran.setText(getArguments().getString("jenisPembayaran"));
         //namaPenjamin.setText(getArguments().getString("namaPenjamin"));
 
+        listAsuransi = getArguments().getStringArrayList("asuransi");
         listAsuransiId = getArguments().getStringArrayList("idAsuransi");
+
+        initSpinner();
 
         String nmAsuransi = getArguments().getString("namaPenjamin");
         //Log.d(TAG, "nmAsuransi: " + nmAsuransi);
@@ -112,7 +113,6 @@ public class EditPembayaran extends AbstractStep {
             nmPenjamin = listAsuransi.get(spinnerAsuransi.getSelectedItemPosition());
             idAsuransi = listAsuransiId.get(spinnerAsuransi.getSelectedItemPosition());
         }
-
 
         int poss = this.getArguments().getInt("position");
         Bundle b = getStepDataFor(poss);
@@ -172,7 +172,6 @@ public class EditPembayaran extends AbstractStep {
         jsPembayaranAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         jenisPembayaran.setAdapter(jsPembayaranAdapter);
 
-        listAsuransi = getArguments().getStringArrayList("asuransi");
         //Log.d(TAG, "listAsuransi: " + listAsuransi.toString());
         ArrayAdapter<String> layanan = new ArrayAdapter<String>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, listAsuransi);
