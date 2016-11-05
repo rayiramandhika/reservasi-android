@@ -156,6 +156,9 @@ public class EditCheckingData extends AbstractStep {
         jenisPembayaran.setText(identitas_jenisPembayaran.getString("jenisPembayaran"));
         if(identitas_jenisPembayaran.getString("jenisPembayaran").equals("Asuransi")) {
             namaPenjamin.setText(identitas_jenisPembayaran.getString("namaPenjamin"));
+        }else
+        {
+            namaPenjamin.setText("");
         }
 
     }

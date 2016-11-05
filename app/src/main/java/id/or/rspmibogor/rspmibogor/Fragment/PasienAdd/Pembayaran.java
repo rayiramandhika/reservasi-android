@@ -94,11 +94,17 @@ public class Pembayaran extends AbstractStep {
     public void onNext() {
        // Log.d(TAG, "onNext");
 
-        String idAsuransi = null;
+        String idAsuransi = "";
         String jnsPembayaran = jenisPembayaran.getText().toString();
-        if(spinnerAsuransi.getSelectedItemPosition() >= 0){
-            nmPenjamin = listAsuransi.get(spinnerAsuransi.getSelectedItemPosition());
-            idAsuransi = listAsuransiId.get(spinnerAsuransi.getSelectedItemPosition());
+        if(jnsPembayaran.equals("Asuransi"))
+        {
+            if(spinnerAsuransi.getSelectedItemPosition() > 0){
+                nmPenjamin = listAsuransi.get(spinnerAsuransi.getSelectedItemPosition());
+                idAsuransi = listAsuransiId.get(spinnerAsuransi.getSelectedItemPosition());
+            }
+        }else{
+            nmPenjamin = "";
+            idAsuransi = "";
         }
 
         int poss = this.getArguments().getInt("position");
