@@ -100,7 +100,6 @@ public class Pembayaran extends AbstractStep {
             idAsuransi = listAsuransiId.get(spinnerAsuransi.getSelectedItemPosition());
         }
 
-
         int poss = this.getArguments().getInt("position");
         Bundle b = getStepDataFor(poss);
 
