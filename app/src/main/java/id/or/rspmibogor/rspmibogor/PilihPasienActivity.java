@@ -1,5 +1,6 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -75,6 +79,9 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     String layanan_name = "";
     String dokter_name;
 
+    ArrayList<String> listAsuransi;
+    ArrayList<String> listAsuransiId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,8 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
             }
         });
 
+        listAsuransi = new ArrayList<String>();
+        listAsuransiId = new ArrayList<String>();
 
         listPasien = new ArrayList<>();
 
@@ -140,8 +149,9 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PasienAddActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(view.getContext(), PasienAddActivity.class);
+                startActivity(intent);*/
+                addPasien();
             }
         });
 
@@ -500,6 +510,110 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
             }
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void addPasien()
+    {
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Sedang memuat data...");
+        progressDialog.show();
+
+        listAsuransi.removeAll(listAsuransi);
+        listAsuransiId.removeAll(listAsuransiId);
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://103.23.22.46:1337/v1/asuransi";
+
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.hide();
+                        try {
+                            JSONArray data = response.getJSONArray("data");
+                            parseDataAsuransi(data);
+                        } catch (JSONException e) {
+                            Toast.makeText(PilihPasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
+                        progressDialog.hide();
+                        if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, PilihPasienActivity.this);
+                            }
+                        }
+
+                        Toast.makeText(PilihPasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
+        queue.add(putRequest);
+    }
+
+    private void parseDataAsuransi(JSONArray data) {
+
+        listAsuransi.add(0, "");
+        listAsuransiId.add(0, "");
+
+        if(data.length() > 0)
+        {
+            for (int i = 0; i < data.length(); i++) {
+
+                JSONObject json = null;
+                try {
+
+                    json = data.getJSONObject(i);
+                    Integer idx = json.getInt("id");
+                    String nama = json.getString("nama");
+
+                    listAsuransi.add(nama);
+                    listAsuransiId.add(idx.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //Log.d(TAG, "listAsuransi: " + listAsuransi.toString());
+
+        final Bundle b = new Bundle();
+
+        b.putStringArrayList("asuransi", listAsuransi);
+        b.putStringArrayList("idAsuransi", listAsuransiId);
+
+        Intent intent = new Intent(PilihPasienActivity.this, PasienAddActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
 }
