@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
 
                 getCompoundDrawables = _passwordText.getCompoundDrawables()[DRAWABLE_RIGHT];
-                Log.d(TAG, "getCompoundDrawables: " + getCompoundDrawables);
+                //Log.d(TAG, "getCompoundDrawables: " + getCompoundDrawables);
 
                 if(getCompoundDrawables != null)
                 {

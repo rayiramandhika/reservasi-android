@@ -256,7 +256,7 @@ public class EditIdentitasDiri extends AbstractStep {
         String jlTxt = jnsKelamin;
         String noTelpTxt = noTelp.getText().toString();
         String agamaTxt = agama.getText().toString();
-        String pendidikanTxt = agama.getText().toString();
+        String pendidikanTxt = pendidikan.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
         String gdTxt = golonganDarah.getText().toString();
 
