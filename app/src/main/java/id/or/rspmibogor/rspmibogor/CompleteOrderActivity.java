@@ -210,7 +210,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                             builder.setTitle("Mohon tunggu")
                                     .setCancelable(false)
                                     .setMessage("Pendaftaran sedang diproses. Mohon tunggu. \n" +
-                                                "Jika dalam waktu 5 menit Pendaftaran tidak tampil di halaman pendaftaran, silahkan mengulangi pendftaran tersebut." +
+                                                "Jika dalam waktu 5 menit Pendaftaran tidak ada di halaman pendaftaran, silahkan mengulangi pendftaran tersebut." +
                                                 "\n \nTerima Kasih.")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
@@ -254,8 +254,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
+                            onOrderFailed(message);
                         }
-                        onOrderFailed(message);
                     }
                 }
         ){
@@ -268,8 +268,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
             }
         };
 
-        int socketTimeOut = 500;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 1,
+        int socketTimeOut = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
         queue.add(putRequest);

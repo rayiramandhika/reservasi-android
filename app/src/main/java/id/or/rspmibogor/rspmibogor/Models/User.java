@@ -36,7 +36,7 @@ public class User {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d("updateFCMToken - Response", response);
+                        Log.d("updateFCMToken-Response", response);
                     }
                 },
                 new Response.ErrorListener()
