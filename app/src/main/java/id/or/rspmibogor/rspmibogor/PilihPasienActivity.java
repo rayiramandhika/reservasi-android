@@ -185,7 +185,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(msg.equals("addPasien"))
         {
-            getNewData();
+            refreshData();
         }
     }
 
@@ -198,13 +198,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.22.46:1337/v1/pasien/women";
+            url = "http://103.23.22.46:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = "http://103.23.22.46:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = "http://103.23.22.46:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = "http://103.23.22.46:1337/v1/pasien/all";
+            url = "http://103.23.22.46:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -310,13 +310,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.22.46:1337/v1/pasien/women";
+            url = "http://103.23.22.46:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = "http://103.23.22.46:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = "http://103.23.22.46:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = "http://103.23.22.46:1337/v1/pasien/all";
+            url = "http://103.23.22.46:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
 
@@ -372,7 +372,6 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         if (array.length() > 0) {
 
             nodata.setVisibility(View.INVISIBLE);
-
             listPasien.removeAll(listPasien);
 
             for (int i = 0; i < array.length(); i++) {

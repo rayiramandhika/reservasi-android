@@ -202,7 +202,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/pasien/all";
+        String url = "http://103.23.22.46:1337/v1/pasien";
 
 
 
@@ -445,7 +445,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien/all";
+        String url = "http://103.23.22.46:1337/v1/pasien";
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest req = new JsonObjectRequest(url,
