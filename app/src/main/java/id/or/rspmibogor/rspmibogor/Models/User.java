@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -75,6 +77,10 @@ public class User {
 
         };
 
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
 
     }
@@ -116,7 +122,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        //Log.d("getDataFromToken - Response", response.toString());
+                        Log.d("getDataFromToken-Res", response.toString());
                     }
 
                 },
@@ -145,6 +151,10 @@ public class User {
             }
         };
 
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
 
     }
@@ -176,7 +186,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        //Log.d("getDataFromToken - Response", response.toString());
+                        Log.d("refreshToken-Response", response.toString());
                     }
 
                 },
@@ -196,16 +206,12 @@ public class User {
                         //Log.d("getDataFromToken - Error.Response", String.valueOf(error));
                     }
                 }
-        ){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + token);
-                return params;
-            }
-        };
+        );
 
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 5,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
     }
 }

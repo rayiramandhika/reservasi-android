@@ -116,8 +116,6 @@ public class DetailOrder extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         Bundle b = getIntent().getExtras();
         position_list = b.getInt("position_list");
 
@@ -213,7 +211,9 @@ public class DetailOrder extends AppCompatActivity {
     {
         Bundle b = getIntent().getExtras();
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
         spinner.setVisibility(View.VISIBLE);
@@ -400,6 +400,8 @@ public class DetailOrder extends AppCompatActivity {
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -468,6 +470,8 @@ public class DetailOrder extends AppCompatActivity {
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/order/" + id;
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);

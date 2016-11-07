@@ -110,8 +110,6 @@ public class DetailJadwalDokter extends AppCompatActivity {
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         initData();
 
         mAdapter = new ListJadwalAdapter(listJadwalDokter, this);
@@ -140,6 +138,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
     {
         //Log.d(TAG, "init data set");
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;

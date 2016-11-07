@@ -112,10 +112,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
-
-
         initSpinner();
 
 
@@ -131,6 +127,7 @@ public class SearchActivity extends AppCompatActivity {
         spinnerLayanan = (SearchableSpinner) findViewById(R.id.spinnerLayanan);
         spinnerLayanan.setTitle("Pilih Layanan");
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/layanan/";

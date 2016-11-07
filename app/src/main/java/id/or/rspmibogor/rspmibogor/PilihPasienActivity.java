@@ -194,6 +194,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         String url = null;
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
@@ -306,6 +307,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     {
         String url = null;
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
@@ -411,6 +413,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         String url = null;
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
@@ -522,7 +525,9 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         listAsuransi.removeAll(listAsuransi);
         listAsuransiId.removeAll(listAsuransiId);
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/asuransi";
 

@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity
         //Log.d("Checking login", "jwtToken: " + jwTokenSP);
         //Log.d("Checking login", "loginSuccess: " + login);
 
-        if(jwTokenSP == null && login != true){
+        /*if(jwTokenSP == null && login != true){
             finish();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
-        }
+        }*/
 
         if(login == true)
         {

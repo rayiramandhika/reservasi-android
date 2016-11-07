@@ -98,8 +98,6 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
         listInbox = new ArrayList<>();
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleInbox);
         mLayoutManager = new LinearLayoutManager(this);
 
@@ -144,6 +142,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     private void initDataset() {
 
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC";
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         spinner.setVisibility(View.VISIBLE);
@@ -250,6 +250,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
     private void refreshData()
     {
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC&limit="+skip.toString();
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
@@ -350,6 +352,8 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         mAdapter.notifyItemInserted(listInbox.size()-1);
 
         String url = "http://103.23.22.46:1337/v1/inbox?sort=createdAt%20DESC&skip="+skip.toString();
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,

@@ -85,9 +85,6 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         listOldOlder = new ArrayList<>();
 
-        sharedPreferences = this.getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
-
     }
 
 
@@ -156,6 +153,9 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         String url = "http://103.23.22.46:1337/v1/getorder/old";
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
+
+        sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
@@ -261,6 +261,10 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void refreshData() {
 
         String url = "http://103.23.22.46:1337/v1/getorder/old?limit="+skip.toString();
+
+        sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -362,6 +366,9 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     {
         listOldOlder.add(null);
         mAdapter.notifyItemInserted(listOldOlder.size()-1);
+
+        sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/getorder/old?skip="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,

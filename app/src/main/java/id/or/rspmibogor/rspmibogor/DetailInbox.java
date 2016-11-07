@@ -75,8 +75,6 @@ public class DetailInbox extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
 
@@ -104,6 +102,8 @@ public class DetailInbox extends AppCompatActivity {
     {
 
         String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         container.setVisibility(View.GONE);
@@ -174,6 +174,8 @@ public class DetailInbox extends AppCompatActivity {
         }
 
         String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,

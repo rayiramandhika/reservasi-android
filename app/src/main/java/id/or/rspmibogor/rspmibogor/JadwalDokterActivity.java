@@ -112,8 +112,6 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
         spinner = (ProgressBar) findViewById(R.id.progress_bar);
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         initDataset();
 
         mAdapter = new DokterAdapter(listDokter, this);
@@ -193,6 +191,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
         String namaDokter = b.getString("dokter_name") == null ? "" : b.getString("dokter_name");
         String layananId = b.getString("layanan_id") == null ? "" : b.getString("layanan_id");
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;

@@ -83,8 +83,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
         hari = (TextView) findViewById(R.id.hari);
@@ -142,6 +140,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
     {
         final Activity activity = this;
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
@@ -227,11 +226,6 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                     }).show();
                         } else if(error instanceof AuthFailureError)
                         {
-                            if(jwTokenSP != null){
-                                User user = new User();
-                                user.refreshToken(jwTokenSP, getBaseContext());
-                            }
-
                             onOrderFailed(message);
 
                         }else {

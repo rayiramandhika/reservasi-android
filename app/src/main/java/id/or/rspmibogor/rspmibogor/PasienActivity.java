@@ -200,11 +200,10 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void initData()
     {
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/pasien";
-
-
 
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
@@ -235,6 +234,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         if(error instanceof AuthFailureError)
                         {
+                            Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -324,6 +324,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void getNewData()
     {
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
@@ -352,6 +353,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         if(error instanceof AuthFailureError)
                         {
+                            Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -445,8 +447,11 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private void refreshData()
     {
-        String url = "http://103.23.22.46:1337/v1/pasien";
+
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+        String url = "http://103.23.22.46:1337/v1/pasien";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -477,6 +482,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         if(error instanceof AuthFailureError)
                         {
+                            Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -584,6 +590,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         listAsuransi.removeAll(listAsuransi);
         listAsuransiId.removeAll(listAsuransiId);
 
+        sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/asuransi";

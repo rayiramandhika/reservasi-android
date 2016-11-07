@@ -186,7 +186,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         listAsuransi.removeAll(listAsuransi);
         listAsuransiId.removeAll(listAsuransiId);
 
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
         String url = "http://103.23.22.46:1337/v1/asuransi";
 
@@ -310,7 +311,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     private void deleteFromServer(final Integer id, final Integer position)
     {
 
-        jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
         String url = "http://103.23.22.46:1337/v1/pasien/" + id;
 

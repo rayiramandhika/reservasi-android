@@ -257,7 +257,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                         finish();
                     }
                 },
-                2000);
+                3000);
 
     }
 
