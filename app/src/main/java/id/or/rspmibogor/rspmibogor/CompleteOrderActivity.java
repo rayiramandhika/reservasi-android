@@ -38,10 +38,12 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
 import id.or.rspmibogor.rspmibogor.GetterSetter.MessageEvent;
+import id.or.rspmibogor.rspmibogor.Models.User;
 
 public class CompleteOrderActivity extends AppCompatActivity {
 
@@ -202,21 +204,58 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         String message = null;
                         progressDialog.dismiss();
 
-                        if(error.networkResponse != null && error.networkResponse.data != null)
+                        if(error instanceof TimeoutError)
                         {
-                            try {
-                                String body = new String(error.networkResponse.data,"UTF-8");
-                                JSONObject data = new JSONObject(body);
-                                message = data.getString("message");
-                                //Log.d("login - Error.Response", data.getString("message"));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            builder.setTitle("Mohon tunggu")
+                                    .setCancelable(false)
+                                    .setMessage("Pendaftaran sedang diproses. Mohon tunggu. \n" +
+                                                "Jika dalam waktu 5 menit Pendaftaran tidak tampil di halaman pendaftaran, silahkan mengulangi pendftaran tersebut." +
+                                                "\n \nTerima Kasih.")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            intent = new Intent(activity, PendaftaranActivity.class);
+                                            activity.startActivity(intent);
+
+                                            if(JadwalDokterActivity.getInstance() != null) JadwalDokterActivity.getInstance().finish();
+                                            if(DetailJadwalDokter.getInstance() != null) DetailJadwalDokter.getInstance().finish();
+                                            if(PilihPasienActivity.getInstance() != null) PilihPasienActivity.getInstance().finish();
+                                            if(SearchActivity.getInstance() != null) SearchActivity.getInstance().finish();
+                                            finish();
+                                        }
+                                    }).show();
+                        } else if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+
+                            onOrderFailed(message);
+
+                        }else {
+                            if(error.networkResponse != null && error.networkResponse.data != null)
+                            {
+                                String body = null;
+                                try {
+                                    body = new String(error.networkResponse.data,"UTF-8");
+                                    try {
+
+                                        //Log.d("login - Error.body", body.toString());
+                                        JSONObject data = new JSONObject(body);
+                                        message = data.getString("message");
+
+                                    }  catch (JSONException e) {
+                                        message = body;
+                                        e.printStackTrace();
+                                    }
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                         onOrderFailed(message);
-
                     }
                 }
         ){
@@ -229,7 +268,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
             }
         };
 
-        int socketTimeOut = 120000;
+        int socketTimeOut = 500;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 1,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);

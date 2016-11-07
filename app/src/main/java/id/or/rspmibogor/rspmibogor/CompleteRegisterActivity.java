@@ -201,17 +201,20 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                         String message = null;
 
                         if(error.networkResponse != null && error.networkResponse.data != null){
+                            String body = null;
                             try {
+                                body = new String(error.networkResponse.data,"UTF-8");
+                                try {
 
-                                String body = new String(error.networkResponse.data,"UTF-8");
+                                    //Log.d("login - Error.body", body.toString());
+                                    JSONObject data = new JSONObject(body);
+                                    message = data.getString("message");
 
-                                JSONObject data = new JSONObject(body);
-                                message = data.getString("message");
-                                //Log.d("SendConfirmationCode - Error.Response", data.getString("message"));
-
+                                }  catch (JSONException e) {
+                                    message = body;
+                                    e.printStackTrace();
+                                }
                             } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }

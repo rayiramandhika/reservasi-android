@@ -177,21 +177,20 @@ public class SignupActivity extends AppCompatActivity {
                         String message = null;
 
                         if(error.networkResponse != null && error.networkResponse.data != null){
+                            String body = null;
                             try {
-                                String body = new String(error.networkResponse.data,"UTF-8");
-                                JSONObject data = new JSONObject(body);
-                                //message = data.getString("message");
+                                body = new String(error.networkResponse.data,"UTF-8");
+                                try {
 
-                                String errorMsg = data.getString("error");
-                                //Log.d("login - Error.Response", errorMsg);
-                                if(errorMsg.equals("E_VALIDATION")) {
-                                    message = "Email sudah terdaftar";
-                                    _emailText.setError("Email sudah terdaftar");
+                                    //Log.d("login - Error.body", body.toString());
+                                    JSONObject data = new JSONObject(body);
+                                    message = data.getString("message");
+
+                                }  catch (JSONException e) {
+                                    message = body;
+                                    e.printStackTrace();
                                 }
-
                             } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
