@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -232,7 +233,10 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            Log.d(TAG, "No Connection Error");
+                        }else if(error instanceof AuthFailureError)
                         {
                             Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
@@ -605,7 +609,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data);
                         } catch (JSONException e) {
-                            Toast.makeText(PasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
                         }
 
@@ -618,6 +622,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
                         progressDialog.hide();
+
                         if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
@@ -626,7 +631,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             }
                         }
 
-                        Toast.makeText(PasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }

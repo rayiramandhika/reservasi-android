@@ -541,7 +541,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data);
                         } catch (JSONException e) {
-                            Toast.makeText(PilihPasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PilihPasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
                         }
 
@@ -562,7 +562,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                             }
                         }
 
-                        Toast.makeText(PilihPasienActivity.this, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PilihPasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }
