@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -65,6 +67,8 @@ public class EditCheckingData extends AbstractStep {
     TextView provinsi;
     TextView jenisPembayaran;
     TextView namaPenjamin;
+
+    private Integer refreshToken = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -297,7 +301,21 @@ public class EditCheckingData extends AbstractStep {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, activity);
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

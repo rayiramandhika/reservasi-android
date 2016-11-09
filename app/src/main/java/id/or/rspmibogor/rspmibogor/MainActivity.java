@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
     CarouselView carouselView;
     //List<String> images = new ArrayList<>();
+
+    private Integer refreshToken =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,7 +375,21 @@ public class MainActivity extends AppCompatActivity
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

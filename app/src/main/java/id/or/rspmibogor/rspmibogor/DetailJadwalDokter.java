@@ -2,6 +2,7 @@ package id.or.rspmibogor.rspmibogor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -66,6 +68,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
     Toolbar toolbar;
 
     static DetailJadwalDokter detailJadwalDokter;
+
+    private Integer refreshToken = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +187,21 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

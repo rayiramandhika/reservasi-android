@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -73,6 +75,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private Integer skip = 0;
     private Integer numRows = 0;
+    private Integer refreshToken = 0;
 
     public OldOrderFragment() {
 
@@ -182,7 +185,21 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         spinner.setVisibility(View.INVISIBLE);
                         errorLayout.setVisibility(View.VISIBLE);
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -291,7 +308,21 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -400,7 +431,21 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         listOldOlder.remove(listOldOlder.size()-1);
                         mAdapter.notifyDataChanged();
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

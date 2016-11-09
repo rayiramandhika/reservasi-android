@@ -2,10 +2,12 @@ package id.or.rspmibogor.rspmibogor.Models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,6 +28,8 @@ import java.util.Map;
  */
 public class User {
 
+    private Integer refreshToken = 0;
+    private String TAG = "Model.User";
 
     public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, final Context context) {
 
@@ -38,14 +42,29 @@ public class User {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d("updateFCMToken-Response", response);
+                        //Log.d("updateFCMToken-Response", response);
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error instanceof AuthFailureError)
+
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(token != null){
+                                        User user = new User();
+                                        user.refreshToken(token, context);
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(token != null){
                                 User user = new User();
@@ -122,7 +141,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        Log.d("getDataFromToken-Res", response.toString());
+                        //Log.d("getDataFromToken-Res", response.toString());
                     }
 
                 },
@@ -130,7 +149,22 @@ public class User {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error instanceof AuthFailureError)
+
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(token != null){
+                                        User user = new User();
+                                        user.refreshToken(token, context);
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(token != null){
                                 User user = new User();

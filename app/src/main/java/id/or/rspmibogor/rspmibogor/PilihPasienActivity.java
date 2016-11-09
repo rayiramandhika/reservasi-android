@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -78,6 +80,8 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     String jam;
     String layanan_name = "";
     String dokter_name;
+
+    private Integer refreshToken = 0;
 
     ArrayList<String> listAsuransi;
     ArrayList<String> listAsuransiId;
@@ -232,7 +236,21 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -343,7 +361,21 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -450,7 +482,21 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -554,7 +600,22 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
                         progressDialog.hide();
-                        if(error instanceof AuthFailureError)
+
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

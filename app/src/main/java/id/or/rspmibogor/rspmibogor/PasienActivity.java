@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -73,6 +74,8 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private Integer skip = 0;
     private Integer numRows = 0;
+
+    private Integer refreshToken = 0;
 
     ArrayList<String> listAsuransi;
     ArrayList<String> listAsuransiId;
@@ -235,10 +238,20 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         if(error instanceof NoConnectionError)
                         {
-                            Log.d(TAG, "No Connection Error");
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
                         }else if(error instanceof AuthFailureError)
                         {
-                            Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -355,7 +368,21 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
@@ -484,7 +511,21 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
@@ -623,7 +664,21 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
                         progressDialog.hide();
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

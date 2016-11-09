@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -58,6 +61,8 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     private ProgressDialog progressDialog;
     final ArrayList<String> listAsuransi;
     final ArrayList<String> listAsuransiId;
+    private Integer refreshToken = 0;
+
 
     public PasienAdapter(List<Pasien> pasien, Activity activity)
     {
@@ -201,7 +206,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data, pasien);
                         } catch (JSONException e) {
-                            Toast.makeText(activity, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
                         }
 
@@ -214,7 +219,21 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
                         progressDialog.hide();
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, activity);
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();
@@ -222,7 +241,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                             }
                         }
 
-                        Toast.makeText(activity, "Pasien Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }
@@ -338,7 +357,21 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error instanceof AuthFailureError)
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, activity);
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
                         {
                             if(jwTokenSP != null){
                                 User user = new User();

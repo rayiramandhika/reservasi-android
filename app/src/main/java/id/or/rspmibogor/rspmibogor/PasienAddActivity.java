@@ -88,6 +88,6 @@ public class PasienAddActivity extends DotStepper {
 
     @Subscribe
     public void onEvent(MessageEvent event){
-        Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
+        //Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
     }
 }

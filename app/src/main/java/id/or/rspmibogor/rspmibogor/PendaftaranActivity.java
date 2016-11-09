@@ -64,8 +64,6 @@ public class PendaftaranActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 Intent intent = new Intent(view.getContext(), SearchActivity.class);
                 startActivity(intent);
             }
@@ -88,7 +86,6 @@ public class PendaftaranActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(MessageEvent event){
         //Log.d(TAG, "onEvent - loaded - event: " + event.getPesan().toString());
-
     }
 
 
