@@ -226,6 +226,12 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                     }).show();
                         } else if(error instanceof AuthFailureError)
                         {
+
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+
                             onOrderFailed(message);
 
                         }else {
