@@ -220,6 +220,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
                                     refreshToken++;
                                 }
                             }
+
+                            onOrderFailed(message);
                         }else if(error instanceof TimeoutError)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
