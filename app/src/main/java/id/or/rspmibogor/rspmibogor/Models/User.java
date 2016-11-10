@@ -58,7 +58,7 @@ public class User {
                                 {
                                     if(token != null){
                                         User user = new User();
-                                        user.refreshToken(token, context);
+                                        user.refreshToken(jwtToken, context);
                                     }
 
                                     refreshToken++;
@@ -68,7 +68,7 @@ public class User {
                         {
                             if(token != null){
                                 User user = new User();
-                                user.refreshToken(token, context);
+                                user.refreshToken(jwtToken, context);
                             }
                         }
                         // error
