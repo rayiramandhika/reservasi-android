@@ -75,6 +75,14 @@
                     android:text="Pendaftaran Online - RS PMI Bogor adalah aplikasi yang dapat membantu anda untuk melakukan pendaftaran secara online untuk rawat jalan Poliklinik Afiat."/>
 
                 <TextView
+                    android:id="@+id/txtVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:text="Version"/>
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Kontak Kami"
@@ -91,10 +99,13 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <ImageView
+                        android:id="@+id/imgLocation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_place_black_24dp"/>
 
                     <TextView
@@ -114,10 +125,13 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <ImageView
+                        android:id="@+id/imgPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_call_black_24dp"/>
 
                     <TextView
@@ -136,10 +150,13 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <ImageView
+                        android:id="@+id/imgFax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_call_black_24dp"/>
 
                     <TextView
@@ -159,10 +176,13 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <ImageView
+                        android:id="@+id/imgEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_email_black_24dp"/>
 
                     <TextView
@@ -182,10 +202,13 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <ImageView
+                        android:id="@+id/imgWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:clickable="true"
                         android:layout_gravity="center"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_public_black_24dp"/>
 
                     <TextView
