@@ -312,7 +312,7 @@ public class DetailOrder extends AppCompatActivity {
         checkIn = data.getBoolean("checkIn");
 
         Boolean statusConfirm = data.getBoolean("confirmed");
-        Log.d(TAG,"statusConfirm: " + statusConfirm);
+        //Log.d(TAG,"statusConfirm: " + statusConfirm);
 
         if(statusConfirm.equals(true))
         {
@@ -324,7 +324,7 @@ public class DetailOrder extends AppCompatActivity {
         }
 
 
-        Log.d(TAG, "status: " + status);
+        //Log.d(TAG, "status: " + status);
         if(status.toString() == "Dibatalkan Oleh User")
         {
             //buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
