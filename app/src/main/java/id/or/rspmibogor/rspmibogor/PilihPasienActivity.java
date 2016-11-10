@@ -9,12 +9,16 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -164,6 +168,28 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this.getBaseContext(), R.color.colorPrimary));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_help, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_info)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PilihPasienActivity.this);
+            builder.setTitle("Informasi")
+                    .setCancelable(false)
+                    .setMessage("Daftar Pasien yang tersedia dihalaman ini telah di filter berdasarkan kriteria Jadwal Dokter yang Anda pilih.")
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show();
+        }
+
+        return true;
     }
 
     @Override
