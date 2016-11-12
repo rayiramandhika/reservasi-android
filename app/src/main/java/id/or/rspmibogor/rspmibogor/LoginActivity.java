@@ -170,7 +170,8 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang memeriksa akun...");
         progressDialog.show();
 
         final String email = _emailText.getText().toString();
@@ -303,15 +304,18 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+        if (email.isEmpty()) {
+            _emailText.setError("Email harus diisi");
             valid = false;
-        } else {
+        } else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _emailText.setError("Mohon masukan email yang benar");
+            valid = false;
+        }else{
             _emailText.setError(null);
         }
 
         if (password.isEmpty()) {
-            _passwordText.setError("enter a password");
+            _passwordText.setError("Password harus diisi");
             valid = false;
         } else {
             _passwordText.setError(null);

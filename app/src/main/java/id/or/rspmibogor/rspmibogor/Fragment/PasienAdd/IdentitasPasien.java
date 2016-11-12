@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +59,8 @@ public class IdentitasPasien extends AbstractStep {
 
     private RadioGroup typePasienGroup;
     private RadioButton typePasienRadio;
+
+    private TextInputLayout txtLayoutNoRekamMedik;
 
 
     String jnsKelamin = "Laki-laki";
@@ -137,7 +140,7 @@ public class IdentitasPasien extends AbstractStep {
             }
         });
 
-
+        txtLayoutNoRekamMedik = (TextInputLayout) v.findViewById(R.id.txtLayoutNoRekamMedik);
 
         int selectedIdType = typePasienGroup.getCheckedRadioButtonId();
         typePasienRadio = (RadioButton) v.findViewById(selectedIdType);
@@ -148,10 +151,12 @@ public class IdentitasPasien extends AbstractStep {
                 switch(i){
                     case R.id.lama:
                         typePasien = "Pasien Lama";
+                        txtLayoutNoRekamMedik.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.baru:
                         typePasien = "Pasien Baru";
+                        txtLayoutNoRekamMedik.setVisibility(View.GONE);
                         break;
                 }
 
@@ -240,6 +245,7 @@ public class IdentitasPasien extends AbstractStep {
         String pendidikanTxt = agama.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
         String gdTxt = golonganDarah.getText().toString();
+        String noTelpTxt = noTelp.getText().toString();
 
 
         if (namaTxt.isEmpty()){
@@ -296,6 +302,13 @@ public class IdentitasPasien extends AbstractStep {
             i++;
         } else {
             jenisKelaminRadio.setError(null);
+        }
+
+        if(noTelpTxt.isEmpty()){
+            noTelp.setError("No. Telepon harus diisi");
+            i++;
+        } else {
+            noTelp.setError(null);
         }
 
         if(agamaTxt.isEmpty()){

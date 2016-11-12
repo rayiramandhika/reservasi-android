@@ -135,10 +135,11 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
+         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
          progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-         progressDialog.setMessage("Loading...");
+         progressDialog.setCancelable(false);
+         progressDialog.setTitle("Mohon Tunggu");
+         progressDialog.setMessage("Sedang proses membuat akun...");
          progressDialog.show();
 
         final String name = _nameText.getText().toString();
@@ -239,22 +240,28 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("At least 3 characters");
+        if (name.isEmpty()) {
+            _nameText.setError("Nama harus diisi");
             valid = false;
-        } else {
+        } else if(name.length() < 3){
+            _nameText.setError("Nama minimal 3 karakter");
+            valid = false;
+        }else{
             _nameText.setError(null);
         }
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Enter a valid email address");
+        if (email.isEmpty()) {
+            _emailText.setError("Email harus diisi");
             valid = false;
-        } else {
+        } else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            _emailText.setError("Mohon masukan email yang benar");
+            valid = false;
+        }else{
             _emailText.setError(null);
         }
 
         if (password.isEmpty()) {
-            _passwordText.setError("Enter a password ");
+            _passwordText.setError("Password harus diisi");
             valid = false;
         } else {
             _passwordText.setError(null);

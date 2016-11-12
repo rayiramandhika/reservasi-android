@@ -590,7 +590,9 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
         progressDialog.setMessage("Sedang memuat data...");
         progressDialog.show();
 
@@ -608,12 +610,12 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressDialog.hide();
+                        progressDialog.dismiss();
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data);
                         } catch (JSONException e) {
-                            Toast.makeText(PilihPasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PilihPasienActivity.this, "Gagal memuat data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "Get Asuransi - Error get JSON Array: " + e.toString());
                         }
 
@@ -625,7 +627,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
-                        progressDialog.hide();
+                        progressDialog.dismiss();
 
                         if(error instanceof NoConnectionError)
                         {
@@ -649,7 +651,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
                             }
                         }
 
-                        Toast.makeText(PilihPasienActivity.this, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PilihPasienActivity.this, "Gagal memuat data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }

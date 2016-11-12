@@ -184,7 +184,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     {
 
         progressDialog = new ProgressDialog(activity);
-        progressDialog.setTitle("Loading");
+        progressDialog.setTitle("Mohon Tunggu");
         progressDialog.setMessage("Sedang memuat data...");
         progressDialog.show();
 
@@ -201,7 +201,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressDialog.hide();
+                        progressDialog.dismiss();
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data, pasien);
@@ -218,7 +218,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
-                        progressDialog.hide();
+                        progressDialog.dismiss();
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -241,7 +241,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                             }
                         }
 
-                        Toast.makeText(activity, "Gagal mengambil data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Gagal memuat data, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }
@@ -330,6 +330,13 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
     private void deleteFromServer(final Integer id, final Integer position)
     {
 
+        progressDialog = new ProgressDialog(activity);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang menghapus pasien...");
+        progressDialog.show();
+
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
@@ -340,6 +347,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
 
                         Pasien pasien = Pasien.get(position);
                         Pasien.remove(pasien);
@@ -356,7 +364,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        progressDialog.dismiss();
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {

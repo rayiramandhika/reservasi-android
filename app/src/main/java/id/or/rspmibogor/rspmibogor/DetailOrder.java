@@ -448,8 +448,10 @@ public class DetailOrder extends AppCompatActivity {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Batalkan Pendaftaran");
-        progressDialog.setMessage("Loading...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Pembatalan pendaftaran Anda sedang di proses...");
         progressDialog.show();
 
         JSONObject object = new JSONObject();
@@ -532,8 +534,10 @@ public class DetailOrder extends AppCompatActivity {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Konfirmasi Pendaftaran");
-        progressDialog.setMessage("Loading...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Konfirmasi pendaftaran Anda sedang di proses...");
         progressDialog.show();
 
         JSONObject object = new JSONObject();

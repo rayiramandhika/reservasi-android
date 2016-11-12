@@ -60,11 +60,6 @@ public class CompleteRegisterActivity extends AppCompatActivity {
             }
         });
 
-        progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
-
 
         edtConfirm.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,8 +71,6 @@ public class CompleteRegisterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(i == 3)
                 {
-                    progressDialog.show();
-
                     SendConfirmationCode();
                 }
             }
@@ -91,7 +84,6 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         txtSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.show();
                 sendEmail();
 
             }
@@ -117,6 +109,13 @@ public class CompleteRegisterActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/register/confirm/sendemail?email="+email;
+
+        progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang mengirim ulang kode verifikasi...");
+        progressDialog.show();
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
@@ -172,6 +171,13 @@ public class CompleteRegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang konfirmasi kode verifikasi...");
+        progressDialog.show();
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://103.23.22.46:1337/v1/register/confirm";
 
@@ -180,7 +186,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
 
                         try {
                             String token = response.getString("token");

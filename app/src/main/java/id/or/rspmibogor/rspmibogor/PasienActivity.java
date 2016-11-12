@@ -628,7 +628,9 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
     {
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
         progressDialog.setMessage("Sedang memuat data...");
         progressDialog.show();
 
@@ -645,7 +647,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressDialog.hide();
+                        progressDialog.dismiss();
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseDataAsuransi(data);
@@ -662,7 +664,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Log.d(TAG, "Get Asuransi - Error VolleyError: " + error.toString());
-                        progressDialog.hide();
+                        progressDialog.dismiss();
 
                         if(error instanceof NoConnectionError)
                         {

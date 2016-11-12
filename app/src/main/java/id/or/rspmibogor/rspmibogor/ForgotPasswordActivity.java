@@ -66,7 +66,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(ForgotPasswordActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang mengirim kode reset password...");
         progressDialog.show();
 
         final String email = _emailText.getText().toString();

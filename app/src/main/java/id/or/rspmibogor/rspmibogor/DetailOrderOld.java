@@ -189,7 +189,9 @@ public class DetailOrderOld extends AppCompatActivity {
 
                 final ProgressDialog progressDialog = new ProgressDialog(DetailOrderOld.this);
                 progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.setTitle("Mohon Tunggu");
+                progressDialog.setMessage("Sedang mengirim penilaian...");
                 progressDialog.show();
 
                 final String saran = saranEditTxt.getText().toString();
@@ -223,7 +225,7 @@ public class DetailOrderOld extends AppCompatActivity {
                                     saranText.setText(saranEditTxt.getText().toString());
                                     ratingLayout.setVisibility(View.GONE);
 
-                                    Toast.makeText(getBaseContext(), "Berhasil.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "Berhasil mengirim penilaian.", Toast.LENGTH_SHORT).show();
 
 
                                 } catch (JSONException e) {
@@ -260,7 +262,7 @@ public class DetailOrderOld extends AppCompatActivity {
                                     }
                                 }
 
-                                Toast.makeText(getBaseContext(), "Gagal.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "Gagal mengirim penilaian.", Toast.LENGTH_SHORT).show();
 
                             }
                         }

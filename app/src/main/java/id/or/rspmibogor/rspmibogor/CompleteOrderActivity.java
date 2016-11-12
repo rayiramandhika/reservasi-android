@@ -227,8 +227,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
                             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                             builder.setTitle("Mohon tunggu")
                                     .setCancelable(false)
-                                    .setMessage("Pendaftaran sedang diproses. Mohon tunggu. \n" +
-                                                "Jika dalam waktu 5 menit Pendaftaran tidak ada di halaman pendaftaran, silahkan mengulangi pendftaran tersebut." +
+                                    .setMessage("Pendaftaran sedang diproses. \n" +
+                                                "Jika dalam waktu 5 menit Pendaftaran yang Anda lakukan tidak ada di halaman pendaftaran, silahkan mengulangi pendaftaran tersebut." +
                                                 "\n \nTerima Kasih.")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override

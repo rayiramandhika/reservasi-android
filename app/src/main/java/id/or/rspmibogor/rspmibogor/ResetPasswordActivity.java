@@ -109,7 +109,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(ResetPasswordActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang proses reset password...");
         progressDialog.show();
 
         final String password = _passwordText.getText().toString();

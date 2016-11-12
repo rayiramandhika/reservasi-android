@@ -269,7 +269,9 @@ public class EditCheckingData extends AbstractStep {
 
         final ProgressDialog progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang proses mengubah pasien...");
         progressDialog.show();
 
         final Activity activity = this.getActivity();

@@ -83,7 +83,8 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(ConfirmResetPasswordActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang konfirmasi kode reset password...");
         progressDialog.show();
 
 
@@ -179,7 +180,8 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(ConfirmResetPasswordActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang mengirim ulang kode reset password...");
         progressDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(this);

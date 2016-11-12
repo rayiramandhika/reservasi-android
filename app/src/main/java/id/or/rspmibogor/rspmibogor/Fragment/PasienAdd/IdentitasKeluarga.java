@@ -121,7 +121,7 @@ public class IdentitasKeluarga  extends AbstractStep {
          }
 
          if (nmPasutri.isEmpty() && marital.equals("Sudah Kawin")){
-             namaPasutri.setError("Nama Pasutri harus diisi");
+             namaPasutri.setError("Nama Istri / Suami  harus diisi");
              i++;
          } else {
              namaPasutri.setError(null);

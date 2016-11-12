@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.nfc.FormatException;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -82,6 +83,7 @@ public class EditIdentitasDiri extends AbstractStep {
     String typePasien;
 
     Toolbar toolbar;
+    private TextInputLayout txtLayoutNoRekamMedik;
 
     @Override
     public void onCreate(Bundle savedInstace)
@@ -163,16 +165,20 @@ public class EditIdentitasDiri extends AbstractStep {
             }
         });
 
+        txtLayoutNoRekamMedik = (TextInputLayout) v.findViewById(R.id.txtLayoutNoRekamMedik);
+
         typePasienGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch(i){
                     case R.id.lama:
                         typePasien = "Pasien Lama";
+                        txtLayoutNoRekamMedik.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.baru:
                         typePasien = "Pasien Baru";
+                        txtLayoutNoRekamMedik.setVisibility(View.GONE);
                         break;
                 }
 
@@ -262,6 +268,7 @@ public class EditIdentitasDiri extends AbstractStep {
 
         String tanggalLahir =  thnLahirTxt + '-' + blnLahirTxt + '-' + tglLahirTxt;
 
+
        // Log.d(TAG,"jnsKelamin: " + jlTxt);
 
         b.putInt("position", poss);
@@ -307,6 +314,7 @@ public class EditIdentitasDiri extends AbstractStep {
         String pendidikanTxt = pendidikan.getText().toString();
         String pekerjaanTxt = pekerjaan.getText().toString();
         String gdTxt = golonganDarah.getText().toString();
+        String noTelpTxt = noTelp.getText().toString();
 
 
         if (namaTxt.isEmpty()){
@@ -370,6 +378,13 @@ public class EditIdentitasDiri extends AbstractStep {
             i++;
         } else {
             agama.setError(null);
+        }
+
+        if(noTelpTxt.isEmpty()){
+            noTelp.setError("No. Telepon harus diisi");
+            i++;
+        } else {
+            noTelp.setError(null);
         }
 
         if(pendidikanTxt.isEmpty()){
