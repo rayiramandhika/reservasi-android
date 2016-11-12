@@ -63,6 +63,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private void sendForgotPassword()
     {
 
+        if (!validate()) {
+            onFailed("Gagal Reset Password");
+            return;
+        }
+
         final ProgressDialog progressDialog = new ProgressDialog(ForgotPasswordActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
@@ -126,6 +131,21 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String password = _emailText.getText().toString();
+
+        if (password.isEmpty()) {
+            _emailText.setError("Email harus diisi");
+            valid = false;
+        } else {
+            _emailText.setError(null);
+        }
+
+        return valid;
     }
 
     private void onSuccess(JSONObject data)

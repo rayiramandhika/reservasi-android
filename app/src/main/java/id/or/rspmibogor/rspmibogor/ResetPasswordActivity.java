@@ -104,6 +104,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void resetPassword()
     {
+        
+        if (!validate()) {
+            onFailed("Gagal Reset Password");
+            return;
+        }
+
         _btnSend.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(ResetPasswordActivity.this);
@@ -179,6 +185,21 @@ public class ResetPasswordActivity extends AppCompatActivity {
         },
         2000);
 
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String password = _passwordText.getText().toString();
+
+        if (password.isEmpty()) {
+            _passwordText.setError("Password harus diisi");
+            valid = false;
+        } else {
+            _passwordText.setError(null);
+        }
+
+        return valid;
     }
 
     private void onFailed(String message)

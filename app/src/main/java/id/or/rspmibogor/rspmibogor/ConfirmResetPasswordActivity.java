@@ -78,6 +78,11 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
 
     private void sendConfirmation()
     {
+        if (!validate()) {
+            onFailed("Gagal Reset Password");
+            return;
+        }
+
         btnSend.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(ConfirmResetPasswordActivity.this);
@@ -152,6 +157,21 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String password = resetCode.getText().toString();
+
+        if (password.isEmpty()) {
+            resetCode.setError("Kode reset password harus diisi");
+            valid = false;
+        } else {
+            resetCode.setError(null);
+        }
+
+        return valid;
     }
 
     private void onSuccess(JSONObject data) throws JSONException {

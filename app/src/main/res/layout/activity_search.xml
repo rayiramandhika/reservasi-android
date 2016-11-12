@@ -77,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:text="Cari Dokter"
                 android:backgroundTint="@color/colorPrimary"
-                app:backgroundTint="@color/colorPrimary"
                 android:clickable="true"
                 android:textColor="#FFF"
                 android:elevation="6dp"
