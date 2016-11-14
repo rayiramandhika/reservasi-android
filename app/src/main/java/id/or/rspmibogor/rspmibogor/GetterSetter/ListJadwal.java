@@ -17,6 +17,8 @@ public class ListJadwal {
     private Integer dokter_id;
     private String layanan_nama;
     private Integer layanan_id;
+    private String poliklinik_nama;
+    private Integer poliklinik_id;
     private String jadwal_status;
     private String keterangan;
 
@@ -69,5 +71,21 @@ public class ListJadwal {
 
     public void setJadwal_sisaKuota(Integer jadwal_sisaKuota) {
         this.jadwal_sisaKuota = jadwal_sisaKuota;
+    }
+
+    public Integer getPoliklinik_id() {
+        return poliklinik_id;
+    }
+
+    public void setPoliklinik_id(Integer poliklinik_id) {
+        this.poliklinik_id = poliklinik_id;
+    }
+
+    public String getPoliklinik_nama() {
+        return poliklinik_nama;
+    }
+
+    public void setPoliklinik_nama(String poliklinik_nama) {
+        this.poliklinik_nama = poliklinik_nama;
     }
 }

@@ -84,6 +84,8 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                     b.putString("dokter_name", listJadwal.getDokter_nama());
                     b.putInt("layanan_id", listJadwal.getLayanan_id());
                     b.putString("layanan_name", listJadwal.getLayanan_nama());
+                    b.putInt("poliklinik_id", listJadwal.getPoliklinik_id());
+                    b.putString("poliklinik_name", listJadwal.getPoliklinik_nama());
                     b.putString("tanggal", listJadwal.getJadwal_tanggal());
                     b.putString("hari", listJadwal.getJadwal_hari());
                     b.putString("jam", jam);

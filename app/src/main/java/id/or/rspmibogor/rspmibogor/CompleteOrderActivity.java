@@ -51,6 +51,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
     TextView dokter_name;
     TextView layanan_name;
+    TextView poliklinik_name;
     TextView hari;
     TextView jam;
     TextView pasien_name;
@@ -59,6 +60,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
     Integer detailjadwal_id;
     Integer dokter_id;
     Integer layanan_id;
+    Integer poliklinik_id;
     Integer pasien_id;
     String tgl;
 
@@ -88,6 +90,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
 
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
+        poliklinik_name = (TextView) findViewById(R.id.poliklinik_name);
         hari = (TextView) findViewById(R.id.hari);
         jam = (TextView) findViewById(R.id.jam);
         pasien_name = (TextView) findViewById(R.id.pasien_name);
@@ -96,7 +99,8 @@ public class CompleteOrderActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
 
         dokter_name.setText(b.getString("dokter_name"));
-        layanan_name.setText(b.getString("layanan_name"));
+        layanan_name.setText("Layanan " + b.getString("layanan_name"));
+        poliklinik_name.setText("Poliklinik " + b.getString("poliklinik_name"));
         hari.setText(b.getString("hari") + ", " + b.get("tanggal"));
         jam.setText(b.getString("jam"));
         pasien_name.setText(b.getString("pasien_name"));
@@ -106,6 +110,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         dokter_id = b.getInt("dokter_id");
         detailjadwal_id = b.getInt("detailjadwal_id");
         layanan_id = b.getInt("layanan_id");
+        poliklinik_id = b.getInt("poliklinik_id");
         pasien_id = b.getInt("pasien_id");
         tgl = b.getString("tanggal");
 
@@ -157,6 +162,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
             object.put("detailjadwal_id", detailjadwal_id);
             object.put("dokter_id", dokter_id);
             object.put("layanan_id", layanan_id);
+            object.put("poliklinik_id", poliklinik_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

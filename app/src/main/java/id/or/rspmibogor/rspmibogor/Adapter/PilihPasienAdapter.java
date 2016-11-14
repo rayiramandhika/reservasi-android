@@ -49,16 +49,19 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
     final List<Pasien> Pasien;
     final Integer detailjadwal_id;
     final Integer layanan_id;
+    final Integer poliklinik_id;
     final Integer dokter_id;
     final String tanggal;
     final String hari;
     final String jam;
     final String layanan_name;
     final String dokter_name;
+    final String poliklinik_name;
 
     public PilihPasienAdapter(List<Pasien> pasien, Activity activity, Integer detailjadwal_id,
                               Integer layanan_id, Integer dokter_id, String tanggal,
-                              String hari, String jam, String layanan_name, String dokter_name)
+                              String hari, String jam, String layanan_name, String dokter_name,
+                              Integer poliklinik_id, String poliklinik_name)
     {
         super();
         this.Pasien = pasien;
@@ -71,6 +74,8 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         this.jam = jam;
         this.layanan_name = layanan_name;
         this.dokter_name = dokter_name;
+        this.poliklinik_id = poliklinik_id;
+        this.poliklinik_name = poliklinik_name;
 
         Log.d(TAG, "this" + this.detailjadwal_id);
 
@@ -103,6 +108,8 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
                     b.putInt("detailjadwal_id", detailjadwal_id);
                     b.putInt("layanan_id", layanan_id);
                     b.putString("layanan_name", layanan_name);
+                    b.putInt("poliklinik_id", poliklinik_id);
+                    b.putString("poliklinik_name", poliklinik_name);
                     b.putInt("dokter_id", dokter_id);
                     b.putString("dokter_name", dokter_name);
                     b.putString("tanggal", tanggal);

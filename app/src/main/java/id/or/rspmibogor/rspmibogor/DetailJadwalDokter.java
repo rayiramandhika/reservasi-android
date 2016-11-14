@@ -165,18 +165,19 @@ public class DetailJadwalDokter extends AppCompatActivity {
                             try {
 
                                 JSONObject layanan = data.getJSONObject("layanan");
+                                JSONObject poliklinik = data.getJSONObject("poliklinik");
                                 dokter_name.setText(data.getString("nama"));
                                 layanan_name.setText(layanan.getString("nama"));
 
                                 String uriFoto = data.getString("foto");
                                 initFoto(uriFoto);
-                                parseData(data, layanan);
+                                parseData(data, layanan, poliklinik);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                           // Log.d(TAG, "onResponse - detailjadwal" + data.toString());
+                           Log.d(TAG, "onResponse - detailjadwal" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -226,7 +227,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         requestQueue.add(req);
     }
 
-    private void parseData(JSONObject data, JSONObject layanan) {
+    private void parseData(JSONObject data, JSONObject layanan, JSONObject poliklinik) {
 
         JSONArray array = new JSONArray();
 
@@ -238,7 +239,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
             nodata.setVisibility(View.VISIBLE);
         }
 
-        if (array.length() > 1) {
+        if (array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
 
                 ListJadwal listJadwal = new ListJadwal();
@@ -252,6 +253,8 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setDokter_nama(data.getString("nama"));
                     listJadwal.setLayanan_id(layanan.getInt("id"));
                     listJadwal.setLayanan_nama(layanan.getString("nama"));
+                    listJadwal.setPoliklinik_id(poliklinik.getInt("id"));
+                    listJadwal.setPoliklinik_nama(poliklinik.getString("nama"));
 
                     listJadwal.setJadwal_hari(json.getString("hari"));
                     listJadwal.setJadwal_id(json.getInt("id"));
@@ -264,7 +267,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setKeterangan(json.getString("keterangan"));
 
                 } catch (JSONException e) {
-                    Log.d(TAG, "ListJadwal JSONException: " + e.toString());
+                    //Log.d(TAG, "ListJadwal JSONException: " + e.toString());
                     e.printStackTrace();
                 }
                 listJadwalDokter.add(listJadwal);
@@ -276,7 +279,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
     private void initFoto(String uriFoto)
     {
 
-        Log.d(TAG, "uriFoto: " + uriFoto);
+        //Log.d(TAG, "uriFoto: " + uriFoto);
         if(uriFoto.isEmpty())
         {
             dokter_foto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.noprofile));

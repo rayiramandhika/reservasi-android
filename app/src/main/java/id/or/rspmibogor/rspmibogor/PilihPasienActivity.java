@@ -79,10 +79,12 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
     Integer dokter_id;
     Integer detailjadwal_id;
     Integer layanan_id;
+    Integer poliklinik_id;
     String tanggal;
     String hari;
     String jam;
     String layanan_name = "";
+    String poliklinik_name = "";
     String dokter_name;
 
     private Integer refreshToken = 0;
@@ -139,16 +141,18 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         dokter_id = b.getInt("dokter_id");
         detailjadwal_id = b.getInt("detailjadwal_id");
         layanan_id = b.getInt("layanan_id");
+        poliklinik_id = b.getInt("poliklinik_id");
         tanggal = b.getString("tanggal");
         hari = b.getString("hari");
         jam = b.getString("jam");
         layanan_name = b.getString("layanan_name");
+        poliklinik_name = b.getString("poliklinik_name");
         dokter_name = b.getString("dokter_name");
 
         initData();
 
         mAdapter = new PilihPasienAdapter(listPasien, this, detailjadwal_id, layanan_id, dokter_id,
-                tanggal, hari, jam, layanan_name, dokter_name);
+                tanggal, hari, jam, layanan_name, dokter_name, poliklinik_id, poliklinik_name);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -157,8 +161,6 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(view.getContext(), PasienAddActivity.class);
-                startActivity(intent);*/
                 addPasien();
             }
         });
