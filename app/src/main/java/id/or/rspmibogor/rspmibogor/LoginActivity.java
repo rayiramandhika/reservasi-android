@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         final int right = _passwordText.getRight();
 
                         if(event.getRawX() >= (right - width)) {
+                            _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                             if(passwordView.equals(1))
                             {
                                 _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
@@ -110,18 +111,21 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     return false;
                 }else{
+                    _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                     if(passwordView.equals(1))
                     {
                         _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconPasswordView, null);
                         _passwordText.setInputType(InputType.TYPE_CLASS_TEXT |
                                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         _passwordText.setSelection(_passwordText.getText().length());
+                        passwordView = 1;
                     }else{
                         _passwordText.setCompoundDrawablesWithIntrinsicBounds(null, null, iconTextView, null);
                         _passwordText.setInputType(InputType.TYPE_CLASS_TEXT);
                         _passwordText.setSelection(_passwordText.getText().length());
+                        passwordView = 0;
                     }
-                    return false;
+                    return true;
                 }
             }
         });
