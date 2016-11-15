@@ -43,7 +43,7 @@ import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 public class SplashScreen extends AppCompatActivity {
     private final String Tag = "SplashScreen";
 
-    private static int splashInterval = 1000;
+    private static int splashInterval = 3000;
 
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesFirsTime;
