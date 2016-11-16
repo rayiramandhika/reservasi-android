@@ -32,6 +32,7 @@ import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
+    private static final int CONFIRM_EMAIL = 0;
 
     EditText _nameText;
     EditText _emailText;
@@ -208,6 +209,15 @@ public class SignupActivity extends AppCompatActivity {
         queue.add(putRequest);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CONFIRM_EMAIL) {
+            if (resultCode == RESULT_OK) {
+                this.finish();
+            }
+        }
+    }
+
 
     public void onSignupSuccess() {
         //_signupButton.setEnabled(true);
@@ -223,7 +233,7 @@ public class SignupActivity extends AppCompatActivity {
 
         intent.putExtras(b);
 
-        startActivity(intent);
+        startActivityForResult(intent, CONFIRM_EMAIL);
         //finish();
 
     }

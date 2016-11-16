@@ -239,7 +239,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
     }
 
     private void onSuccess(String token) {
-
+        setResult(RESULT_OK, null);
         final String jwtToken = token;
 
         //Log.d(TAG, "onLoginSuccess jwtToken: " + jwtToken);

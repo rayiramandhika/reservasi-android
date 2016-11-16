@@ -18,9 +18,9 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id="@+id/imageView"
-                android:src="@drawable/logo_pmi_white" />
+                android:src="@drawable/logo_rspmi_white" />
         </RelativeLayout>
 
         <LinearLayout

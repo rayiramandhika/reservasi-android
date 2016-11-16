@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/logo_pmi_white"
+        android:src="@drawable/logo_rspmi_white"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
