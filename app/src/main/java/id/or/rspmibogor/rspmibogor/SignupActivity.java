@@ -224,7 +224,7 @@ public class SignupActivity extends AppCompatActivity {
         intent.putExtras(b);
 
         startActivity(intent);
-        finish();
+        //finish();
 
     }
 
