@@ -332,7 +332,7 @@ public class EditIdentitasDiri extends AbstractStep {
         }*/
 
         if (wnTxt.isEmpty()){
-            wargaNegara.setError("No. ID harus diisi");
+            wargaNegara.setError("Warga Negara harus diisi");
             i++;
         } else {
             wargaNegara.setError(null);
