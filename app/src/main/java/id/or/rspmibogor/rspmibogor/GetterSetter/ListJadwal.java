@@ -21,6 +21,7 @@ public class ListJadwal {
     private Integer poliklinik_id;
     private String jadwal_status;
     private String keterangan;
+    private String keteranganCuti;
 
     public String getJadwal_hari() {return  jadwal_hari;}
     public void setJadwal_hari(String jadwal_hari) {this.jadwal_hari = jadwal_hari;}
@@ -87,5 +88,13 @@ public class ListJadwal {
 
     public void setPoliklinik_nama(String poliklinik_nama) {
         this.poliklinik_nama = poliklinik_nama;
+    }
+
+    public String getKeteranganCuti() {
+        return keteranganCuti;
+    }
+
+    public void setKeteranganCuti(String keteranganCuti) {
+        this.keteranganCuti = keteranganCuti;
     }
 }

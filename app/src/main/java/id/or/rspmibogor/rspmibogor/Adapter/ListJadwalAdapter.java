@@ -62,8 +62,8 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                     String hari = listJadwal.getJadwal_hari();
                     if(status.equals("cuti"))
                     {
-                        builder.setTitle("Dokter Cuti")
-                                .setMessage("Mohon maaf.\nPada hari " + hari + " dokter sedang cuti.")
+                        builder.setTitle("Mohon maaf")
+                                .setMessage("\nPada hari " + hari + " dokter "+ listJadwal.getKeteranganCuti() +".")
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
                     }else{
@@ -135,7 +135,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
         if(status.equals("cuti"))
         {
             viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
-            viewHolder.pesan.setText("Dokter Cuti");
+            viewHolder.pesan.setText(listJadwal.getKeteranganCuti());
             viewHolder.pesan.setPadding(16, 5, 16, 5);
 
         }else{

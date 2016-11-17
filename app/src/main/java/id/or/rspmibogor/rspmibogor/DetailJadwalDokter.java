@@ -265,6 +265,13 @@ public class DetailJadwalDokter extends AppCompatActivity {
                     listJadwal.setJadwal_sisaKuota(json.getInt("sisaKuota"));
                     listJadwal.setJadwal_status(json.getString("status"));
                     listJadwal.setKeterangan(json.getString("keterangan"));
+                    if(json.getString("status").equals("cuti"))
+                    {
+                        listJadwal.setKeteranganCuti(json.getString("keteranganCuti"));
+                    }else {
+                        listJadwal.setKeteranganCuti("");
+                    }
+
 
                 } catch (JSONException e) {
                     //Log.d(TAG, "ListJadwal JSONException: " + e.toString());
