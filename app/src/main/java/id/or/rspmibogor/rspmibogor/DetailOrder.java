@@ -142,7 +142,7 @@ public class DetailOrder extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 builderCancelOrder.setTitle("Batalkan Pendaftaran ")
-                        .setMessage("Apa kamu yakin akan membatalkan pendaftaran?")
+                        .setMessage("Apa Anda yakin akan membatalkan pendaftaran?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {

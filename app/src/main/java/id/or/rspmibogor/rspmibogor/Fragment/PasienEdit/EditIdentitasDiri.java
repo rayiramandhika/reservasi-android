@@ -308,7 +308,7 @@ public class EditIdentitasDiri extends AbstractStep {
         String blnLahirTxt = bulanLahir.getText().toString();
         String thnLahirTxt = tahunLahir.getText().toString();
         String jlTxt = jenisKelaminRadio.getText().toString();
-        String noIDTxt = noID.getText().toString();
+        //String noIDTxt = noID.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = pendidikan.getText().toString();
@@ -324,12 +324,12 @@ public class EditIdentitasDiri extends AbstractStep {
             nama.setError(null);
         }
 
-        if (noIDTxt.isEmpty()){
+        /*if (noIDTxt.isEmpty()){
             noID.setError("No. ID harus diisi");
             i++;
         } else {
             noID.setError(null);
-        }
+        }*/
 
         if (wnTxt.isEmpty()){
             wargaNegara.setError("No. ID harus diisi");

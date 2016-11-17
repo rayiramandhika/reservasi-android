@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -73,6 +74,21 @@ public class Pembayaran extends AbstractStep {
 
         initSpinner();
 
+        jenisPembayaran.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.d(TAG, "setOnItemClickListener - statusMarital position: " + position);
+                //Log.d(TAG, "setOnItemClickListener - statusMarital id: " + id);
+
+                if (position == 0)
+                {
+                    spinnerAsuransi.setEnabled(false);
+                }else{
+                    spinnerAsuransi.setEnabled(true);
+                }
+            }
+        });
+
         return v;
     }
 
@@ -88,6 +104,17 @@ public class Pembayaran extends AbstractStep {
 
     @Override
     public void onStepVisible() {
+
+        String jnsPembayaran = jenisPembayaran.getText().toString();
+        if (jnsPembayaran != null)
+        {
+            if(jnsPembayaran.equals("Tunai"))
+            {
+                spinnerAsuransi.setEnabled(false);
+            }else {
+                spinnerAsuransi.setEnabled(true);
+            }
+        }
     }
 
     @Override

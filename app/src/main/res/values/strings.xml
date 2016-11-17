@@ -39,6 +39,7 @@
         <item>Kristen</item>
         <item>Budha</item>
         <item>Hindu</item>
+        <item>Kong Hu Cu</item>
         <item>Lainnya</item>
     </string-array>
 
@@ -47,7 +48,6 @@
         <item>Sudah Kawin</item>
         <item>Janda</item>
         <item>Duda</item>
-        <item>Lainnya</item>
     </string-array>
 
     <string-array name="pendidikan">

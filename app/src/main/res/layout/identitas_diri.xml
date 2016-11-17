@@ -29,7 +29,7 @@
                 android:id="@+id/noID"
                 android:inputType="number"
                 android:layout_gravity="center_horizontal"
-                android:hint="No. NIK/KTP/SIM/ID *"
+                android:hint="No. NIK/KTP/ID"
                 android:elegantTextHeight="false"
                 android:maxLines="1" />
 

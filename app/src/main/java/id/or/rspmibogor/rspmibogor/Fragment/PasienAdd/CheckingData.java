@@ -126,7 +126,12 @@ public class CheckingData extends AbstractStep {
         pekerjaan.setText(identitas_diri.getString("pekerjaan"));
         golonganDarah.setText(identitas_diri.getString("golonganDarah"));
         statusMarital.setText(identitas_keluarga.getString("statusMarital"));
-        namaPasutri.setText(identitas_keluarga.getString("namaPasutri"));
+        if(identitas_keluarga.getString("statusMarital").equals("Sudah Kawin"))
+        {
+            namaPasutri.setText(identitas_keluarga.getString("namaPasutri"));
+        }else{
+            namaPasutri.setText(identitas_keluarga.getString(""));
+        }
         namaAyah.setText(identitas_keluarga.getString("namaAyah"));
         namaIbu.setText(identitas_keluarga.getString("namaIbu"));
         alamat.setText(identitas_alamat.getString("alamat"));
@@ -218,7 +223,13 @@ public class CheckingData extends AbstractStep {
         String pekerjaan = identitas_diri.getString("pekerjaan");
         String golonganDarah = identitas_diri.getString("golonganDarah");
         String statusMarital = identitas_keluarga.getString("statusMarital");
-        String namaPasutri = identitas_keluarga.getString("namaPasutri");
+        String namaPasutri = "";
+        if(statusMarital.equals("Sudah Kawin"))
+        {
+            namaPasutri = (identitas_keluarga.getString("namaPasutri"));
+        }else{
+            namaPasutri = "";
+        }
         String namaAyah = identitas_keluarga.getString("namaAyah");
         String namaIbu = identitas_keluarga.getString("namaIbu");
         String alamat = identitas_alamat.getString("alamat");

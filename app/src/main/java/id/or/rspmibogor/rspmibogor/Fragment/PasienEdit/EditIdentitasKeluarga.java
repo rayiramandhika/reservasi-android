@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,10 +58,34 @@ public class EditIdentitasKeluarga  extends AbstractStep {
 
         initSpinner();
 
+        statusMarital.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.d(TAG, "setOnItemClickListener - statusMarital position: " + position);
+                //Log.d(TAG, "setOnItemClickListener - statusMarital id: " + id);
+
+                if (position == 1)
+                {
+                    namaPasutri.setEnabled(true);
+                }else{
+                    namaPasutri.setEnabled(false);
+                }
+            }
+        });
+
         namaPasutri.setText(getArguments().getString("namaPasutri"));
         namaAyah.setText(getArguments().getString("namaAyah"));
         namaIbu.setText(getArguments().getString("namaIbu"));
         statusMarital.setText(getArguments().getString("statusMarital"));
+
+        String sttsMarital = getArguments().getString("statusMarital");
+        if(sttsMarital.equals("Sudah Kawin"))
+        {
+
+            namaPasutri.setEnabled(true);
+        }else{
+            namaPasutri.setEnabled(false);
+        }
 
         return v;
     }
@@ -77,6 +102,16 @@ public class EditIdentitasKeluarga  extends AbstractStep {
 
     @Override
     public void onStepVisible() {
+        String sttsMarital = statusMarital.getText().toString();
+        if (sttsMarital != null)
+        {
+            if(sttsMarital.equals("Sudah Kawin"))
+            {
+                namaPasutri.setEnabled(true);
+            } else {
+                namaPasutri.setEnabled(false);
+            }
+        }
     }
 
     @Override

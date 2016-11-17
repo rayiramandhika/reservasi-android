@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -76,14 +77,32 @@ public class EditPembayaran extends AbstractStep {
 
         initSpinner();
 
+        jenisPembayaran.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.d(TAG, "setOnItemClickListener - statusMarital position: " + position);
+                //Log.d(TAG, "setOnItemClickListener - statusMarital id: " + id);
+
+                if (position == 0)
+                {
+                    spinnerAsuransi.setEnabled(false);
+                }else{
+                    spinnerAsuransi.setEnabled(true);
+                }
+            }
+        });
+
         String nmAsuransi = getArguments().getString("namaPenjamin");
         //Log.d(TAG, "nmAsuransi: " + nmAsuransi);
         if(getArguments().getString("jenisPembayaran").equals("Asuransi"))
         {
             Integer idx = listAsuransi.indexOf(nmAsuransi);
             //Log.d(TAG, "idx.asuransi: " + idx);
+            spinnerAsuransi.setEnabled(true);
             spinnerAsuransi.setSelection(idx);
             spinnerAsuransi.setSelected(true);
+        }else if(getArguments().getString("jenisPembayaran").equals("Tunai")){
+            spinnerAsuransi.setEnabled(false);
         }
 
 
@@ -102,6 +121,18 @@ public class EditPembayaran extends AbstractStep {
 
     @Override
     public void onStepVisible() {
+
+        String jnsPembayaran = jenisPembayaran.getText().toString();
+        if (jnsPembayaran != null)
+        {
+            if(jnsPembayaran.equals("Tunai"))
+            {
+                spinnerAsuransi.setEnabled(false);
+            }else {
+                spinnerAsuransi.setEnabled(true);
+            }
+        }
+
     }
 
     @Override

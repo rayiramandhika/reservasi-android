@@ -62,7 +62,6 @@ public class IdentitasPasien extends AbstractStep {
 
     private TextInputLayout txtLayoutNoRekamMedik;
 
-
     String jnsKelamin = "Laki-laki";
     String typePasien = "Pasien Lama";
 
@@ -239,7 +238,7 @@ public class IdentitasPasien extends AbstractStep {
         String blnLahirTxt = bulanLahir.getText().toString();
         String thnLahirTxt = tahunLahir.getText().toString();
         String jlTxt = jenisKelaminRadio.getText().toString();
-        String noIDTxt = noID.getText().toString();
+        //String noIDTxt = noID.getText().toString();
         String wnTxt = wargaNegara.getText().toString();
         String agamaTxt = agama.getText().toString();
         String pendidikanTxt = agama.getText().toString();
@@ -255,12 +254,12 @@ public class IdentitasPasien extends AbstractStep {
             nama.setError(null);
         }
 
-        if (noIDTxt.isEmpty()){
+        /*if (noIDTxt.isEmpty()){
             noID.setError("No. ID harus diisi");
             i++;
         } else {
             noID.setError(null);
-        }
+        }*/
 
         if (wnTxt.isEmpty()){
             wargaNegara.setError("No. ID harus diisi");

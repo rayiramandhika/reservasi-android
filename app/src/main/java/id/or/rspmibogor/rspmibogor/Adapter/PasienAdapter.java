@@ -170,7 +170,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
         new AlertDialog.Builder(activity)
                 .setTitle("Hapus Pasien")
-                .setMessage("Apa kamu yakin akan menghapus pasien?")
+                .setMessage("Apa Anda yakin akan menghapus pasien?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {

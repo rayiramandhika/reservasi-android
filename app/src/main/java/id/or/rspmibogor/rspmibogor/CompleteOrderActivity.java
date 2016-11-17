@@ -123,7 +123,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 builder.setTitle("Pendaftaran")
-                        .setMessage("Apa kamu yakin data pendaftaran sudah benar?")
+                        .setMessage("Apa Anda yakin data pendaftaran sudah benar?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
