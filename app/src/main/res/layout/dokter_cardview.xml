@@ -33,7 +33,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Nama Dokter"
                 android:id="@+id/dokter_name"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textSize="16dp" />
 
             <TextView
