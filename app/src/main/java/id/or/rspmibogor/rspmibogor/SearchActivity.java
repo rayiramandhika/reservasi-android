@@ -129,7 +129,7 @@ public class SearchActivity extends AppCompatActivity {
     {
 
         spinnerLayanan = (SearchableSpinner) findViewById(R.id.spinnerLayanan);
-        spinnerLayanan.setTitle("Pilih Layanan");
+        spinnerLayanan.setTitle("Pilih Klinik");
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
