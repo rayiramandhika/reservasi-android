@@ -96,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutLokasi">
 
                     <ImageView
                         android:id="@+id/imgLocation"
@@ -122,7 +123,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutPhone">
 
                     <ImageView
                         android:id="@+id/imgPhone"
@@ -173,7 +175,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutEmail">
 
                     <ImageView
                         android:id="@+id/imgEmail"
@@ -199,7 +202,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutWeb">
 
                     <ImageView
                         android:id="@+id/imgWeb"
@@ -216,6 +220,58 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="www.rspmibogor.or.id"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutFacebook">
+
+                    <ImageView
+                        android:id="@+id/imgFacebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="40px"
+                        android:layout_weight="4"
+                        android:clickable="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_facebook"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="RS PMI Bogor"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/lnrLayoutInstagram">
+
+                    <ImageView
+                        android:id="@+id/imgInstargram"
+                        android:layout_width="match_parent"
+                        android:layout_height="40px"
+                        android:layout_weight="4"
+                        android:clickable="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_instagram"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="RS PMI Bogor"/>
 
 
                 </LinearLayout>
