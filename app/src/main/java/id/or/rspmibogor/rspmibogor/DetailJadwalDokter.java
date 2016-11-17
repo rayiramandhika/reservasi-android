@@ -167,7 +167,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                                 JSONObject layanan = data.getJSONObject("layanan");
                                 JSONObject poliklinik = data.getJSONObject("poliklinik");
                                 dokter_name.setText(data.getString("nama"));
-                                layanan_name.setText(layanan.getString("nama"));
+                                layanan_name.setText("Klinik " + layanan.getString("nama"));
 
                                 String uriFoto = data.getString("foto");
                                 initFoto(uriFoto);

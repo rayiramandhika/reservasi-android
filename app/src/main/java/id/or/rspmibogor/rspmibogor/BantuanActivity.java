@@ -74,7 +74,7 @@ public class BantuanActivity extends AppCompatActivity {
 
                 header.add("Ketentuan Layanan");
                 child1.add("1. Pendaftaran hanya dapat dilakukan untuk poliklinik Afiat\n \n" +
-                        "2. Jadwal Dokter dapat berubah sesuai kebijakan. Setiap jadwal yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk (Jika anda telah melakukan pendaftaran pada jadwal yang berubah tersebut) \n \n" +
+                        "2. Jadwal Dokter dapat berubah sesuai kebijakan. Setiap jadwal yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk (Jika Anda telah melakukan pendaftaran pada jadwal yang berubah tersebut).\nPastikan sebelum Anda datang ke RS PMI Bogor bahwa tidak ada perubahan jadwal yang Anda terima di notifikasi / menu kotak masuk. \n \n" +
                         "3. Jadwal Dokter untuk Pendaftaran Online hanya tersedia untuk H+1 s.d H+7. \n \n" +
                         "4. Anda dapat memberi penilaian terhadap layanan RS PMI Bogor di halaman detail pendaftaran. \n \n" +
                         "5. Setiap pendaftaran yang telah anda lakukan membutuhkan konfirmasi kedatangan pada hari H agar memastikan bahwa anda akan datang ke RS PMI Bogor. \n \n" +
@@ -130,7 +130,7 @@ public class BantuanActivity extends AppCompatActivity {
             }else if(i == 7) {
 
                 header.add("Perubahan Jadwal Dokter");
-                child6.add("Setiap perubahan jadwal dokter yang telah anda daftarakan, kami akan mengirim informasi melalui notifikasi / pada menu kotak masuk. Pastikan sebelum anda datang ke RS PMI Bogor bahwa tidak ada peruabahan jadwal yang anda terima di notifikasi / menu kotak masuk.");
+                child6.add("Setiap jadwal dokter yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk (Jika anda telah melakukan pendaftaran pada jadwal yang berubah tersebut).\nPastikan sebelum Anda datang ke RS PMI Bogor bahwa tidak ada perubahan jadwal yang Anda terima di notifikasi / menu kotak masuk.");
 
 
             }else if(i == 8) {

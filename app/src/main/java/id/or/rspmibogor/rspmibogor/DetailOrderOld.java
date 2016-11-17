@@ -411,7 +411,7 @@ public class DetailOrderOld extends AppCompatActivity {
         String uriFoto = dokter.getString("foto");
         initFoto(uriFoto);
 
-        layanan_name.setText(layanan.getString("nama"));
+        layanan_name.setText("Klinik " + layanan.getString("nama"));
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
         jam.setText("Pkl. " + detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));

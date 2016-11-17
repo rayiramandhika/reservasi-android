@@ -99,7 +99,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
 
         dokter_name.setText(b.getString("dokter_name"));
-        layanan_name.setText("Layanan " + b.getString("layanan_name"));
+        layanan_name.setText("Klinik " + b.getString("layanan_name"));
         poliklinik_name.setText("Poliklinik " + b.getString("poliklinik_name"));
         hari.setText(b.getString("hari") + ", " + b.get("tanggal"));
         jam.setText(b.getString("jam"));
@@ -186,7 +186,11 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         builder.setTitle("Pendaftaran Berhasil")
                         .setCancelable(false)
                         .setMessage("Anda diminta untuk melakukan konfirmasi pada hari H sebelum pukul 07.30 ( jika jadwal praktek dokter dimulai sebelum jam 15.00) atau sebelum jam 14.30 (jika jadwal praktek dokter dimulai setelah jam 15.00). \n" +
-                                "Silahkan melakukan konfirmasi di halaman detail pendaftaran. \n \nTerima Kasih.")
+                                "Silahkan melakukan konfirmasi di halaman detail pendaftaran. \n \n" +
+                                "Jika Anda tidak melakukan konfirmasi atau melakukan konfirmasi melebihi ketentuan waktu yang telah di tetapkan maka pendaftaran di anggap batal. \n \n" +
+                                "Setiap jadwal dokter yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk.\nPastikan sebelum Anda datang ke RS PMI Bogor bahwa tidak ada perubahan jadwal yang Anda terima di notifikasi / menu kotak masuk.\n \n" +
+
+                                "Terima Kasih.")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

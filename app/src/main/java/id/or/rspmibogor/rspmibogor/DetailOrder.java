@@ -228,7 +228,8 @@ public class DetailOrder extends AppCompatActivity {
             builder.setTitle("Informasi")
                     .setCancelable(false)
                     .setMessage("1. Konfirmasi pendaftaran dapat dilakukan pada hari H sebelum pukul 07.30 ( jika jadwal praktek dokter dimulai sebelum jam 15.00) atau sebelum jam 14.30 (jika jadwal praktek dokter dimulai setelah jam 15.00)." +
-                            "\n \n2. Jika Anda tidak melakukan konfirmasi maka pendaftaran dianggap batal.")
+                            "\n \n2. Jika Anda tidak melakukan konfirmasi atau melakukan konfirmasi melebihi ketentuan waktu yang telah di tetapkan maka pendaftaran di anggap batal." +
+                            "\n \n 3. Setiap jadwal dokter yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk.\nPastikan sebelum Anda datang ke RS PMI Bogor bahwa tidak ada perubahan jadwal yang Anda terima di notifikasi / menu kotak masuk.")
                     .setPositiveButton(android.R.string.yes, null)
                     .show();
         }
@@ -326,7 +327,7 @@ public class DetailOrder extends AppCompatActivity {
         String uriFoto = dokter.getString("foto");
         initFoto(uriFoto);
 
-        layanan_name.setText(layanan.getString("nama"));
+        layanan_name.setText("Klinik " + layanan.getString("nama"));
         tanggal.setText(detailjadwal.getString("hari") + ", " + data.getString("tanggal"));
         jam.setText("Pkl. " + detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
         pasien_name.setText(pasien.getString("nama"));

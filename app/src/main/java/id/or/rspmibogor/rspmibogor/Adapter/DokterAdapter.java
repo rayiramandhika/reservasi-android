@@ -85,7 +85,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
         Dokter dokter =  Dokter.get(position);
 
         viewHolder.dokter_name.setText(dokter.getDokter_name());
-        viewHolder.layanan_name.setText(dokter.getLayanan_name());
+        viewHolder.layanan_name.setText("Klinik " + dokter.getLayanan_name());
 
         final ImageView foto = viewHolder.foto;
 

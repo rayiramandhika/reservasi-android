@@ -129,7 +129,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             hari.setText(newOrder.getDetailjadwal_hari());
             jadwal.setText("Pkl. " + newOrder.getDetailjadwal_jammulai() + " . " + newOrder.getDetailjadwal_jamtutup());
             dokter_name.setText(newOrder.getDokter_name());
-            layanan_name.setText(newOrder.getLayanan_name());
+            layanan_name.setText("Klinik " + newOrder.getLayanan_name());
             tanggal.setText(newOrder.getOrder_tanggal());
         }
     }
