@@ -87,7 +87,7 @@ public class BantuanActivity extends AppCompatActivity {
 
                 header.add("Cara Melakukan Pendaftaran ");
                 child2.add("1. Untuk melakukan pendataftaran Anda dapat masuk ke menu jadwal dokter, lalu memilih dokter yang akan Anda kunjungi. \n \n  \n" +
-                        "2. Setelah muncul halaman cari dokter silahkan pilih layanan yang akan Anda kunjungi (misal: Layanan Anak).\n \n  \n" +
+                        "2. Setelah muncul halaman cari dokter silahkan pilih klinik yang akan Anda kunjungi (misal: Klinik Anak).\n \n  \n" +
                         "3. Setelah muncul halaman list jadwal dokter pilih jadwal yang akan di kunjungi (Jadwal hanya dapat di pesan H+1 s.d H+7). \n \n  \n" +
                         "4. Setalah Anda memliih jadwal yang akan dikunjungi Anda harus memilih pasien (pasien akan difilter berdasarkan kriteria Jadwak Dokter yang Anda pilih) yang akan di daftarkan pada pendaftaran tersebut (Jika Pasien belum ada , Anda dapat menambahankan nya dengan masuk ke menu pasien atau dengan menekan tombol + di bawah kanan). \n \n  \n" +
                         "5. Setiap pendaftaran membutuhkan konfirmasi kedatangan pada hari H, untuk melakukan konfirmasi Anda bisa pilih menu pendaftaran" +
@@ -95,14 +95,14 @@ public class BantuanActivity extends AppCompatActivity {
                         ", Setelah masuk ke detail pendaftaran, Anda dapat menekan tombol konfirmasi dibawah. \n  \n  \n" +
                         "5.1 Konfirmasi hanya bisa dilakukan pada hari H. \n  \n" +
                         "5.2 Konfirmasi hanya bisa dilakukan sebelum jam 07.30 ( jika jadwal praktek dokter dimulai sebelum jam 15.00) atau sebelum jam 14.30 (jika jadwal praktek dokter dimulai setelah jam 15.00). \n  \n" +
-                        "5.3 Jika Anda tidak melakukan konfirmasi atau melakukan konfirmasi melebihi ketentuan waktu maka pendaftaran di anggap batal. ");
+                        "5.3 Jika Anda tidak melakukan konfirmasi atau melakukan konfirmasi melebihi ketentuan waktu yang telah di tetapkan maka pendaftaran di anggap batal. ");
 
             }else if(i == 4) {
 
                 header.add("Car Beri Penilaian Pelayanan RS PMI Bogor");
-                child3.add("1. Untuk memberi penialaian terhadap pelayanan RS PMI Bogor Anda dapat masuk ke menu pendaftaran dan memilih tab pendaftaran lama. \n \n" +
+                child3.add("1. Untuk memberi penilaian terhadap pelayanan RS PMI Bogor Anda dapat masuk ke menu pendaftaran dan memilih tab pendaftaran lama. \n \n" +
                         "2. Lalu pilih pendaftaran yang akan diberi penilaian. \n \n" +
-                        "3. Setelah masuk ke detail pendaftaran lama ada silahkan pilih rating yang akan Anda berikan sesuai gambar / icon yang telah disediakan. \n \n" +
+                        "3. Setelah masuk ke detail pendaftaran lama, Silahkan pilih rating yang akan Anda berikan sesuai gambar / icon yang telah disediakan. \n \n" +
                         "4. Lalu mengisi form Saran yang perlu di perbaiki. \n \n" +
                         "5. Kemudian tekan tombol kirim disamping Kanan form Saran.");
 
@@ -110,9 +110,9 @@ public class BantuanActivity extends AppCompatActivity {
             }else if(i == 5) {
 
             header.add("Cara Konfirmasi Kedatangan Pendaftaran");
-            child4.add("1. Setiap pendaftaran membutuhkan konfirmasi kedatangan pada hari H, untuk melakukan konfirmasi Anda bisa pilih menu pendaftaran" +
+            child4.add("1. Untuk melakukan konfirmasi Anda bisa pilih menu pendaftaran" +
                         ", Lalu pilih pendaftaran yang akan Anda konfirmasi" +
-                        ", Setelah masuk ke detail pendaftaran , Anda dapat menekan tombol konfirmasi yang ada dibawah. \n  \n  \n" +
+                        ", Setelah masuk ke detail pendaftaran , Anda dapat menekan tombol konfirmasi berwarna biru yang ada dibawah. \n  \n  \n" +
                         "1.1 Konfirmasi hanya bisa dilakukan pada hari H. \n  \n" +
                         "1.2 Konfirmasi hanya bisa dilakukan sebelum jam 07.30 ( jika jadwal praktek dokter dimulai sebelum jam 15.00) atau sebelum jam 14.30 (jika jadwal praktek dokter dimulai setelah jam 15.00). \n  \n" +
                         "1.3 Jika Anda tidak melakukan konfirmasi atau melakukan konfirmasi melebihi ketentuan waktu yang telah di tetapkan maka pendaftaran di anggap batal.");

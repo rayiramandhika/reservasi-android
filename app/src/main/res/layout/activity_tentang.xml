@@ -241,11 +241,11 @@
                     <ImageView
                         android:id="@+id/imgFacebook"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
                         android:layout_weight="4"
                         android:clickable="false"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_facebook"/>
+                        android:src="@drawable/ic_facebook"
+                        android:layout_height="20dp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -268,11 +268,11 @@
                     <ImageView
                         android:id="@+id/imgInstargram"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
                         android:layout_weight="4"
                         android:clickable="false"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_instagram"/>
+                        android:src="@drawable/ic_instagram"
+                        android:layout_height="20dp" />
 
                     <TextView
                         android:layout_width="match_parent"
