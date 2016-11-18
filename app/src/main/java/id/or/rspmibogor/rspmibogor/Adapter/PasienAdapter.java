@@ -387,7 +387,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                             }
                         }
 
-                        Toast.makeText(activity, "Pasien Gagal dihapus.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Pasien Gagal dihapus, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("deleteFromServer - Error.Response", String.valueOf(error));
                     }
                 }
@@ -400,7 +400,10 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
                 return params;
             }
         };
-
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
     }
 }

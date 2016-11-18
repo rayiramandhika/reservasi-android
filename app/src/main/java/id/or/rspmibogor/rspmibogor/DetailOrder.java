@@ -509,7 +509,7 @@ public class DetailOrder extends AppCompatActivity {
                             }
                         }
 
-                        Toast.makeText(getBaseContext(), "Pendaftaran Gagal dibatalkan.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Pendaftaran gagal dibatalkan, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d("cancelOrder - Error.Response", String.valueOf(error));
                     }
                 }
@@ -599,7 +599,7 @@ public class DetailOrder extends AppCompatActivity {
                         }
 
                         error.printStackTrace();
-                        Toast.makeText(getBaseContext(), "Konfirmasi Gagal.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Konfirmasi pendaftaran gagal, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
 
                     }
                 }

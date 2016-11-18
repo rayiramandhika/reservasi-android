@@ -384,7 +384,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             }
                         }else if(error instanceof AuthFailureError)
                         {
-                            Log.d(TAG, "Token: " + jwTokenSP);
+                            //Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -393,7 +393,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         error.printStackTrace();
                         spinner.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Gagal memuat data baru, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
@@ -527,7 +527,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
                             }
                         }else if(error instanceof AuthFailureError)
                         {
-                            Log.d(TAG, "Token: " + jwTokenSP);
+                            //Log.d(TAG, "Token: " + jwTokenSP);
                             if(jwTokenSP != null){
                                 User user = new User();
                                 user.refreshToken(jwTokenSP, getBaseContext());
@@ -536,7 +536,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
 
                         error.printStackTrace();
                         swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getBaseContext(), "Gagal memuat data baru", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Gagal memuat data baru, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

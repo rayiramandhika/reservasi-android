@@ -58,7 +58,7 @@ public class FirebaseNotifService extends FirebaseMessagingService {
         String activity = remoteMessage.getNotification().getClickAction();
         String id = remoteMessage.getData().get("id");
 
-        Log.d(TAG, "click_action: " + activity);
+        //Log.d(TAG, "click_action: " + activity);
         //Log.d(TAG, "id: " + id);
 
         PendingIntent mPendingIntent;

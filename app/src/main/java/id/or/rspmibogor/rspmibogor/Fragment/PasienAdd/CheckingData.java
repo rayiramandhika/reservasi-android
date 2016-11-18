@@ -18,10 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -114,8 +116,13 @@ public class CheckingData extends AbstractStep {
 
         noID.setText(identitas_diri.getString("noID"));
         typePasien.setText(identitas_diri.getString("type"));
+        if(identitas_diri.getString("type").equals("Pasien Lama"))
+        {
+            noRekamMedik.setText(identitas_diri.getString("noRekamMedik"));
+        }else{
+            noRekamMedik.setText("");
+        }
         wargaNegara.setText(identitas_diri.getString("wargaNegara"));
-        noRekamMedik.setText(identitas_diri.getString("noRekamMedik"));
         noTelp.setText(identitas_diri.getString("noTelp"));
         nama.setText(identitas_diri.getString("nama"));
         tempatLahir.setText(identitas_diri.getString("tempatLahir"));
@@ -211,8 +218,12 @@ public class CheckingData extends AbstractStep {
 
         String noID = identitas_diri.getString("noID");
         String type = identitas_diri.getString("type");
+        String noRekamMedik = "";
+        if(type.equals("Pasien Lama"))
+        {
+            noRekamMedik = identitas_diri.getString("noRekamMedik");
+        }
         String wargaNegara = identitas_diri.getString("wargaNegara");
-        String noRekamMedik = identitas_diri.getString("noRekamMedik");
         String noTelp = identitas_diri.getString("noTelp");
         String nama = identitas_diri.getString("nama");
         String tempatLahir = identitas_diri.getString("tempatLahir");
@@ -318,7 +329,7 @@ public class CheckingData extends AbstractStep {
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(jwTokenSP != null){
@@ -338,7 +349,7 @@ public class CheckingData extends AbstractStep {
                         }
 
                         progressDialog.dismiss();
-                        Toast.makeText(activity, "Pasien Gagal disimpan", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Pasien gagal disimpan, Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                         //Log.d(TAG, "SaveData - Error.Response" + String.valueOf(error));
                     }
                 }
@@ -351,7 +362,10 @@ public class CheckingData extends AbstractStep {
                 return params;
             }
         };
-
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
     }
 

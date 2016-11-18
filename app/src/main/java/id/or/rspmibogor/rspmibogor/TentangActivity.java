@@ -119,7 +119,7 @@ public class TentangActivity extends AppCompatActivity implements View.OnClickLi
             i.setType("message/rfc822");
             i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"admin@rspmibogor.or.id"});
             try {
-                startActivity(Intent.createChooser(i, "Kirim email"));
+                startActivity(Intent.createChooser(i, "Kirim Email"));
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(this, "Gagal mengirim email, Aplikasi Email tidak ditemukan.", Toast.LENGTH_SHORT).show();
             }
@@ -146,7 +146,7 @@ public class TentangActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(Intent.ACTION_VIEW, uriUrl);
 
                 try {
-                    startActivity(Intent.createChooser(intent, "Buka Facebook PMI"));
+                    startActivity(Intent.createChooser(intent, "Buka Facebook"));
                 } catch (android.content.ActivityNotFoundException e) {
                     Toast.makeText(this, "Gagal membuka Facebook, Aplikasi Facebook / Browser tidak ditemukan.", Toast.LENGTH_SHORT).show();
                 }
@@ -165,7 +165,7 @@ public class TentangActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(Intent.ACTION_VIEW, uriUrl);
 
                 try {
-                    startActivity(Intent.createChooser(intent, "Buka Instagram PMI"));
+                    startActivity(Intent.createChooser(intent, "Buka Instagram"));
                 } catch (android.content.ActivityNotFoundException e) {
                     Toast.makeText(this, "Gagal membuka Instagram, Aplikasi Instagram / Browser tidak ditemukan.", Toast.LENGTH_SHORT).show();
                 }

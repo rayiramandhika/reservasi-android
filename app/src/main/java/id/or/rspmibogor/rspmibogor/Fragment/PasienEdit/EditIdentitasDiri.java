@@ -207,7 +207,7 @@ public class EditIdentitasDiri extends AbstractStep {
         }
 
         String jl = getArguments().getString("jenisKelamin").trim().toString();
-        Log.d(TAG, "jenis kelamin" + jl);
+        //Log.d(TAG, "jenis kelamin" + jl);
         if(jl.equals("Laki-laki")){
             rgLaki.setChecked(true);
             jnsKelamin = "Laki-laki";
@@ -292,7 +292,7 @@ public class EditIdentitasDiri extends AbstractStep {
 
     @Override
     public void onPrevious() {
-        Log.d(TAG, "onPrevious");
+        //Log.d(TAG, "onPrevious");
     }
 
 

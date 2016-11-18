@@ -317,7 +317,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
                             if(rate != "null" && !rate.trim().isEmpty())
                             {
-                                Log.d(TAG, "rate" + rate);
+                                //Log.d(TAG, "rate" + rate);
 
                                 saranFormLayout.setVisibility(View.GONE);
                                 saranTextLayout.setVisibility(View.VISIBLE);

@@ -79,7 +79,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         detailJadwalDokter = this;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Detail Jadwal Dokter");
+        toolbar.setTitle("Jadwal Dokter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -177,7 +177,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                           Log.d(TAG, "onResponse - detailjadwal" + data.toString());
+                          // Log.d(TAG, "onResponse - detailjadwal" + data.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
