@@ -213,6 +213,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CONFIRM_EMAIL) {
             if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK, null);
                 this.finish();
             }
         }
