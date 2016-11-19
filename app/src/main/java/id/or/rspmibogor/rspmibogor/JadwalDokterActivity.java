@@ -266,7 +266,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
     }
 
     private void parseData(JSONArray array){
-
+        Log.d(TAG, "Array.length() " + array.length());
         if(array.length() > 0) {
 
             container.setVisibility(View.VISIBLE);

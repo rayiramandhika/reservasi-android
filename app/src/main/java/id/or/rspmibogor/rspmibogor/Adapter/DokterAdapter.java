@@ -91,7 +91,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
 
         String uriFoto = dokter.getDokter_foto();
 
-        if(uriFoto.isEmpty())
+        if(uriFoto == null)
         {
             foto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.noprofile));
         }else {

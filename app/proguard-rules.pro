@@ -15,3 +15,32 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep class com.synnapps.carouselview.** { *; }
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v7.app.** { *; }
+-keep interface android.support.v7.app.** { *; }
+-keep class android.support.v7.widget.SearchView { *; }
+
+-dontwarn sun.misc.Unsafe
+
+-dontwarn javax.annotation.**
+-dontwarn javax.lang.model.element.**
+-dontwarn javax.lang.model.type.**
+-dontwarn javax.lang.model.SourceVersion
+-dontwarn javax.lang.model.util.Types
+-dontwarn javax.tools.Diagnostic**
+-dontwarn javax.tools.JavaFileObject**
