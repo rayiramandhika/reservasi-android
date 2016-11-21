@@ -303,6 +303,10 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
         requestQueue.add(req);
     }
 
@@ -426,6 +430,10 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
         requestQueue.add(req);
     }
 
@@ -547,6 +555,10 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
         requestQueue.add(req);
     }
 
