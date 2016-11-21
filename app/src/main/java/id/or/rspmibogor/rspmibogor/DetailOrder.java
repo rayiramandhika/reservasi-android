@@ -25,10 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -89,6 +91,7 @@ public class DetailOrder extends AppCompatActivity {
     Integer confirmed = 0;
     Integer hariH = 0;
     private Integer refreshToken = 0;
+    private TextView confirmTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,7 @@ public class DetailOrder extends AppCompatActivity {
         jam = (TextView) findViewById(R.id.jam);
         pasien_name = (TextView) findViewById(R.id.pasien_name);
         confirmedTxt = (TextView) findViewById(R.id.confirmed);
+        confirmTime = (TextView) findViewById(R.id.timeConfirm);
 
         buttonBatal = (Button) findViewById(R.id.btnBatal);
         buttonConfirm = (Button) findViewById(R.id.btnConfirm);
@@ -386,6 +390,7 @@ public class DetailOrder extends AppCompatActivity {
         timeToday = tf.parseDateTime(time);
 
 
+
         long diffDay = Days.daysBetween(orderDate.toLocalDate(), today.toLocalDate()).getDays();
 
         long diffPraktek = Minutes.minutesBetween(shiftSiang, jamPraktek).getMinutes();
@@ -436,6 +441,13 @@ public class DetailOrder extends AppCompatActivity {
 
             confirm = 0;
 
+        }
+
+        //set text Max. Time Confirm
+        if(diffPraktek < 0){
+            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda Konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
+        }else if(diffPraktek >= 0){
+            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 14.30, Jika Anda Konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
         }
 
     }
@@ -522,6 +534,11 @@ public class DetailOrder extends AppCompatActivity {
                 return params;
             }
         };
+
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
 
         queue.add(putRequest);
     }
@@ -613,6 +630,10 @@ public class DetailOrder extends AppCompatActivity {
             }
         };
 
+        int socketTimeOut = 15000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        putRequest.setRetryPolicy(policy);
         queue.add(putRequest);
     }
 
