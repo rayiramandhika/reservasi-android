@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         private final TextView pasien_umur;
         private final ImageView menuMore;
         private final ImageView pasienFoto;
+        private final RelativeLayout rltvMenuEditPasien;
 
         public ViewHolder(View v) {
             super(v);
@@ -101,6 +103,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
             pasien_umur = (TextView) v.findViewById(R.id.pasien_umur);
             menuMore = (ImageView) v.findViewById(R.id.menu_pasien);
             pasienFoto = (ImageView) v.findViewById(R.id.pasien_foto);
+            rltvMenuEditPasien = (RelativeLayout) v.findViewById(R.id.rltvMenuEditPasien);
         }
     }
 
@@ -131,6 +134,35 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
             @Override
             public void onClick(View view) {
 
+                PopupMenu popup = new PopupMenu(activity, viewHolder.menuMore);
+
+                popup.getMenuInflater()
+                        .inflate(R.menu.menu_pasien, popup.getMenu());
+
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Integer pasien_id = pasien.getPasien_id();
+                        String title = item.getTitle().toString();
+                        switch (title){
+                            case "Edit":
+                                editPasien(pasien);
+                                break;
+                            case "Hapus":
+                                deletePasien(pasien_id, position);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
+        viewHolder.rltvMenuEditPasien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(activity, viewHolder.menuMore);
 
                 popup.getMenuInflater()
