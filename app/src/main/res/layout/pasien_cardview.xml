@@ -44,7 +44,9 @@
                 android:textSize="20dp"
                 android:layout_alignBottom="@+id/pasien_foto"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -65,7 +67,8 @@
                     android:textSize="15dp"
                     android:text=" - "
                     android:layout_centerHorizontal="true"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/separator" />
 
                 <TextView
                     android:layout_width="wrap_content"

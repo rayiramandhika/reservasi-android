@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,6 +93,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         private final TextView pasien_umur;
         private final ImageView menuMore;
         private final ImageView pasienFoto;
+        private final TextView separator;
 
         public ViewHolder(View v) {
             super(v);
@@ -127,6 +129,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
             pasien_umur = (TextView) v.findViewById(R.id.pasien_umur);
             menuMore = (ImageView) v.findViewById(R.id.menu_pasien);
             pasienFoto = (ImageView) v.findViewById(R.id.pasien_foto);
+            separator = (TextView) v.findViewById(R.id.separator);
         }
     }
 
@@ -143,11 +146,24 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         final Pasien pasien =  Pasien.get(position);
 
         viewHolder.pasien_name.setText(pasien.getPasien_name());
-        viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
         viewHolder.menuMore.setVisibility(View.GONE);
 
-        String jenisKelamin = pasien.getPasien_jenisKelamin();
+        String jenisKelamin = "";
+        jenisKelamin = pasien.getPasien_jenisKelamin();
+        String noRekamMedik = "";
+        noRekamMedik = pasien.getPasien_noRekamMedik();
+
+        if(noRekamMedik.equals("")){
+            viewHolder.separator.setVisibility(View.GONE);
+            viewHolder.pasien_noRekamMedik.setVisibility(View.GONE);
+        }
+        else{
+            viewHolder.separator.setVisibility(View.VISIBLE);
+            viewHolder.pasien_noRekamMedik.setVisibility(View.VISIBLE);
+            viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
+        }
+
 
         if(jenisKelamin == null) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));
         else if(jenisKelamin.equals("Laki-laki")) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));

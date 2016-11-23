@@ -87,6 +87,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         private final ImageView menuMore;
         private final ImageView pasienFoto;
         private final RelativeLayout rltvMenuEditPasien;
+        private final TextView separator;
 
         public ViewHolder(View v) {
             super(v);
@@ -104,6 +105,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
             menuMore = (ImageView) v.findViewById(R.id.menu_pasien);
             pasienFoto = (ImageView) v.findViewById(R.id.pasien_foto);
             rltvMenuEditPasien = (RelativeLayout) v.findViewById(R.id.rltvMenuEditPasien);
+            separator = (TextView) v.findViewById(R.id.separator);
         }
     }
 
@@ -121,10 +123,22 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
 
 
         viewHolder.pasien_name.setText(pasien.getPasien_name());
-        viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
         viewHolder.pasien_umur.setText(pasien.getPasien_umur());
 
-        String jenisKelamin = pasien.getPasien_jenisKelamin();
+        String jenisKelamin = "";
+        jenisKelamin = pasien.getPasien_jenisKelamin();
+        String noRekamMedik = "";
+        noRekamMedik = pasien.getPasien_noRekamMedik();
+
+        if(noRekamMedik.equals("")){
+            viewHolder.separator.setVisibility(View.GONE);
+            viewHolder.pasien_noRekamMedik.setVisibility(View.GONE);
+        }
+        else{
+            viewHolder.separator.setVisibility(View.VISIBLE);
+            viewHolder.pasien_noRekamMedik.setVisibility(View.VISIBLE);
+            viewHolder.pasien_noRekamMedik.setText(pasien.getPasien_noRekamMedik());
+        }
 
         if(jenisKelamin == null) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));
         else if(jenisKelamin.equals("Laki-laki")) viewHolder.pasienFoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pasien_pria));
