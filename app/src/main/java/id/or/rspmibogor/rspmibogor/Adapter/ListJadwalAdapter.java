@@ -63,7 +63,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                     if(status.equals("cuti"))
                     {
                         builder.setTitle("Mohon maaf")
-                                .setMessage("\nPada hari " + hari + listJadwal.getKeteranganCuti() +".")
+                                .setMessage("\nPada jadwal tersebut " + listJadwal.getKeteranganCuti() +".")
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
                     }else{

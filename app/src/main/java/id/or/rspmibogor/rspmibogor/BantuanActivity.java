@@ -75,7 +75,7 @@ public class BantuanActivity extends AppCompatActivity {
                 header.add("Ketentuan Layanan");
                 child1.add("1. Pendaftaran hanya dapat dilakukan untuk poliklinik Afiat\n \n" +
                         "2. Jadwal Dokter dapat berubah sesuai kebijakan. Setiap jadwal yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk (Jika Anda telah melakukan pendaftaran pada jadwal yang berubah tersebut).\nPastikan sebelum Anda datang ke RS PMI Bogor bahwa tidak ada perubahan jadwal yang Anda terima di notifikasi / menu kotak masuk. \n \n" +
-                        "3. Jadwal Dokter untuk Pendaftaran Online hanya tersedia untuk H+1 s.d H+7. \n \n" +
+                        "3. Jadwal Dokter untuk Pendaftaran Online hanya tersedia untuk H-7 s.d H-1. \n \n" +
                         "4. Anda dapat memberi penilaian terhadap layanan RS PMI Bogor di halaman detail pendaftaran. \n \n" +
                         "5. Setiap pendaftaran yang telah Anda lakukan membutuhkan konfirmasi kedatangan pada hari H agar memastikan bahwa Anda akan datang ke RS PMI Bogor. \n \n" +
                         "6. Anda dapat menambahkan lebih dari 1 pasien , agar memberi kemudahan dalam melakukan pendaftaran online. \n \n" +
@@ -88,7 +88,7 @@ public class BantuanActivity extends AppCompatActivity {
                 header.add("Cara Melakukan Pendaftaran ");
                 child2.add("1. Untuk melakukan pendataftaran Anda dapat masuk ke menu jadwal dokter, lalu memilih dokter yang akan Anda kunjungi. \n \n  \n" +
                         "2. Setelah muncul halaman cari dokter silahkan pilih klinik yang akan Anda kunjungi (misal: Klinik Anak).\n \n  \n" +
-                        "3. Setelah muncul halaman list jadwal dokter pilih jadwal yang akan di kunjungi (Jadwal hanya dapat di pesan H+1 s.d H+7). \n \n  \n" +
+                        "3. Setelah muncul halaman list jadwal dokter pilih jadwal yang akan di kunjungi (Jadwal hanya dapat di pesan H-7 s.d H-1). \n \n  \n" +
                         "4. Setalah Anda memliih jadwal yang akan dikunjungi Anda harus memilih pasien (pasien akan difilter berdasarkan kriteria Jadwak Dokter yang Anda pilih) yang akan di daftarkan pada pendaftaran tersebut (Jika Pasien belum ada , Anda dapat menambahankan nya dengan masuk ke menu pasien atau dengan menekan tombol + di bawah kanan). \n \n  \n" +
                         "5. Setiap pendaftaran membutuhkan konfirmasi kedatangan pada hari H, untuk melakukan konfirmasi Anda bisa pilih menu pendaftaran" +
                         ", Lalu pilih pendaftaran yang akan Anda konfirmasi  \n" +

@@ -38,6 +38,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
     private TextView txtSendEmail, txtLogin;
     private ProgressDialog progressDialog;
     private String TAG = "CompleteRegisterActivity";
+    private TextView txtEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         edtConfirm = (EditText) findViewById(R.id.edtCodeConfirmation);
         txtSendEmail = (TextView)  findViewById(R.id.txtKirimUlang);
         txtLogin =  (TextView) findViewById(R.id.txtLogin);
+        txtEmail = (TextView) findViewById(R.id.txtEmail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Konfirmasi Registrasi");
@@ -59,6 +61,12 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Bundle b = getIntent().getExtras();
+
+        String email = b.getString("email");
+
+        txtEmail.setText("Silahkan masukan kode verifikasi yang telah dikirim ke " + email);
 
 
         edtConfirm.addTextChangedListener(new TextWatcher() {

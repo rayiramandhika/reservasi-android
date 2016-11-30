@@ -181,7 +181,6 @@ public class SignupActivity extends AppCompatActivity {
                         // error
                         progressDialog.dismiss();
 
-
                         String message = null;
 
                         if(error.networkResponse != null && error.networkResponse.data != null){
@@ -208,7 +207,7 @@ public class SignupActivity extends AppCompatActivity {
                     }
                 }
         );
-        int socketTimeOut = 15000;
+        int socketTimeOut = 30000;
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         putRequest.setRetryPolicy(policy);

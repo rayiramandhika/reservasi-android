@@ -51,7 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Silahkan masukan kode verifikasi yang telah dikirim ke email Anda."/>
+                android:text="Silahkan masukan kode verifikasi yang telah dikirim ke email Anda."
+                android:id="@+id/txtEmail" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
