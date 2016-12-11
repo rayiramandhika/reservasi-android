@@ -102,12 +102,12 @@
                                 android:text="Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda melakukan konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal."
                                 android:id="@+id/timeConfirm" />
 
-                            <view
+                            <View
                                 android:layout_width="match_parent"
-                                android:layout_height="1sp"
+                                android:layout_height="1dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
-                                android:backgroundTint="@color/colorDivider"/>
+                                android:background="@color/colorDivider"/>
 
                             <TextView
                                 android:layout_width="match_parent"

@@ -368,7 +368,7 @@ public class DetailOrder extends AppCompatActivity {
 
 
         //Log.d(TAG, "status: " + status);
-        if(status.toString() == "Dibatalkan Oleh User")
+        if(status.toString().equals("Dibatalkan Oleh User"))
         {
             //buttonBatal.setBackground(getDrawable(R.drawable.badge_oval_gray));
             buttonBatal.setBackgroundResource(R.drawable.badge_oval_gray);

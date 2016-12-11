@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/hari"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="Hari"
                     android:layout_centerHorizontal="true"
                     android:textIsSelectable="false" />
@@ -77,10 +77,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tanggal"
                     android:text="15 Agustus 16"
-                    android:textSize="10dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:textSize="12sp" />
 
 
             </LinearLayout>
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/jam"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:text="Jam Praktek"
                 android:layout_centerHorizontal="true"
                 android:textIsSelectable="false" />
