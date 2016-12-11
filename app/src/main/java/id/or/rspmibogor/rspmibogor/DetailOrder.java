@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,6 +94,9 @@ public class DetailOrder extends AppCompatActivity {
     Integer hariH = 0;
     private Integer refreshToken = 0;
     private TextView confirmTime;
+    private TextView jenis_pembayaran;
+    private LinearLayout container_no_antrian;
+    private TextView no_antrian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,9 @@ public class DetailOrder extends AppCompatActivity {
         pasien_name = (TextView) findViewById(R.id.pasien_name);
         confirmedTxt = (TextView) findViewById(R.id.confirmed);
         confirmTime = (TextView) findViewById(R.id.timeConfirm);
+        jenis_pembayaran = (TextView) findViewById(R.id.jenis_pembayaran);
+        container_no_antrian = (LinearLayout) findViewById(R.id.container_no_antrian);
+        no_antrian = (TextView) findViewById(R.id.no_antrian);
 
         buttonBatal = (Button) findViewById(R.id.btnBatal);
         buttonConfirm = (Button) findViewById(R.id.btnConfirm);
@@ -370,6 +378,14 @@ public class DetailOrder extends AppCompatActivity {
             buttonBatal.setPadding(12, 12, 12, 12);
         }
 
+        //jenis pembayaran
+        String jenisPembayaran = pasien.getString("jenisPembayaran");
+        if(jenisPembayaran.equals("Tunai")){
+            jenis_pembayaran.setText("Tunai");
+        }else if(jenisPembayaran.equals("Asuransi")){
+            jenis_pembayaran.setText("Asuransi / " + pasien.getString("namaPenjamin"));
+        }
+
         //init konfirmasi
         DateTimeZone timezone = DateTimeZone.forID("Asia/Jakarta");
         DateTimeFormatter df = DateTimeFormat.forPattern("dd-MM-yyyy");
@@ -449,10 +465,25 @@ public class DetailOrder extends AppCompatActivity {
 
         //set text Max. Time Confirm
         if(diffPraktek < 0){
-            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda Konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
+            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda melakukan konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
         }else if(diffPraktek >= 0){
-            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 14.30, Jika Anda Konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
+            confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 14.30, Jika Anda melakukan konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
         }
+
+        String noUrut = data.getString("noUrut");
+
+        if(diffPraktek < 0){
+            if(statusConfirm.equals(true))
+            {
+                container_no_antrian.setVisibility(View.VISIBLE);
+                no_antrian.setText("No Antrian Anda: " + noUrut);
+            }else{
+                container_no_antrian.setVisibility(View.INVISIBLE);
+            }
+        }else{
+            container_no_antrian.setVisibility(View.INVISIBLE);
+        }
+
 
     }
 
@@ -585,8 +616,16 @@ public class DetailOrder extends AppCompatActivity {
 
                         confirmed = 1;
                         confirmedTxt.setText("Sudah Konfirmasi");
+                        container_no_antrian.setVisibility(View.VISIBLE);
+                        try {
+                            JSONObject data = response.getJSONObject("data");
+                            no_antrian.setText("No Antrian Anda: " + data.getString("noUrut"));
+                        } catch (JSONException e) {
+                            no_antrian.setText("No Antrian Anda: -");
+                            e.printStackTrace();
+                        }
 
-                       // Log.d("confirmOrder - Response", response.toString());
+                        // Log.d("confirmOrder - Response", response.toString());
                     }
 
                 },

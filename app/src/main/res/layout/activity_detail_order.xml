@@ -18,11 +18,8 @@
 
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_detail_order"
         >
@@ -98,12 +95,32 @@
                             android:layout_margin="20dp"
                             android:orientation="vertical">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:typeface="serif"
+                                android:text="Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda melakukan konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal."
+                                android:id="@+id/timeConfirm" />
+
+                            <view
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:backgroundTint="@color/colorDivider"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Informasi Pendaftaran"
+                                android:textSize="20sp"
+                                android:layout_marginBottom="12dp"/>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="5dp">
 
                                 <ImageView
                                     android:layout_width="25dp"
@@ -125,8 +142,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp">
 
                                 <ImageView
                                     android:layout_width="25dp"
@@ -148,8 +165,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp">
 
                                 <ImageView
                                     android:layout_width="25dp"
@@ -171,8 +188,31 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_local_atm_black_24dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="12dp"
+                                    android:text="Jenis Pembayaran"
+                                    android:id="@+id/jenis_pembayaran"
+                                    android:layout_gravity="center"
+                                    android:textSize="18dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp">
 
                                 <ImageView
                                     android:layout_width="25dp"
@@ -191,23 +231,24 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/container_no_antrian"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp">
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp">
 
                                 <ImageView
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
-                                    android:src="@drawable/ic_alarm_on_black_24dp"/>
+                                    android:src="@drawable/ic_receipt_black_24dp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="12dp"
-                                    android:text="Max. waktu konfirmasi pendaftaran ini adalah Pkl. 07.30, Jika Anda Konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal."
-                                    android:id="@+id/timeConfirm"
+                                    android:text="No. Antrian Anda: 2"
+                                    android:id="@+id/no_antrian"
                                     android:layout_gravity="center"
                                     android:textSize="18dp" />
 
