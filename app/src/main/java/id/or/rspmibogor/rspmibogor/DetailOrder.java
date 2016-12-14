@@ -357,13 +357,18 @@ public class DetailOrder extends AppCompatActivity {
         Boolean statusConfirm = data.getBoolean("confirmed");
         //Log.d(TAG,"statusConfirm: " + statusConfirm);
 
+        String noUrut = " - ";
+        noUrut =  data.getString("noUrut");
+
         if(statusConfirm.equals(true))
         {
             confirmed = 1;
             confirmedTxt.setText("Sudah Konfirmasi");
+            no_antrian.setText("No Antrian Anda: " + noUrut);
         }else{
             confirmed = 0;
             confirmedTxt.setText("Belum Konfirmasi");
+            no_antrian.setText("No Antrian di dapat setelah konfirmasi");
         }
 
 
@@ -408,8 +413,6 @@ public class DetailOrder extends AppCompatActivity {
         shiftPagi = tf.parseDateTime("07:30").withZone(timezone);
         shiftSiang = tf.parseDateTime("14:30").withZone(timezone);
         timeToday = tf.parseDateTime(time);
-
-
 
         long diffDay = Days.daysBetween(orderDate.toLocalDate(), today.toLocalDate()).getDays();
 
@@ -469,21 +472,6 @@ public class DetailOrder extends AppCompatActivity {
         }else if(diffPraktek >= 0){
             confirmTime.setText("Max. waktu konfirmasi pendaftaran ini adalah Pkl. 14.30, Jika Anda melakukan konfirmasi melebihi waktu tersebut atau tidak melakukan konfirmasi maka pendaftaran di anggap batal.");
         }
-
-        String noUrut = data.getString("noUrut");
-
-        if(diffPraktek < 0){
-            if(statusConfirm.equals(true))
-            {
-                container_no_antrian.setVisibility(View.VISIBLE);
-                no_antrian.setText("No Antrian Anda: " + noUrut);
-            }else{
-                container_no_antrian.setVisibility(View.INVISIBLE);
-            }
-        }else{
-            container_no_antrian.setVisibility(View.INVISIBLE);
-        }
-
 
     }
 

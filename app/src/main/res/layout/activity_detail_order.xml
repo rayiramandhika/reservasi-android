@@ -133,8 +133,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:text="26-Agustus-2016"
                                     android:id="@+id/tanggal"
-                                    android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:layout_gravity="center" />
 
                             </LinearLayout>
 
@@ -156,8 +155,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:text="13:00 - 14:00"
                                     android:id="@+id/jam"
-                                    android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:layout_gravity="center" />
 
                             </LinearLayout>
 
@@ -179,8 +177,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:text="Nama Pasien"
                                     android:id="@+id/pasien_name"
-                                    android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:layout_gravity="center" />
 
                             </LinearLayout>
 
@@ -203,7 +200,7 @@
                                     android:text="Jenis Pembayaran"
                                     android:id="@+id/jenis_pembayaran"
                                     android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:textAllCaps="false" />
 
                             </LinearLayout>
 
@@ -225,8 +222,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:text="Konfirmasi"
                                     android:id="@+id/confirmed"
-                                    android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:layout_gravity="center" />
 
                             </LinearLayout>
 
@@ -247,10 +243,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="12dp"
-                                    android:text="No. Antrian Anda: 2"
+                                    android:text="No Antrian di dapat setelah konfirmasi"
                                     android:id="@+id/no_antrian"
-                                    android:layout_gravity="center"
-                                    android:textSize="18dp" />
+                                    android:layout_gravity="center" />
 
                             </LinearLayout>
 
