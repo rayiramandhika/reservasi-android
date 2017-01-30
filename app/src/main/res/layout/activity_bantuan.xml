@@ -30,14 +30,13 @@
         tools:context="id.or.rspmibogor.rspmibogor.BantuanActivity"
         tools:showIn="@layout/activity_bantuan">
 
-        <ExpandableListView
-            android:id="@+id/simple_expandable_listview"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:divider="@color/colorDivider"
-            android:dividerHeight="1dp" >
-        </ExpandableListView>
-
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/webView" />
     </RelativeLayout>
 
 
