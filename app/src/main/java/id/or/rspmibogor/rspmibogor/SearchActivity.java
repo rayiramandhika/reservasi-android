@@ -136,7 +136,7 @@ public class SearchActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/layanan/";
+        String url = "http://103.23.20.160:1337/v1/layanan/";
 
         container.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);

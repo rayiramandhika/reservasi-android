@@ -159,7 +159,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initDataset() {
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new";
+        String url = "http://103.23.20.160:1337/v1/getorder/new";
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
@@ -325,7 +325,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new?limit="+skip.toString();
+        String url = "http://103.23.20.160:1337/v1/getorder/new?limit="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -451,7 +451,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
 
-        String url = "http://103.23.22.46:1337/v1/getorder/new?skip="+skip.toString();
+        String url = "http://103.23.20.160:1337/v1/getorder/new?skip="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override

@@ -51,6 +51,7 @@
     </string-array>
 
     <string-array name="pendidikan">
+        <item>Belum Bersekolah</item>
         <item>SD</item>
         <item>SMP</item>
         <item>SMA</item>

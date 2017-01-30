@@ -207,7 +207,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/pasien";
+        String url = "http://103.23.20.160:1337/v1/pasien";
 
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
@@ -348,7 +348,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
+        String url = "http://103.23.20.160:1337/v1/pasien?where={%22id%22:{%22>%22:"+last_id+"},%22user%22:"+user_id+"}";
         spinner.setVisibility(View.VISIBLE);
 
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -490,7 +490,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/pasien";
+        String url = "http://103.23.20.160:1337/v1/pasien";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -652,7 +652,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/asuransi";
+        String url = "http://103.23.20.160:1337/v1/asuransi";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>()
@@ -765,7 +765,7 @@ public class PasienActivity extends AppCompatActivity implements SwipeRefreshLay
         mAdapter.notifyItemInserted(listPasien.size()-1);
 
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        String url = "http://103.23.22.46:1337/v1/pasien?sort=id%20DESC&skip="+skip.toString();
+        String url = "http://103.23.20.160:1337/v1/pasien?sort=id%20DESC&skip="+skip.toString();
 
 
         JsonObjectRequest req = new JsonObjectRequest(url,

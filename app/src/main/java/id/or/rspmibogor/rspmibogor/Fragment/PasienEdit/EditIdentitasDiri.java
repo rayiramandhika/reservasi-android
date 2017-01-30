@@ -28,6 +28,10 @@ import com.android.volley.toolbox.Volley;
 import com.github.fcannizzaro.materialstepper.AbstractStep;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -103,6 +107,8 @@ public class EditIdentitasDiri extends AbstractStep {
                 }
             });
         }
+
+        JodaTimeAndroid.init(getActivity());
     }
 
     private android.support.v7.app.ActionBar getActionBar() {
@@ -478,7 +484,13 @@ public class EditIdentitasDiri extends AbstractStep {
         ArrayAdapter<CharSequence> tahunLahirAdapter = new ArrayAdapter<CharSequence>(this.getContext(),
                 android.R.layout.simple_dropdown_item_1line);
 
-        for (int i = 2016; i >= 1900; i--)
+        DateTimeZone timezone = DateTimeZone.forID("Asia/Jakarta");
+        DateTime today = new DateTime(new DateTime(), timezone);
+
+        Integer year = 2017;
+        year = today.getYear();
+
+        for (int i = year; i >= 1900; i--)
         {
             tahunLahirAdapter.add(String.valueOf(i));
         }

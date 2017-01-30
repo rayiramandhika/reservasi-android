@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity
     private void checkingUnreadMessage()
     {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        String url =  "http://103.23.22.46:1337/v1/count/unread";
+        String url =  "http://103.23.20.160:1337/v1/count/unread";
 
 
         JsonObjectRequest req = new JsonObjectRequest(url,
