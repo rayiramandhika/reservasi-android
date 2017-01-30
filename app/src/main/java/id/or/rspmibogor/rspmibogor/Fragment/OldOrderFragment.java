@@ -68,7 +68,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     String jwTokenSP;
 
     RelativeLayout nodata, errorLayout;
-    LinearLayout container;
+    LinearLayout lytContainer;
 
     FloatingActionButton btnTryAgain;
 
@@ -105,7 +105,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
 
         nodata = (RelativeLayout) viewRoot.findViewById(R.id.nodata);
-        container = (LinearLayout) viewRoot.findViewById(R.id.container);
+        lytContainer = (LinearLayout) viewRoot.findViewById(R.id.container);
         errorLayout = (RelativeLayout) viewRoot.findViewById(R.id.error);
 
         btnTryAgain = (FloatingActionButton) viewRoot.findViewById(R.id.btnTryAgain);
@@ -158,6 +158,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         String url = "http://103.23.20.160:1337/v1/getorder/old";
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
+        lytContainer.setVisibility(View.INVISIBLE);
 
         sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -167,6 +168,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onResponse(JSONObject response) {
                         spinner.setVisibility(View.GONE);
+                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -294,6 +296,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onResponse(JSONObject response) {
                         swipeRefreshLayout.setRefreshing(false);
                         errorLayout.setVisibility(View.INVISIBLE);
+                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);

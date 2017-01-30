@@ -1,36 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="id.or.rspmibogor.rspmibogor.DetailOrderOld">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <include layout="@layout/toolbar"
-            />
-
-    </android.support.design.widget.AppBarLayout>
-
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_detail_order_old">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,39 +17,20 @@
                 android:id="@+id/container"
                 android:focusableInTouchMode="true">
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="360dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:foregroundGravity="center"
-                    android:id="@+id/card1"
-                    android:elevation="4dp">
-
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Berikan Penilaian Anda Untuk Pelayanan RS PMI Bogor"
-                            android:id="@+id/title"
-                            android:gravity="center"
-                            android:textColor="#000"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:layout_margin="12dp"/>
-
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="match_parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             android:id="@+id/containerRating"
                             android:gravity="center"
-                            android:layout_below="@+id/title">
+                            android:layout_below="@+id/title"
+                            android:layout_marginTop="15dp"
+                            android:layout_height="180dp">
 
                             <ImageView
                                 android:layout_width="150dp"
@@ -84,7 +43,7 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="150dp"
+                                android:layout_height="match_parent"
                                 android:text="Silahkan pilih penilaian sesuai gambar dibawah ini"
                                 android:gravity="center"
                                 android:textSize="20sp"
@@ -226,88 +185,6 @@
 
                     </RelativeLayout>
 
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:elevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Info Dokter"
-                            android:id="@+id/textView8"
-                            android:layout_marginLeft="12dp"
-                            android:textStyle="bold"
-                            android:textSize="15dp"
-                            android:layout_margin="12dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp"
-                            android:weightSum="1"
-                            android:orientation="horizontal">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:id="@+id/dokter_foto"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginRight="16dp"
-                                android:layout_gravity="center"
-                                android:baselineAlignBottom="false"/>
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_gravity="center">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:text="Nama Dokter"
-                                    android:id="@+id/dokter_name"
-                                    android:layout_gravity="center"
-                                    android:textSize="16dp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="Nama Layanan"
-                                    android:id="@+id/layanan_name"
-                                    android:layout_gravity="center_vertical"
-                                    android:textSize="13dp" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="30dp"
-                    android:elevation="4dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -393,59 +270,7 @@
 
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
-
             </LinearLayout>
-
         </ScrollView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:indeterminateTint="@color/colorPrimary"
-                android:indeterminateTintMode="src_atop"
-                android:indeterminate="true"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/error"
-            android:visibility="invisible">
-
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btnTryAgain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_autorenew_white_24px"
-                app:backgroundTint="@color/colorPrimary"
-                android:layout_centerInParent="true" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gagal memuat data, Coba lagi."
-                android:gravity="center"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:layout_below="@+id/btnTryAgain" />
-
-
-        </RelativeLayout>
-
     </RelativeLayout>
 
-
-
-</android.support.design.widget.CoordinatorLayout>

@@ -1,11 +1,16 @@
 package id.or.rspmibogor.rspmibogor;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +21,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
@@ -142,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         setHeader(emailSP, namaSP, profilePictureSP);
 
         checkingUnreadMessage();
+        checkFeedback();
 
         imageJadwaldokter = (CardView) findViewById(R.id.menu_jadwaldokter);
         imagePasien = (CardView) findViewById(R.id.menu_pasien);
@@ -225,6 +237,287 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+
+    }
+
+    private void checkFeedback() {
+
+        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+        String url =  "http://103.23.20.160:1337/v1/order/checkfeedback";
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.setMessage("Sedang memuat data...");
+        progressDialog.show();
+
+
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.hide();
+                        sendFeedback(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        progressDialog.hide();
+                        if(error instanceof NoConnectionError)
+                        {
+                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                if(refreshToken <= 5)
+                                {
+                                    if(jwTokenSP != null){
+                                        User user = new User();
+                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                    }
+
+                                    refreshToken++;
+                                }
+                            }
+                        }else if(error instanceof AuthFailureError)
+                        {
+                            if(jwTokenSP != null){
+                                User user = new User();
+                                user.refreshToken(jwTokenSP, getBaseContext());
+                            }
+                        }
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwTokenSP);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        int socketTimeOut = 10000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
+        requestQueue.add(req);
+
+    }
+
+    private void sendFeedback(JSONObject response) {
+
+        final Integer[] Rating = new Integer[1];
+        final Integer order_id;
+
+        TextView tanggal;
+        TextView jam;
+        TextView pasien_name;
+
+        ImageView ratingBoo;
+        ImageView ratingArgh;
+        ImageView ratingOk;
+        ImageView ratingAha;
+        ImageView ratingWow;
+        final ImageView rating;
+
+        ImageView btnSend;
+
+        final EditText saranEditTxt;
+
+        try {
+            final JSONObject data = response.getJSONObject("data");
+            final JSONObject pasien = data.getJSONObject("pasien");
+            final JSONObject detailjadwal = data.getJSONObject("detailjadwal");
+            Rating[0] = 0;
+            order_id = data.getInt("id");
+
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_feedback);
+            dialog.setTitle("Berikan Penilaian Anda Untuk Pelayanan RS PMI Bogor");
+
+            tanggal = (TextView) dialog.findViewById(R.id.tanggal);
+            jam = (TextView) dialog.findViewById(R.id.jam);
+            pasien_name = (TextView) dialog.findViewById(R.id.pasien_name);
+
+            tanggal.setText(data.getString("tanggal"));
+            jam.setText(detailjadwal.getString("jamMulai") + " - " + detailjadwal.getString("jamTutup"));
+            pasien_name.setText(pasien.getString("nama"));
+
+            final TextView txtTitle = (TextView) dialog.findViewById(R.id.txtTitle);
+
+            ratingBoo = (ImageView) dialog.findViewById(R.id.ratingBoo);
+            ratingArgh = (ImageView) dialog.findViewById(R.id.ratingArgh);
+            ratingOk = (ImageView) dialog.findViewById(R.id.ratingOk);
+            ratingAha = (ImageView) dialog.findViewById(R.id.ratingAha);
+            ratingWow = (ImageView) dialog.findViewById(R.id.ratingWow);
+            rating = (ImageView) dialog.findViewById(R.id.ratingImage);
+            rating.setImageDrawable(null);
+
+            saranEditTxt = (EditText) dialog.findViewById(R.id.saranEditTxt);
+            btnSend = (ImageView) dialog.findViewById(R.id.btnSend);
+
+            dialog.show();
+
+            ratingBoo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rating.setVisibility(View.VISIBLE);
+                    txtTitle.setVisibility(View.GONE);
+                    rating.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.rating_boo));
+                    Rating[0] = 1;
+                }
+            });
+
+            ratingArgh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rating.setVisibility(View.VISIBLE);
+                    txtTitle.setVisibility(View.GONE);
+                    rating.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.rating_argh));
+                    Rating[0] = 2;
+                }
+            });
+
+            ratingOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rating.setVisibility(View.VISIBLE);
+                    txtTitle.setVisibility(View.GONE);
+                    rating.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.rating_ok));
+                    Rating[0] = 3;
+                }
+            });
+
+            ratingAha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rating.setVisibility(View.VISIBLE);
+                    txtTitle.setVisibility(View.GONE);
+                    rating.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.rating_aha));
+                    Rating[0] = 4;
+                }
+            });
+
+            ratingWow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rating.setVisibility(View.VISIBLE);
+                    txtTitle.setVisibility(View.GONE);
+                    rating.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.rating_wow));
+                    Rating[0] = 5;
+                }
+            });
+
+            btnSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(Rating[0] == 0)
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setCancelable(false)
+                                .setMessage("Mohon untuk memilih penilaian terlebih dahulu")
+                                .setPositiveButton(android.R.string.yes, null)
+                                .show();
+                    }else{
+                        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setCancelable(false);
+                        progressDialog.setTitle("Mohon Tunggu");
+                        progressDialog.setMessage("Sedang mengirim penilaian...");
+                        progressDialog.show();
+
+                        final String saran = saranEditTxt.getText().toString();
+                        final String rating = Rating[0].toString();
+
+                        JSONObject object = new JSONObject();
+                        try {
+                            object.put("rating", rating);
+                            object.put("saran", saran);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                        String url = "http://103.23.20.160:1337/v1/order/" + order_id + "/feedback";
+
+                        sharedPreferences = getBaseContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+                        final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+
+                        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        // response
+                                        progressDialog.dismiss();
+                                        dialog.hide();
+                                        try {
+                                            JSONObject data = response.getJSONObject("data");
+
+                                            Toast.makeText(getBaseContext(), "Berhasil mengirim penilaian.", Toast.LENGTH_SHORT).show();
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //Log.d("btnSend - Response", response.toString());
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        // error
+                                        progressDialog.dismiss();
+
+                                        if(error instanceof NoConnectionError)
+                                        {
+                                            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                                if(refreshToken <= 5)
+                                                {
+                                                    if(jwTokenSP != null){
+                                                        User user = new User();
+                                                        user.refreshToken(jwTokenSP, getBaseContext());
+                                                    }
+
+                                                    refreshToken++;
+                                                }
+                                            }
+                                        }else if(error instanceof AuthFailureError)
+                                        {
+                                            if(jwTokenSP != null){
+                                                User user = new User();
+                                                user.refreshToken(jwTokenSP, getBaseContext());
+                                            }
+                                        }
+
+                                        Toast.makeText(getBaseContext(), "Gagal mengirim penilaian.", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                        ){
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String>  params = new HashMap<String, String>();
+                                params.put("Authorization", "Bearer " + jwTokenSP);
+                                return params;
+                            }
+                        };
+                        int socketTimeOut = 10000;
+                        RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                        putRequest.setRetryPolicy(policy);
+                        queue.add(putRequest);
+                    }
+
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

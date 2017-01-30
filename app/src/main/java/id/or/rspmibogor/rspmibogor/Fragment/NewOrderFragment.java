@@ -72,7 +72,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     String jwTokenSP;
 
     RelativeLayout nodata, errorLayout;
-    LinearLayout container;
+    LinearLayout lytContainer;
 
     FloatingActionButton btnTryAgain;
 
@@ -103,7 +103,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         View viewRoot =  inflater.inflate(R.layout.fragment_new_order, container, false);
 
         nodata = (RelativeLayout) viewRoot.findViewById(R.id.nodata);
-        container = (LinearLayout) viewRoot.findViewById(R.id.container);
+        lytContainer = (LinearLayout) viewRoot.findViewById(R.id.container);
         errorLayout = (RelativeLayout) viewRoot.findViewById(R.id.error);
 
         spinner = (ProgressBar) viewRoot.findViewById(R.id.progress_bar);
@@ -160,6 +160,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void initDataset() {
 
         String url = "http://103.23.20.160:1337/v1/getorder/new";
+        lytContainer.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
 
@@ -171,6 +172,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onResponse(JSONObject response) {
                         spinner.setVisibility(View.GONE);
+                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -332,6 +334,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     public void onResponse(JSONObject response) {
                         swipeRefreshLayout.setRefreshing(false);
                         errorLayout.setVisibility(View.INVISIBLE);
+                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);

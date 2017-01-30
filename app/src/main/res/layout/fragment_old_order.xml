@@ -17,6 +17,16 @@
             android:orientation="vertical"
             android:id="@+id/container">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Klik pada pendaftaran untuk melihat detail"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                android:textStyle="normal|italic"
+                android:textColor="@color/colorDivider" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recylceOldOrder"
                 android:layout_margin="6dp"

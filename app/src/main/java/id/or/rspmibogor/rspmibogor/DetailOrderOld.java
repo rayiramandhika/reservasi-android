@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class DetailOrderOld extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    Integer Rating = 3;
+    Integer Rating = 0;
 
     ImageView ratingBoo;
     ImageView ratingArgh;
@@ -66,6 +67,7 @@ public class DetailOrderOld extends AppCompatActivity {
     TextView pasien_name;
     TextView saranText;
 
+    TextView txtTitle;
     EditText saranEditTxt;
 
     LinearLayout ratingLayout;
@@ -119,6 +121,8 @@ public class DetailOrderOld extends AppCompatActivity {
 
         saranEditTxt = (EditText) findViewById(R.id.saranEditTxt);
 
+        txtTitle = (TextView) findViewById(R.id.txtTitle);
+
         dokter_name = (TextView) findViewById(R.id.dokter_name);
         dokter_foto = (ImageView) findViewById(R.id.dokter_foto);
         layanan_name = (TextView) findViewById(R.id.layanan_name);
@@ -143,6 +147,8 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingBoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rating.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.GONE);
                 rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_boo));
                 Rating = 1;
             }
@@ -151,6 +157,8 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingArgh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rating.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.GONE);
                 rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_argh));
                 Rating = 2;
             }
@@ -159,6 +167,8 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rating.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.GONE);
                 rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_ok));
                 Rating = 3;
             }
@@ -167,6 +177,8 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingAha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rating.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.GONE);
                 rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_aha));
                 Rating = 4;
             }
@@ -175,6 +187,8 @@ public class DetailOrderOld extends AppCompatActivity {
         ratingWow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rating.setVisibility(View.VISIBLE);
+                txtTitle.setVisibility(View.GONE);
                 rating.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.rating_wow));
                 Rating = 5;
             }
@@ -189,98 +203,110 @@ public class DetailOrderOld extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final ProgressDialog progressDialog = new ProgressDialog(DetailOrderOld.this);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setCancelable(false);
-                progressDialog.setTitle("Mohon Tunggu");
-                progressDialog.setMessage("Sedang mengirim penilaian...");
-                progressDialog.show();
 
-                final String saran = saranEditTxt.getText().toString();
-                final String rating = Rating.toString();
+                if(Rating == 0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DetailOrderOld.this);
+                    builder.setCancelable(false)
+                            .setMessage("Mohon untuk memilih penilaian terlebih dahulu")
+                            .setPositiveButton(android.R.string.yes, null)
+                            .show();
+                }else{
 
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("rating", rating);
-                    object.put("saran", saran);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    final ProgressDialog progressDialog = new ProgressDialog(DetailOrderOld.this);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setCancelable(false);
+                    progressDialog.setTitle("Mohon Tunggu");
+                    progressDialog.setMessage("Sedang mengirim penilaian...");
+                    progressDialog.show();
 
-                RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
-                String url = "http://103.23.20.160:1337/v1/order/" + id;
+                    final String saran = saranEditTxt.getText().toString();
+                    final String rating = Rating.toString();
 
-                sharedPreferences = getBaseContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
-                final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("rating", rating);
+                        object.put("saran", saran);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // response
-                                progressDialog.dismiss();
-                                try {
-                                    JSONObject data = response.getJSONObject("data");
+                    RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
+                    String url = "http://103.23.20.160:1337/v1/order/" + id + "/feedback";
 
-                                    saranFormLayout.setVisibility(View.GONE);
-                                    saranTextLayout.setVisibility(View.VISIBLE);
-                                    saranText.setText(saranEditTxt.getText().toString());
-                                    ratingLayout.setVisibility(View.GONE);
+                    sharedPreferences = getBaseContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
+                    final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-                                    Toast.makeText(getBaseContext(), "Berhasil mengirim penilaian.", Toast.LENGTH_SHORT).show();
+                    JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    // response
+                                    progressDialog.dismiss();
+                                    try {
+                                        JSONObject data = response.getJSONObject("data");
+
+                                        saranFormLayout.setVisibility(View.GONE);
+                                        saranTextLayout.setVisibility(View.VISIBLE);
+                                        saranText.setText(saranEditTxt.getText().toString());
+                                        ratingLayout.setVisibility(View.GONE);
+
+                                        Toast.makeText(getBaseContext(), "Berhasil mengirim penilaian.", Toast.LENGTH_SHORT).show();
 
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Log.d("btnSend - Response", response.toString());
                                 }
-                                //Log.d("btnSend - Response", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                progressDialog.dismiss();
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // error
+                                    progressDialog.dismiss();
 
-                                if(error instanceof NoConnectionError)
-                                {
-                                    if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                        //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
-                                        if(refreshToken <= 5)
-                                        {
-                                            if(jwTokenSP != null){
-                                                User user = new User();
-                                                user.refreshToken(jwTokenSP, getBaseContext());
+                                    if(error instanceof NoConnectionError)
+                                    {
+                                        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                                            //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                            if(refreshToken <= 5)
+                                            {
+                                                if(jwTokenSP != null){
+                                                    User user = new User();
+                                                    user.refreshToken(jwTokenSP, getBaseContext());
+                                                }
+
+                                                refreshToken++;
                                             }
-
-                                            refreshToken++;
+                                        }
+                                    }else if(error instanceof AuthFailureError)
+                                    {
+                                        if(jwTokenSP != null){
+                                            User user = new User();
+                                            user.refreshToken(jwTokenSP, getBaseContext());
                                         }
                                     }
-                                }else if(error instanceof AuthFailureError)
-                                {
-                                    if(jwTokenSP != null){
-                                        User user = new User();
-                                        user.refreshToken(jwTokenSP, getBaseContext());
-                                    }
+
+                                    Toast.makeText(getBaseContext(), "Gagal mengirim penilaian.", Toast.LENGTH_SHORT).show();
+
                                 }
-
-                                Toast.makeText(getBaseContext(), "Gagal mengirim penilaian.", Toast.LENGTH_SHORT).show();
-
                             }
+                    ){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String>  params = new HashMap<String, String>();
+                            params.put("Authorization", "Bearer " + jwTokenSP);
+                            return params;
                         }
-                ){
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String>  params = new HashMap<String, String>();
-                        params.put("Authorization", "Bearer " + jwTokenSP);
-                        return params;
-                    }
-                };
-                int socketTimeOut = 10000;
-                RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-                putRequest.setRetryPolicy(policy);
-                queue.add(putRequest);
+                    };
+                    int socketTimeOut = 10000;
+                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeOut, 0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    putRequest.setRetryPolicy(policy);
+                    queue.add(putRequest);
+
+                }
 
             }
         });
@@ -328,6 +354,8 @@ public class DetailOrderOld extends AppCompatActivity {
                                 saranFormLayout.setVisibility(View.GONE);
                                 saranTextLayout.setVisibility(View.VISIBLE);
                                 ratingLayout.setVisibility(View.GONE);
+                                txtTitle.setVisibility(View.GONE);
+                                rating.setVisibility(View.VISIBLE);
                                 saranText.setText(data.getString("saran"));
 
 
@@ -352,6 +380,8 @@ public class DetailOrderOld extends AppCompatActivity {
                             }else if(rate == "null" && rate.trim().isEmpty()){
                                 saranFormLayout.setVisibility(View.VISIBLE);
                                 saranTextLayout.setVisibility(View.GONE);
+                                txtTitle.setVisibility(View.VISIBLE);
+                                rating.setVisibility(View.GONE);
                             }
 
                             //Log.d(TAG, "onResponse - initData - data" + data.toString());
