@@ -199,7 +199,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.20.160:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
 
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
@@ -318,7 +318,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
     private void refreshData()
     {
-        String url = "http://103.23.20.160:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter?poliklinik_id="+1+"&populate=layanan,dokter,poliklinik";
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -417,7 +417,7 @@ public class JadwalDokterActivity extends AppCompatActivity  implements SearchVi
 
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.20.160:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
+        String url = "http://103.23.22.46:1337/v1/jadwaldokter/search?layanan="+layananId+"&dokter="+namaDokter;
 
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);

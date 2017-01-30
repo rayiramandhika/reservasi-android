@@ -231,13 +231,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.20.160:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = "http://103.23.20.160:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -362,13 +362,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.20.160:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = "http://103.23.20.160:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://103.23.22.46:1337/v1/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
 
@@ -486,13 +486,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = "http://103.23.20.160:1337/v1/pasien/women";
+            url = "http://103.23.22.46:1337/v1/pasien/women";
         }else if(layanan_name.equals("Bedah Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child";
         }else if(layanan_name.equals("Anak")){
-            url = "http://103.23.20.160:1337/v1/pasien/child";
+            url = "http://103.23.22.46:1337/v1/pasien/child";
         }else{
-            url = "http://103.23.20.160:1337/v1/pasien/all";
+            url = "http://103.23.22.46:1337/v1/pasien/all";
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -617,7 +617,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.20.160:1337/v1/asuransi";
+        String url = "http://103.23.22.46:1337/v1/asuransi";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>()

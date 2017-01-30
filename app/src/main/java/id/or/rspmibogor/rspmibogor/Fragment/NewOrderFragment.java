@@ -159,7 +159,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initDataset() {
 
-        String url = "http://103.23.20.160:1337/v1/getorder/new";
+        String url = "http://103.23.22.46:1337/v1/getorder/new";
         lytContainer.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
@@ -172,7 +172,6 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onResponse(JSONObject response) {
                         spinner.setVisibility(View.GONE);
-                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseData(data);
@@ -237,6 +236,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void parseData(JSONArray array){
         if(array.length() > 0) {
             nodata.setVisibility(View.INVISIBLE);
+            lytContainer.setVisibility(View.VISIBLE);
 
             for (int i = 0; i < array.length(); i++) {
 
@@ -278,6 +278,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
             mAdapter.notifyDataSetChanged();
         }else{
             nodata.setVisibility(View.VISIBLE);
+            lytContainer.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -327,14 +328,13 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.20.160:1337/v1/getorder/new?limit="+skip.toString();
+        String url = "http://103.23.22.46:1337/v1/getorder/new?limit="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         swipeRefreshLayout.setRefreshing(false);
                         errorLayout.setVisibility(View.INVISIBLE);
-                        lytContainer.setVisibility(View.VISIBLE);
                         try {
                             JSONArray data = response.getJSONArray("data");
                             parseRefreshData(data);
@@ -400,6 +400,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         if(array.length() > 0) {
 
             nodata.setVisibility(View.INVISIBLE);
+            lytContainer.setVisibility(View.VISIBLE);
             listNewOrder.removeAll(listNewOrder);
 
             for (int i = 0; i < array.length(); i++) {
@@ -441,6 +442,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             mAdapter.notifyDataSetChanged();
         }else{
+            lytContainer.setVisibility(View.INVISIBLE);
             nodata.setVisibility(View.VISIBLE);
         }
     }
@@ -454,7 +456,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
 
-        String url = "http://103.23.20.160:1337/v1/getorder/new?skip="+skip.toString();
+        String url = "http://103.23.22.46:1337/v1/getorder/new?skip="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override

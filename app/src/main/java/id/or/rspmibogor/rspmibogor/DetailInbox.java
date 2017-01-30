@@ -106,7 +106,7 @@ public class DetailInbox extends AppCompatActivity {
     private void initData()
     {
 
-        String url = "http://103.23.20.160:1337/v1/inbox/"+ id;
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -196,7 +196,7 @@ public class DetailInbox extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://103.23.20.160:1337/v1/inbox/"+ id;
+        String url = "http://103.23.22.46:1337/v1/inbox/"+ id;
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
