@@ -195,7 +195,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(jwTokenSP != null){
@@ -358,7 +358,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(jwTokenSP != null){
@@ -489,7 +489,7 @@ public class NewOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(jwTokenSP != null){

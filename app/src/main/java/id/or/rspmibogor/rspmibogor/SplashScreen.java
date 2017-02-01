@@ -104,6 +104,7 @@ public class SplashScreen extends AppCompatActivity {
     private void initBanner()
     {
         final List<String> images = new ArrayList<>();
+        final List<String> title = new ArrayList<>();
 
         String url =  "http://103.23.22.46:1337/v1/banner?show=1&sort=order%20ASC";
         JsonObjectRequest req = new JsonObjectRequest(url,
@@ -129,6 +130,9 @@ public class SplashScreen extends AppCompatActivity {
                                         final String link = json.getString("link");
                                         final String uri = "http://103.23.22.46:1337/v1/getbanner/" + link.toString();
                                         //Log.d(Tag, "uri: " + uri.toString());
+
+                                        final String titleBanner = json.getString("title");
+                                        title.add(titleBanner);
                                         images.add(uri);
 
                                     } catch (JSONException e) {
@@ -142,19 +146,21 @@ public class SplashScreen extends AppCompatActivity {
                             }else{
 
                                 Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
+                                title.add("Selamat Datang");
                                 images.add(String.valueOf(url));
 
                             }
 
-                            parseBanner(images);
+                            parseBanner(images, title);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
 
                             Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
+                            title.add("Selamat Datang");
                             images.add(String.valueOf(url));
 
-                            parseBanner(images);
+                            parseBanner(images, title);
                         }
 
                     }
@@ -165,9 +171,10 @@ public class SplashScreen extends AppCompatActivity {
                         error.printStackTrace();
 
                         Uri url = Uri.parse("android.resource://"+getPackageName()+"/drawable/ic_slider_default");
+                        title.add("Selamat Datang");
                         images.add(String.valueOf(url));
 
-                        parseBanner(images);
+                        parseBanner(images, title);
                     }
                 }
         );
@@ -176,13 +183,15 @@ public class SplashScreen extends AppCompatActivity {
         requestQueue.add(req);
     }
 
-    private void parseBanner(List<String> images){
+    private void parseBanner(List<String> images, List<String> title){
 
         SharedPreferences prefs = getSharedPreferences("RS PMI Banner", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit=prefs.edit();
+        SharedPreferences.Editor edit = prefs.edit();
 
         String arrImg = Arrays.toString(images.toArray()).replace("[", "").replace("]", "");
+        String arrTitle = Arrays.toString(title.toArray()).replace("[", "").replace("]", "");
         edit.putString("listBanner", arrImg);
+        edit.putString("listTitle", arrTitle);
         edit.commit();
 
     }

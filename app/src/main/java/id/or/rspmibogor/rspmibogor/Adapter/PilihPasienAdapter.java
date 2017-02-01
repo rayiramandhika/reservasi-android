@@ -78,7 +78,7 @@ public class PilihPasienAdapter extends RecyclerView.Adapter<PilihPasienAdapter.
         this.poliklinik_id = poliklinik_id;
         this.poliklinik_name = poliklinik_name;
 
-        Log.d(TAG, "this" + this.detailjadwal_id);
+        //Log.d(TAG, "this" + this.detailjadwal_id);
 
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         jwTokenSP = sharedPreferences.getString("jwtToken", null);

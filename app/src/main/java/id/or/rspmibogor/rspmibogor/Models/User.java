@@ -53,7 +53,7 @@ public class User {
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(token != null){
@@ -153,7 +153,7 @@ public class User {
                         if(error instanceof NoConnectionError)
                         {
                             if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
+                                //Log.d(TAG, "OS: " + Build.VERSION_CODES.JELLY_BEAN_MR2);
                                 if(refreshToken <= 5)
                                 {
                                     if(token != null){
@@ -220,7 +220,7 @@ public class User {
                             e.printStackTrace();
                         }
 
-                        Log.d("refreshToken-Response", response.toString());
+                        //Log.d("refreshToken-Response", response.toString());
                     }
 
                 },

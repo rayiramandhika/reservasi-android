@@ -231,7 +231,7 @@ public class IdentitasPasien extends AbstractStep {
 
     @Override
     public void onPrevious() {
-        Log.d(TAG, "onPrevious");
+        //Log.d(TAG, "onPrevious");
     }
 
 

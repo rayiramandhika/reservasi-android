@@ -3,6 +3,7 @@ package id.or.rspmibogor.rspmibogor;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +23,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -198,6 +202,9 @@ public class MainActivity extends AppCompatActivity
         String arrImg = prefs.getString("listBanner", null);
         final List<String> images = new ArrayList<String>(Arrays.asList(arrImg.split(",")));
 
+        String arrTitle = prefs.getString("listTitle", null);
+        final List<String> title = new ArrayList<String>(Arrays.asList(arrTitle.split(",")));
+
         //Log.d(TAG, "images: " + images.toString());
 
         if(images == null)
@@ -229,8 +236,34 @@ public class MainActivity extends AppCompatActivity
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    /*String imageUrl = images.get(position);
-                    System.out.println("ImageView clicked! " + imageUrl); // outputs the imageUrl registered*/
+                    String imageUrl = images.get(position).trim().toString();
+                    String titleBanner = null;
+                    titleBanner = title.get(position).trim().toString();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog dialog = builder.create();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogLayout = inflater.inflate(R.layout.dialog_imageview, null);
+
+                    ImageView imgView = (ImageView) dialogLayout.findViewById(R.id.imageView);
+                    TextView txtTitle = (TextView) dialogLayout.findViewById(R.id.txtTitle);
+
+                        Glide.with(MainActivity.this)
+                            .load(imageUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(imgView);
+
+                        if(titleBanner.equals(null) || titleBanner.isEmpty() || titleBanner == ""){
+                            txtTitle.setVisibility(View.GONE);
+                        }
+                        else{
+                            txtTitle.setVisibility(View.VISIBLE);
+                            txtTitle.setText(titleBanner);
+                        }
+
+                        dialog.setView(dialogLayout);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.show();
                     }
                 });
             }
