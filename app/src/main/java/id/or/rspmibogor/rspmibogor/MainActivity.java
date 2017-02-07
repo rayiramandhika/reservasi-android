@@ -237,8 +237,6 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                     String imageUrl = images.get(position).trim().toString();
-                    String titleBanner = null;
-                    titleBanner = title.get(position).trim().toString();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     AlertDialog dialog = builder.create();
@@ -246,20 +244,11 @@ public class MainActivity extends AppCompatActivity
                     View dialogLayout = inflater.inflate(R.layout.dialog_imageview, null);
 
                     ImageView imgView = (ImageView) dialogLayout.findViewById(R.id.imageView);
-                    TextView txtTitle = (TextView) dialogLayout.findViewById(R.id.txtTitle);
 
                         Glide.with(MainActivity.this)
                             .load(imageUrl)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(imgView);
-
-                        if(titleBanner.equals(null) || titleBanner.isEmpty() || titleBanner == ""){
-                            txtTitle.setVisibility(View.GONE);
-                        }
-                        else{
-                            txtTitle.setVisibility(View.VISIBLE);
-                            txtTitle.setText(titleBanner);
-                        }
 
                         dialog.setView(dialogLayout);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
