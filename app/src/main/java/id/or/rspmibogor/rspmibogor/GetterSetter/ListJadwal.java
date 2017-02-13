@@ -22,6 +22,8 @@ public class ListJadwal {
     private String jadwal_status;
     private String keterangan;
     private String keteranganCuti;
+    private Integer timeOff;
+
 
     public String getJadwal_hari() {return  jadwal_hari;}
     public void setJadwal_hari(String jadwal_hari) {this.jadwal_hari = jadwal_hari;}
@@ -96,5 +98,13 @@ public class ListJadwal {
 
     public void setKeteranganCuti(String keteranganCuti) {
         this.keteranganCuti = keteranganCuti;
+    }
+
+    public Integer getTimeOff() {
+        return timeOff;
+    }
+
+    public void setTimeOff(Integer timeOff) {
+        this.timeOff = timeOff;
     }
 }

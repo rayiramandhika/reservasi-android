@@ -178,7 +178,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>()
                 {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(final JSONObject response) {
 
                         progressDialog.dismiss();
 
@@ -194,6 +194,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
                                 intent = new Intent(activity, PendaftaranActivity.class);
                                 activity.startActivity(intent);
 

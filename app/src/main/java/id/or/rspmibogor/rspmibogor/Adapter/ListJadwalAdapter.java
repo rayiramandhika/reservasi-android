@@ -15,6 +15,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.Minutes;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 import id.or.rspmibogor.rspmibogor.DetailJadwalDokter;
@@ -42,6 +51,8 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
         this.activity = activity;
 
         builder = new AlertDialog.Builder(activity);
+
+        JodaTimeAndroid.init(activity);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +67,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                 @Override
                 public void onClick(View v) {
 
-                    ListJadwal listJadwal =  ListJadwal.get(getPosition());
+                    ListJadwal listJadwal =  ListJadwal.get(getAdapterPosition());
 
                     String status = listJadwal.getJadwal_status();
                     String hari = listJadwal.getJadwal_hari();
@@ -66,8 +77,13 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                                 .setMessage("\nPada jadwal tersebut Dokter " + listJadwal.getKeteranganCuti() +".")
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
+                    }else if(listJadwal.getTimeOff() == 1) {
+                        builder.setTitle("Mohon maaf")
+                                .setMessage("\nPendaftaran untuk hari ini sudah melewati batas waktu yang ditentukan yaitu pukul 07:00 " + listJadwal.getKeteranganCuti() +".")
+                                .setNegativeButton(android.R.string.yes, null).show();
+                        return;
                     }else{
-                        if(listJadwal.getJadwal_sisaKuota().equals(0)){
+                        if(listJadwal.getJadwal_sisaKuota() == 0){
                             builder.setTitle("Kuota Penuh")
                                     .setMessage("Mohon maaf.\nPada hari " + hari + " Pendaftaran via online sudah penuh. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor.")
                                     .setNegativeButton(android.R.string.yes, null).show();
@@ -132,23 +148,64 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
 
         String status = listJadwal.getJadwal_status();
 
+        DateTimeZone timezone = DateTimeZone.forID("Asia/Jakarta");
+        DateTimeFormatter df = DateTimeFormat.forPattern("dd-MM-yyyy");
+        DateTimeFormatter tf = DateTimeFormat.forPattern("HH:mm");
+
+        DateTime jadwalDate = null;
+        DateTime today = new DateTime(new DateTime(), timezone);
+
+        DateTime timeOff = null;
+        DateTime timeToday = null;
+
+        String time = today.getHourOfDay() + ":" + today.getMinuteOfHour();
+
+        jadwalDate = df.parseDateTime(listJadwal.getJadwal_tanggal()).withZone(timezone);
+        timeOff = tf.parseDateTime("07:00").withZone(timezone);
+        timeToday = tf.parseDateTime(time);
+
+        long diffDay = Days.daysBetween(jadwalDate.toLocalDate(), today.toLocalDate()).getDays();
+        long diffTime = Minutes.minutesBetween(timeOff, timeToday).getMinutes();
+
+        //Log.d(TAG, "diffDay: " + diffDay);
+        //Log.d(TAG, "diffTime: " + diffTime);
+
         if(status.equals("cuti"))
         {
             viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
             viewHolder.pesan.setText(listJadwal.getKeteranganCuti());
-            viewHolder.pesan.setPadding(16, 5, 16, 5);
+            viewHolder.pesan.setPadding(15, 2, 15, 2);
 
         }else{
 
-            if(kuota == 0){
-                viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
-                viewHolder.pesan.setText("Pendaftaran via Online Penuh");
+            if(diffDay >= 0) {
 
-                viewHolder.pesan.setPadding(16, 5, 16, 5);
+                if (diffTime >= 0) {
+                    viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+                    viewHolder.pesan.setText("Batas waktu pendaftaran sudah berakhir");
+                    viewHolder.pesan.setPadding(15, 5, 15, 5);
+                    listJadwal.setTimeOff(1);
+                } else {
+                    if(kuota == 0){
+                        viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+                        viewHolder.pesan.setText("Pendaftaran via Online Penuh");
+                        viewHolder.pesan.setPadding(15, 2, 15, 2);
+                    }else{
+                        viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
+                        viewHolder.pesan.setText("Daftar");
+                        viewHolder.pesan.setPadding(15, 2, 15, 2);
+                    }
+                }
             }else{
-                viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
-                viewHolder.pesan.setText("Daftar");
-                viewHolder.pesan.setPadding(16, 5, 16, 5);
+                if(kuota == 0){
+                    viewHolder.pesan.setBackgroundResource(R.drawable.bagde_oval_soldout);
+                    viewHolder.pesan.setText("Pendaftaran via Online Penuh");
+                    viewHolder.pesan.setPadding(15, 2, 15, 2);
+                }else{
+                    viewHolder.pesan.setBackgroundResource(R.drawable.badge_oval);
+                    viewHolder.pesan.setText("Daftar");
+                    viewHolder.pesan.setPadding(15, 2, 15, 2);
+                }
             }
 
         }
