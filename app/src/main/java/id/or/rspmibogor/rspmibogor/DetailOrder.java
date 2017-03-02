@@ -256,7 +256,7 @@ public class DetailOrder extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = "http://103.23.22.46:1337/v1/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = R.string.ip_api + "/order/"+ b.getString("id")+"?populate=pasien,dokter,layanan,detailjadwal";
 
         spinner.setVisibility(View.VISIBLE);
         container.setVisibility(View.INVISIBLE);
@@ -476,7 +476,7 @@ public class DetailOrder extends AppCompatActivity {
     private void cancelOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/order/cancel/" + id;
+        String url = R.string.ip_api + "/order/cancel/" + id;
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -567,7 +567,7 @@ public class DetailOrder extends AppCompatActivity {
     private void confirmOrder(Integer id, String tanggal)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://103.23.22.46:1337/v1/order/" + id;
+        String url = R.string.ip_api + "/order/" + id;
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -673,7 +673,7 @@ public class DetailOrder extends AppCompatActivity {
             dokter_foto.setImageDrawable(ContextCompat.getDrawable(DetailOrder.this, R.drawable.noprofile));
         }else {
             Glide.with(this)
-                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .load(R.string.ip_api + "/dokter/foto/" + uriFoto)
                     .centerCrop()
                     .crossFade()
                     .override(150, 150)

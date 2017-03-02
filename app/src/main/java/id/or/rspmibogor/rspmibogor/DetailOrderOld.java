@@ -232,7 +232,7 @@ public class DetailOrderOld extends AppCompatActivity {
                     }
 
                     RequestQueue queue = Volley.newRequestQueue(DetailOrderOld.this);
-                    String url = "http://103.23.22.46:1337/v1/order/" + id + "/feedback";
+                    String url = R.string.ip_api + "/order/" + id + "/feedback";
 
                     sharedPreferences = getBaseContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
                     final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -323,7 +323,7 @@ public class DetailOrderOld extends AppCompatActivity {
     private void initData()
     {
 
-        String url = "http://103.23.22.46:1337/v1/order/"+ id +"?populate=pasien,dokter,layanan,detailjadwal";
+        String url = R.string.ip_api + "/order/"+ id +"?populate=pasien,dokter,layanan,detailjadwal";
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -465,7 +465,7 @@ public class DetailOrderOld extends AppCompatActivity {
             dokter_foto.setImageDrawable(ContextCompat.getDrawable(DetailOrderOld.this, R.drawable.noprofile));
         }else {
             Glide.with(this)
-                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .load(R.string.ip_api + "/dokter/foto/" + uriFoto)
                     .centerCrop()
                     .crossFade()
                     .override(150, 150)

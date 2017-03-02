@@ -240,7 +240,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = "http://103.23.22.46:1337/v1/asuransi";
+        String url = R.string.ip_api + "/asuransi";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>()
@@ -386,7 +386,7 @@ public class PasienAdapter extends RecyclerView.Adapter<PasienAdapter.ViewHolder
         sharedPreferences = activity.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
         RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = "http://103.23.22.46:1337/v1/pasien/" + id;
+        String url = R.string.ip_api + "/pasien/" + id;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.DELETE, url,
                 new Response.Listener<JSONObject>()

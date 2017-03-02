@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="ip_api">http://103.23.20.160:1337/v1</string>
+
     <string name="app_name">Pendaftaran Online</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

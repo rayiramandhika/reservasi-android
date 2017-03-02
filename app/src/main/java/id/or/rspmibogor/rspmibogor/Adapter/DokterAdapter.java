@@ -96,7 +96,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
             foto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.noprofile));
         }else {
             Glide.with(activity)
-                    .load("http://103.23.22.46:1337/v1/dokter/foto/" + uriFoto)
+                    .load(R.string.ip_api + "/dokter/foto/" + uriFoto)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .crossFade()

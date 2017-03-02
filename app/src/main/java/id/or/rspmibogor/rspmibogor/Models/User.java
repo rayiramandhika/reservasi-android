@@ -34,7 +34,7 @@ public class User {
     public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://103.23.22.46:1337/v1/user/" + idUser;
+        String url = R.string.ip_api + "/user/" + idUser;
 
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>()
@@ -107,7 +107,7 @@ public class User {
     public void getDataFromToken(final String token, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://103.23.22.46:1337/v1/me";
+        String url = R.string.ip_api + "/me";
 
         JSONObject object = new JSONObject();
         try {
@@ -196,7 +196,7 @@ public class User {
     public void refreshToken(final String token, final Context context)
     {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://103.23.22.46:1337/v1/refreshtoken";
+        String url = R.string.ip_api + "/refreshtoken";
 
         JSONObject object = new JSONObject();
         try {
