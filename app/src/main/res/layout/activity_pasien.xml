@@ -24,7 +24,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="id.or.rspmibogor.rspmibogor.PasienActivity"
         tools:showIn="@layout/activity_pasien">
@@ -34,6 +34,7 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +49,6 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
-
 
 
         </android.support.v4.widget.SwipeRefreshLayout>

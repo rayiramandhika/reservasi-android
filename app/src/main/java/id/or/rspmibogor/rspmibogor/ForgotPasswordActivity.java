@@ -80,7 +80,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         _btnKirim.setEnabled(false);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/forgotpassword?email="+email;
+        String url = "http://api.rspmibogor.or.id/v1" + "/forgotpassword?email="+email;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {

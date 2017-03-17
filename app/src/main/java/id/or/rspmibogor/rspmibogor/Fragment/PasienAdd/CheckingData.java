@@ -256,7 +256,7 @@ public class CheckingData extends AbstractStep {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = R.string.ip_api + "/pasien";
+        String url = "http://api.rspmibogor.or.id/v1" + "/pasien";
 
         JSONObject object = new JSONObject();
         try {

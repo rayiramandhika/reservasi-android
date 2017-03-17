@@ -147,7 +147,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = R.string.ip_api + "/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
+        String url = "http://api.rspmibogor.or.id/v1" + "/getjadwal/" + dokter_id + "?jadwal_id=" + jadwal_id;
 
         spinner.setVisibility(View.VISIBLE);
         container.setVisibility(View.INVISIBLE);
@@ -300,7 +300,7 @@ public class DetailJadwalDokter extends AppCompatActivity {
         }else {
 
             Glide.with(this)
-                    .load(R.string.ip_api + "/dokter/foto/" + uriFoto)
+                    .load("http://api.rspmibogor.or.id/v1" + "/dokter/foto/" + uriFoto)
                     .centerCrop()
                     .crossFade()
                     .override(150, 150)

@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/login";
+        String url = "http://api.rspmibogor.or.id/v1" + "/login";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {

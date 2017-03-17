@@ -257,7 +257,7 @@ public class EditCheckingData extends AbstractStep {
 
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = R.string.ip_api + "/pasien/" + getArguments().getInt("pasien_id");
+        String url = "http://api.rspmibogor.or.id/v1" + "/pasien/" + getArguments().getInt("pasien_id");
 
         JSONObject object = new JSONObject();
         try {

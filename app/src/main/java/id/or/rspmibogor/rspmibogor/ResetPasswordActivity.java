@@ -159,7 +159,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/resetpassword";
+        String url = "http://api.rspmibogor.or.id/v1" + "/resetpassword";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {

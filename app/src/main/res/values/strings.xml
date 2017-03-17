@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="ip_api">http://103.23.20.160:1337/v1</string>
+    <string name="ip_api">http://api.rspmibogor.or.id/v1</string>
 
     <string name="app_name">Pendaftaran Online</string>
 
@@ -103,7 +103,7 @@
     <string name="start">SIGN IN</string>
 
     <string name="slide_1_title">Halo! Selamat Datang di Pendataran Online RS PMI Bogor.</string>
-    <string name="slide_1_desc">Aplikasi ini akan membantu Anda untuk melakukan pendaftaran rawat jalan Poliklinik Afiat di RS PMI Bogor secara online mulai dari H-7 s.d H-1.</string>
+    <string name="slide_1_desc">Aplikasi ini akan membantu Anda untuk melakukan pendaftaran rawat jalan Poliklinik Afiat di RS PMI Bogor secara online mulai dari H-7 s.d hari H.</string>
 
     <string name="slide_2_title">Informasi Perubahan Jadwal Praktek Dokter</string>
     <string name="slide_2_desc">Jadwal Dokter dapat berubah sesuai kebijakan. Setiap jadwal yang berubah kami akan memberikan informasi melalui notifikasi / pada menu kotak masuk (Jika Anda telah melakukan pendaftaran pada jadwal yang berubah tersebut).

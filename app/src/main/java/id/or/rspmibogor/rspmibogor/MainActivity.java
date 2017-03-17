@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity
     private void checkFeedback() {
 
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        String url =  R.string.ip_api + "/order/checkfeedback";
+        String url =  "http://api.rspmibogor.or.id/v1" + "/order/checkfeedback";
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
@@ -464,7 +464,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                        String url = R.string.ip_api + "/order/" + order_id + "/feedback";
+                        String url = "http://api.rspmibogor.or.id/v1" + "/order/" + order_id + "/feedback";
 
                         sharedPreferences = getBaseContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
                         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -661,7 +661,7 @@ public class MainActivity extends AppCompatActivity
     private void checkingUnreadMessage()
     {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
-        String url =  R.string.ip_api + "/count/unread";
+        String url =  "http://api.rspmibogor.or.id/v1" + "/count/unread";
 
 
         JsonObjectRequest req = new JsonObjectRequest(url,

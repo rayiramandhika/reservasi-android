@@ -116,7 +116,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         String email = b.getString("email");
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/register/confirm/sendemail?email="+email;
+        String url = "http://api.rspmibogor.or.id/v1" + "/register/confirm/sendemail?email="+email;
 
         progressDialog = new ProgressDialog(CompleteRegisterActivity.this);
         progressDialog.setIndeterminate(true);
@@ -187,7 +187,7 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         progressDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/register/confirm";
+        String url = "http://api.rspmibogor.or.id/v1" + "/register/confirm";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {

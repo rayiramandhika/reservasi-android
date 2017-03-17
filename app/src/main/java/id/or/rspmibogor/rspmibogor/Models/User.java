@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.or.rspmibogor.rspmibogor.R;
+
 /**
  * Created by iqbalprabu on 18/08/16.
  */
@@ -34,7 +36,7 @@ public class User {
     public void updateFCMToken(final String token, final Integer idUser, final String jwtToken, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = R.string.ip_api + "/user/" + idUser;
+        String url = "http://api.rspmibogor.or.id/v1" + "/user/" + idUser;
 
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>()
@@ -107,7 +109,7 @@ public class User {
     public void getDataFromToken(final String token, final Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = R.string.ip_api + "/me";
+        String url = "http://api.rspmibogor.or.id/v1" + "/me";
 
         JSONObject object = new JSONObject();
         try {
@@ -196,7 +198,7 @@ public class User {
     public void refreshToken(final String token, final Context context)
     {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = R.string.ip_api + "/refreshtoken";
+        String url = "http://api.rspmibogor.or.id/v1" + "/refreshtoken";
 
         JSONObject object = new JSONObject();
         try {

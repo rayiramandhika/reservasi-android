@@ -106,7 +106,7 @@ public class SplashScreen extends AppCompatActivity {
         final List<String> images = new ArrayList<>();
         final List<String> title = new ArrayList<>();
 
-        String url =  R.string.ip_api + "/banner?show=1&sort=order%20ASC";
+        String url =  "http://api.rspmibogor.or.id/v1" + "/banner?show=1&sort=order%20ASC";
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -128,7 +128,7 @@ public class SplashScreen extends AppCompatActivity {
                                         json = array.getJSONObject(i);
 
                                         final String link = json.getString("link");
-                                        final String uri = R.string.ip_api + "/getbanner/" + link.toString();
+                                        final String uri = "http://api.rspmibogor.or.id/v1" + "/getbanner/" + link.toString();
                                         //Log.d(Tag, "uri: " + uri.toString());
 
                                         final String titleBanner = json.getString("title");
@@ -198,7 +198,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void checkVersion()
     {
-        String url =  R.string.ip_api + "/version/android";
+        String url =  "http://api.rspmibogor.or.id/v1" + "/version/android";
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
                     @Override

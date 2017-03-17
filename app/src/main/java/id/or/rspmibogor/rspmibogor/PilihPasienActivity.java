@@ -231,13 +231,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = R.string.ip_api + "/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = R.string.ip_api + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = R.string.ip_api + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = R.string.ip_api + "/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -362,13 +362,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = R.string.ip_api + "/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/women?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Bedah Anak")){
-            url = R.string.ip_api + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else if(layanan_name.equals("Anak")){
-            url = R.string.ip_api + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }else{
-            url = R.string.ip_api + "/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/all?detailjadwal_id="+detailjadwal_id+"&dokter_id="+dokter_id+"&layanan_id="+layanan_id+"&tanggal="+tanggal;
         }
 
 
@@ -486,13 +486,13 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
 
         if(layanan_name.equals("Kebidanan & Kandungan"))
         {
-            url = R.string.ip_api + "/pasien/women";
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/women";
         }else if(layanan_name.equals("Bedah Anak")){
-            url = R.string.ip_api + "/pasien/child";
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child";
         }else if(layanan_name.equals("Anak")){
-            url = R.string.ip_api + "/pasien/child";
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/child";
         }else{
-            url = R.string.ip_api + "/pasien/all";
+            url = "http://api.rspmibogor.or.id/v1" + "/pasien/all";
         }
 
         spinner.setVisibility(View.VISIBLE);
@@ -617,7 +617,7 @@ public class PilihPasienActivity extends AppCompatActivity implements SwipeRefre
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/asuransi";
+        String url = "http://api.rspmibogor.or.id/v1" + "/asuransi";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>()

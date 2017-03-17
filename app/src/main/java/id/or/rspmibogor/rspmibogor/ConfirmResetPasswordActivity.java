@@ -104,7 +104,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/forgotpassword/confirm";
+        String url = "http://api.rspmibogor.or.id/v1" + "/forgotpassword/confirm";
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -205,7 +205,7 @@ public class ConfirmResetPasswordActivity extends AppCompatActivity {
         progressDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/forgotpassword/sendemail?email="+email;
+        String url = "http://api.rspmibogor.or.id/v1" + "/forgotpassword/sendemail?email="+email;
 
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {

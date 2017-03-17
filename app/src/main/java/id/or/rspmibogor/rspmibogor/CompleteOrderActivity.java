@@ -152,7 +152,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
-        String url = R.string.ip_api + "/order/new/" + detailjadwal_id;
+        String url = "http://api.rspmibogor.or.id/v1" + "/order/new/" + detailjadwal_id;
 
 
         JSONObject object = new JSONObject();

@@ -146,7 +146,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void initDataset() {
 
-        String url = R.string.ip_api + "/inbox?sort=createdAt%20DESC";
+        String url = "http://api.rspmibogor.or.id/v1" + "/inbox?sort=createdAt%20DESC";
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -272,7 +272,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
 
     private void refreshData()
     {
-        String url = R.string.ip_api + "/inbox?sort=createdAt%20DESC&limit="+skip.toString();
+        String url = "http://api.rspmibogor.or.id/v1" + "/inbox?sort=createdAt%20DESC&limit="+skip.toString();
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -392,7 +392,7 @@ public class InboxActivity extends AppCompatActivity implements SwipeRefreshLayo
         listInbox.add(null);
         mAdapter.notifyItemInserted(listInbox.size()-1);
 
-        String url = R.string.ip_api + "/inbox?sort=createdAt%20DESC&skip="+skip.toString();
+        String url = "http://api.rspmibogor.or.id/v1" + "/inbox?sort=createdAt%20DESC&skip="+skip.toString();
 
         sharedPreferences = this.getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);

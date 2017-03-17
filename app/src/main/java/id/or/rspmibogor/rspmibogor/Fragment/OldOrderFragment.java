@@ -155,7 +155,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initDataset() {
 
-        String url = R.string.ip_api + "/getorder/old";
+        String url = "http://api.rspmibogor.or.id/v1" + "/getorder/old";
         spinner.setVisibility(View.VISIBLE);
         errorLayout.setVisibility(View.INVISIBLE);
         lytContainer.setVisibility(View.INVISIBLE);
@@ -286,7 +286,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void refreshData() {
 
-        String url = R.string.ip_api + "/getorder/old?limit="+skip.toString();
+        String url = "http://api.rspmibogor.or.id/v1" + "/getorder/old?limit="+skip.toString();
 
         sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
@@ -416,7 +416,7 @@ public class OldOrderFragment extends Fragment implements SwipeRefreshLayout.OnR
         sharedPreferences = getContext().getSharedPreferences("RS PMI BOGOR MOBILE APPS", Context.MODE_PRIVATE);
         final String jwTokenSP = sharedPreferences.getString("jwtToken", null);
 
-        String url = R.string.ip_api + "/getorder/old?skip="+skip.toString();
+        String url = "http://api.rspmibogor.or.id/v1" + "/getorder/old?skip="+skip.toString();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
                     @Override
