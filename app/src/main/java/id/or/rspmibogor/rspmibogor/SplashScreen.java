@@ -48,7 +48,7 @@ import id.or.rspmibogor.rspmibogor.Services.FirebaseInstanceIDService;
 public class SplashScreen extends AppCompatActivity {
     private final String Tag = "SplashScreen";
 
-    private static int splashInterval = 3000;
+    private static int splashInterval = 10000;
 
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesFirsTime;
@@ -322,8 +322,14 @@ public class SplashScreen extends AppCompatActivity {
         if(isFirstTime.equals(true)){
 
             i = new Intent(SplashScreen.this, IntroActivity.class);
-            startActivity(i);
-            finish();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(i);
+                    finish();
+                }
+            }, splashInterval);
 
         }else{
 
@@ -337,24 +343,13 @@ public class SplashScreen extends AppCompatActivity {
                 i = new Intent(SplashScreen.this, MainActivity.class);
             }
 
-
-            startActivity(i);
-            this.finish();
-
-
-            /*new Handler().postDelayed(new Runnable() {
-
-
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
-
+                    startActivity(i);
+                    finish();
                 }
-
-                private void finish() {
-
-                }
-            }, splashInterval);*/
+            }, splashInterval);
         }
     }
 }

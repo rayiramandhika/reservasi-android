@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pmi-androidstudio.iml" filepath="$PROJECT_DIR$/pmi-androidstudio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1369346766/app.iml" filepath="$PROJECT_DIR$/.idea/modules/1369346766/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1849604412/pmi-androidstudio-v1.iml" filepath="$PROJECT_DIR$/.idea/modules/1849604412/pmi-androidstudio-v1.iml" />
     </modules>
   </component>
 </project>
