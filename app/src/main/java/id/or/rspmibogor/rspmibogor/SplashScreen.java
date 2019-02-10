@@ -68,8 +68,17 @@ public class SplashScreen extends AppCompatActivity {
 
         initBanner();
 
-        checkVersion();
-    };
+        new AlertDialog.Builder(this)
+                .setTitle("Informasi")
+                .setMessage("Mulai hari senin 21 Januari 2019. Poliklinik afiat menempati gedung baru di gedung grand afiat.")
+                .setCancelable(false)
+                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkVersion();
+                    }
+                }).show();
+    }
 
     @Override
     protected void onPause() {

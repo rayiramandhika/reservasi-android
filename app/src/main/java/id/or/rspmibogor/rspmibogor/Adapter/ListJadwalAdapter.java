@@ -79,7 +79,7 @@ public class ListJadwalAdapter extends RecyclerView.Adapter<ListJadwalAdapter.Vi
                         return;
                     }else if(listJadwal.getTimeOff() == 1) {
                         builder.setTitle("Mohon maaf")
-                                .setMessage("\nPendaftaran untuk hari ini sudah melewati batas waktu yang ditentukan yaitu pukul 07:00 " + listJadwal.getKeteranganCuti() +".")
+                                .setMessage("\nPendaftaran untuk hari ini sudah melewati batas waktu yang ditentukan yaitu pukul 07:00. Silahkan melakukan pendaftaran secara offline di RS PMI Bogor..")
                                 .setNegativeButton(android.R.string.yes, null).show();
                         return;
                     }else{
